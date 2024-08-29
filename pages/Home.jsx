@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text , StatusBar , Image , StyleSheet , Dimensions , ScrollView} from "react-native";
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Carousel from '../Components/Cardcarousel';
+import Carousel from '../Components/Image-Carousel/ImageCarouselScreen';
 import Workout from './Workout'
 
 
@@ -23,8 +23,8 @@ export default function Home() {
           className="h-24 w-52 ml-8"
         />
         <View className="flex-row">
-          <Image source={require("../assets/person.jpg")} className="h-28 w-28 rounded-xl m-7"/>
-          <View className="flex-col my-7">
+          
+          <View className="flex-col my-7 items-center justify-center">
             <Text className="text-3xl text-white font-bold font">Hey Chirantha</Text>
             <View className="flex-row items-center">
               <MaterialIcons name="star" color={'gold'} size={15}/>

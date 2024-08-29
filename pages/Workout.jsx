@@ -1,11 +1,11 @@
 import { View, Text, Image, StyleSheet, FlatList } from 'react-native';
 import React from 'react';
 
-const PostList = () => {
+const Workout = () => {
     console.log("Workout loaded...");
   return (
-    <Text>Fuck</Text>
+    <Text className="text-3xl text-black">Fuck</Text>
   );
 };
 
-export default PostList;
+export default Workout;

@@ -13,16 +13,16 @@ const App = () => {
   console.log("Carousel loaded...");
   const data = [
     {
-      image: require('./src/assets/image-product-1.jpg'),
+      image: require('../../assets/img1.jpg'),
     },
     {
-      image: require('./src/assets/image-product-2.jpg'),
+      image: require('../../assets/img2.jpg'),
     },
     {
-      image: require('./src/assets/image-product-3.jpg'),
+      image: require('../../assets/img3.jpg'),
     },
     {
-      image: require('./src/assets/image-product-4.jpg'),
+      image: require('../../assets/img4.jpg'),
     },
   ];
   const data2 = [
@@ -45,10 +45,10 @@ const App = () => {
         <Text style={styles.text}>Image Carousel Square</Text>
         <CustomImageCarousal data={data} autoPlay={true} pagination={true} />
       </View>
-      <View style={styles.carouselContainer}>
+      {/* <View style={styles.carouselContainer}>
         <Text style={styles.text}>Image Carousel Landscape</Text>
         <CustomImageCarousal data={data2} autoPlay={true} pagination={true} />
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 

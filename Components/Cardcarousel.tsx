@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { Dimensions, Text, View , Image} from 'react-native';
 import Carousel from 'react-native-reanimated-carousel';
+import { interpolate } from 'react-native-reanimated';
 
 function Cardcarousel() {
     const width = Dimensions.get('window').width;
@@ -37,14 +38,15 @@ function Cardcarousel() {
                 data={data}
                 scrollAnimationDuration={1000}
                 onSnapToItem={(index) => console.log('current image:', data[index].name)}
-                snapToInterval={cardWidth + cardMargin * 2}
-                customAnimation={(value) => ({
-                    transform: [{ translateX: value }],
-                    opacity: value.interpolate({
-                        inputRange: [0, 1],
-                        outputRange: [0.7, 1],
-                    }),
-                })}
+                customAnimation={(value) => {
+                    const translateX = interpolate(value, [0, 1], [50, 0]);
+                    const opacity = interpolate(value, [0, 1], [0.7, 1]);
+
+                    return {
+                        transform: [{ translateX }],
+                        opacity,
+                    };
+                }}
                 renderItem={({ item }) => (
                     <View
                         style={{
