@@ -39,7 +39,6 @@ export default function Home() {
       </View>
       <View>
         <Carousel/>
-        <Workout/>
       </View>
     </ScrollView>
   );
