@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, Dimensions, ActivityIndicator } from 'react-native';
+import React, {useState,useEffect} from 'react';
+import { View, Text, Dimensions, ActivityIndicator, StyleSheet } from 'react-native';
 import Model from './pages/Model';
 import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
@@ -7,6 +7,7 @@ import Workout from './pages/Workout'
 import { NavigationContainer } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import LoadingScreen from './pages/loading';
 import Carousel from './Components/Image-Carousel/ImageCarouselScreen';
 import Graph from './pages/Graph';
 import Progress from './pages/WorkoutHistory';
@@ -14,6 +15,20 @@ import Progress from './pages/WorkoutHistory';
 const Tab = createBottomTabNavigator();
 
 const PoseApp = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() =>{
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 5000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
+
   return(
     <NavigationContainer>
       <Tab.Navigator
@@ -45,5 +60,6 @@ const PoseApp = () => {
     </NavigationContainer>
   );
 };
+
 
 export default PoseApp;
