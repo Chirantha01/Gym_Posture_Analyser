@@ -138,3 +138,4 @@ docs/pages/versions/*/react-native/*.diff
 /ios/Pods
 
 .squat.mp4
+excercise_model_training

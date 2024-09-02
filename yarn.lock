@@ -6686,6 +6686,11 @@ getpass@^0.1.1:
   dependencies:
     assert-plus "^1.0.0"
 
+gifted-charts-core@^0.1.32:
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/gifted-charts-core/-/gifted-charts-core-0.1.32.tgz#94ed5c5d854bcd80abd91f33cff8a39352e46ced"
+  integrity sha512-BXAc9Dg/JK9/4RHWtEzs3EUIGPDKMxlcA7xwYt2vuEXl5UkkJqX6asrfHVv0R1YmVjkgz/0ld4OsKdNArRJOAQ==
+
 glob-parent@^3.1.0:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/glob-parent/-/glob-parent-3.1.0.tgz#9e6af6299d8d3bd2bd40430832bd113df906c5ae"
@@ -11235,10 +11240,22 @@ react-native-gesture-handler@~2.5.0:
     lodash "^4.17.21"
     prop-types "^15.7.2"
 
+react-native-gifted-charts@^1.4.31:
+  version "1.4.31"
+  resolved "https://registry.yarnpkg.com/react-native-gifted-charts/-/react-native-gifted-charts-1.4.31.tgz#561b770b9f37df7a6e0df1c526156e7723d9dd17"
+  integrity sha512-5PLM64sywUX/DuGSSAbQFB0j0w3YtR6dj+OtByuq8DFsPZSQlzBvjqCaTBKVTXMrs4BT8a72cNZUe1DtZUAWcw==
+  dependencies:
+    gifted-charts-core "^0.1.32"
+
 react-native-gradle-plugin@^0.0.7:
   version "0.0.7"
   resolved "https://registry.yarnpkg.com/react-native-gradle-plugin/-/react-native-gradle-plugin-0.0.7.tgz#96602f909745239deab7b589443f14fce5da2056"
   integrity sha512-+4JpbIx42zGTONhBTIXSyfyHICHC29VTvhkkoUOJAh/XHPEixpuBduYgf6Y4y9wsN1ARlQhBBoptTvXvAFQf5g==
+
+react-native-linear-gradient@^2.8.3:
+  version "2.8.3"
+  resolved "https://registry.yarnpkg.com/react-native-linear-gradient/-/react-native-linear-gradient-2.8.3.tgz#9a116649f86d74747304ee13db325e20b21e564f"
+  integrity sha512-KflAXZcEg54PXkLyflaSZQ3PJp4uC4whM7nT/Uot9m0e/qxFV3p6uor1983D1YOBJbJN7rrWdqIjq0T42jOJyA==
 
 react-native-reanimated-carousel@^3.5.1:
   version "3.5.1"

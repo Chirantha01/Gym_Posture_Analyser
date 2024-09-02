@@ -10,34 +10,34 @@ export default function Bottom() {
   return (
     <View style={styles.bottomContainer}>
       <Text style={{ fontSize: 20, color: Colors.white, fontWeight: "bold" }}>
-        Complete Profile
+        Begin your Gym career
       </Text>
 
       <View style={styles.completeContainer}>
         <Card
           icon={
             <FontAwesome
-              name="graduation-cap"
+              name="heartbeat"
               size={24}
-              color={Colors.primary}
+              color="red"
             />
           }
-          cardTextOne="02 Steps"
-          cardText="Education"
+          cardTextOne="2 Issues"
+          cardText="Health"
           style={{ backgroundColor: Colors.primary}}
         />
         <Card
           icon={
-            <FontAwesome name="briefcase" size={24} color={Colors.secondary} />
+            <FontAwesome name="trophy" size={24} color={Colors.secondary} />
           }
-          cardTextOne="04 Steps"
-          cardText="Professional"
+          cardTextOne="1 Achievement"
+          cardText="Achievements"
           style={{ backgroundColor: Colors.secondary }}
         />
       </View>
 
-      <View style={styles.bottomSection}>
-        <Text style={styles.bottomSectionText}>Buy Pro $23.49</Text>
+      <View style={styles.bottomSection} className="p-3 bg-green-300 rounded-3xl w-8/12 mx-auto">
+        <Text style={styles.bottomSectionText}>Start Exercising Now</Text>
       </View>
     </View>
   );
@@ -64,7 +64,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontSize: Sizes.smedium,
     color: Colors.darkGray,
-    borderBottomWidth: 1,
     marginBottom: 5,
     borderBottomColor: Colors.darkGray,
   }
