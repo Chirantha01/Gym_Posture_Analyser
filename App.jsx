@@ -1,5 +1,6 @@
 import React, {useState,useEffect} from 'react';
 import { View, Text, Dimensions, ActivityIndicator, StyleSheet } from 'react-native';
+import HomeCard from './Components/Cards';
 import Model from './pages/Model';
 import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
