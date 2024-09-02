@@ -8,6 +8,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Carousel from './Components/Image-Carousel/ImageCarouselScreen';
+import Graph from './pages/Graph';
+import Progress from './pages/WorkoutHistory';
 
 const Tab = createBottomTabNavigator();
 
@@ -22,6 +24,7 @@ const PoseApp = () => {
           if (route.name=== 'Home'){iconName = focused ? 'home' : 'home';}
           else if(route.name === 'Profile'){iconName = focused ? 'person' : 'person-outline';}
           else if(route.name === 'Workout'){iconName = focused ? 'sports-mma' : 'sports-mma';}
+          else if(route.name === 'Progress'){iconName = focused ? 'history' : 'history';}
           else if(route.name === 'Camera'){iconName = focused ? 'camera-alt' : 'camera-alt';}
 
           return <MaterialIcons name={iconName} size = {focused ? 35 : 30} color = {color}/>;
@@ -35,6 +38,7 @@ const PoseApp = () => {
         <Tab.Screen name='Home' component={Home}/>
         <Tab.Screen name='Workout' component={Workout}/>
         <Tab.Screen name='Camera' component={Model}/>
+        <Tab.Screen name='Progress' component={Progress}/>
         <Tab.Screen name='Profile' component={Profile}/>
 
       </Tab.Navigator>

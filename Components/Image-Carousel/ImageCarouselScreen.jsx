@@ -42,7 +42,6 @@ const App = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.carouselContainer}>
-        <Text style={styles.text}>Image Carousel Square</Text>
         <CustomImageCarousal data={data} autoPlay={true} pagination={true} />
       </View>
       {/* <View style={styles.carouselContainer}>
@@ -60,7 +59,7 @@ export default App;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
+    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
     backgroundColor: 'white',
   },
   text: {textAlign: 'center', color: 'black', marginBottom: 10},

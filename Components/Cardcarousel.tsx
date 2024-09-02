@@ -29,11 +29,11 @@ function Cardcarousel() {
       ];
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{backgroundColor:"black"}}>
             <Carousel
                 loop
                 width={cardWidth}
-                height={width*0.75}
+                height={width*0.5}
                 autoPlay={true}
                 data={data}
                 scrollAnimationDuration={1000}

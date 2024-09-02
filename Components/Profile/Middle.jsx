@@ -10,28 +10,28 @@ export default function Middle() {
     <View style={styles.main}>
       <View style={styles.imageContainer}>
         <Image style={styles.image} source={require("../../assets/user.jpg")} />
-        <Text style={{ fontSize: 16, color: "white", fontWeight: "bold" }}>
-          Abena Dorcas
+        <Text style={{ fontSize: 30, color: "white", fontWeight: "bold" }}>
+          Sansa Stark
         </Text>
         <Text
-          style={{ fontSize: 16, color: Colors.darkGray, fontWeight: "500" }}
+          style={{ fontSize: 16, fontWeight: "500" }} className="text-gray-300"
         >
-          abenadorcas@gmail.com
+          sansa2001@gmail.com
         </Text>
       </View>
 
       <View style={styles.middleSectionTextContainer}>
         <View style={styles.middleSectionText}>
-          <Text style={styles.toptext}>Applied</Text>
-          <Text style={styles.bottomtext}>28</Text>
+          <Text style={styles.toptext} >Age</Text>
+          <Text style={styles.bottomtext} className="text-gray-300">23</Text>
         </View>
         <View style={styles.middleSectionText}>
-          <Text style={styles.toptext}>Reviewed</Text>
-          <Text style={styles.bottomtext}>73</Text>
+          <Text style={styles.toptext}>Weight</Text>
+          <Text style={styles.bottomtext} className="text-gray-300">55Kg</Text>
         </View>
         <View style={styles.middleSectionText}>
-        <Text style={styles.toptext}>Contacted</Text>
-              <Text style={styles.bottomtext}>18</Text>
+          <Text style={styles.toptext}>Height</Text>
+          <Text style={styles.bottomtext} className="text-gray-300">5' 6"</Text>
         </View>
       </View>
     </View>
@@ -62,13 +62,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   toptext: {
-    fontSize: 16,
+    fontSize: 18,
     color:  Colors.white,
     fontWeight: "bold",
   },
   bottomtext: {
     fontSize: 16,
-    color: Colors.darkGray,
     fontWeight: "700",
   },
 });

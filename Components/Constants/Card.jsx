@@ -21,7 +21,7 @@ export default function Card({ icon, cardTextOne, cardTextTwo, cardText, style }
           alignItems: "center",
         }}
       >
-        <Text style={styles.cardTextTwo}>Reviewed</Text>
+        <Text style={styles.cardTextTwo}>Review</Text>
         <AntDesign name="arrowright" size={24} color={Colors.darkGray} />
       </View>
     </View>

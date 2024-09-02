@@ -10,7 +10,7 @@ export default function Profile() {
     <>
       <ImageBackground
         style={styles.backgroundImage}
-        source={require("../../assets/bg-image.png")}
+        source={require("../../assets/bg2.png")}
         // blurRadius={1}
       >
         <View style={styles.container}>

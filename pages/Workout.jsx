@@ -5,15 +5,15 @@ const Workout = () => {
   const data = [
     {
       id: '1',
-      image: require('../assets/img1.jpg'),
-      title: 'Cute Cat',
-      subtitle: 'Feline friend'
+      image: require('../assets/img-bicep.jpg'),
+      title: 'Bicep Curls',
+      subtitle: 'Arm Exercise'
     },
     {
       id: '2',
-      image: require('../assets/img2.jpg'),
-      title: 'Majestic Mountain',
-      subtitle: 'Natural wonder'
+      image: require('../assets/img-squat.jpg'),
+      title: 'Squats',
+      subtitle: 'Leg Exercises'
     },
     {
       id: '3',
