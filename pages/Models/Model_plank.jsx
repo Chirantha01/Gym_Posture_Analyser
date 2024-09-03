@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, ActivityIndicator } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
-import { loadModel, predict } from '../../offline_model/squat_class/squatModel';
+import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader_Plank';
 import * as tf from '@tensorflow/tfjs';
 import {calculateAngle , averagePostureHeight} from './../supporting_methods/angle';
 
@@ -96,43 +96,27 @@ const Model = () => {
       }
       
       let height = averagePostureHeight(rightAnkle,leftAnkle,nose);
-      console.log(height);
-      return {
-        knee,
-        hip,
-        shoulder,
-        elbow,
-        height
-      };
+      return [knee, hip, shoulder, elbow, height];
   };
 
   
     const handleLandmarksDetected = async (keypoints) => {
       inputTensorData(keypoints);
-      // try {
-        
-      //   const normalizedKeypoints = keypoints.map((keypoint) => ({
-      //     ...keypoint,
-      //     x: (1 - (keypoint.x / (CAM_PREVIEW_WIDTH * 0.5))),
-      //     y: (1 - (keypoint.y / (CAM_PREVIEW_HEIGHT * 0.5))),
-      //   }));
-      //   setLandmarks(normalizedKeypoints);
-  
-      //   // Create a tensor from the x and y values
-      //   const xValues = normalizedKeypoints.map((keypoint) => keypoint.x);
-      //   const yValues = normalizedKeypoints.map((keypoint) => keypoint.y);
-      //   const inputArray = [...xValues, ...yValues];
-  
-      //   const inputTensor = tf.tensor2d([inputArray], [1, inputArray.length]);
-  
-      //   // Get the prediction
-      //   const result = await predict(inputTensor);
-      //   setPrediction(result); // Assuming result is a single prediction value
-      // } catch (error) {
-      //   console.error("Error during prediction:", error);
-      // }
+      try {
+        const [knee, hip, shoulder, elbow, height] = inputTensorData(keypoints);
+
+        // Create a 5D tensor from the calculated angles and height
+        const inputArray = [knee, hip, shoulder, elbow, height];
+        const inputTensor = tf.tensor2d([inputArray], [1, inputArray.length]);
+
+        // Get the prediction
+        const result = await predict(inputTensor);
+        setPrediction(result); // Assuming result is a single prediction value
+        console.log(prediction)
+      } catch (error) {
+        console.error("Error during prediction:", error);
+      };
     };
-  
     if (!isModelLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>

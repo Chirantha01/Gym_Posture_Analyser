@@ -27,6 +27,7 @@ export async function predict(inputTensor) {
   }
 
   const reshapedTensor = inputTensor.reshape([1, 5]); 
+  
   try {
     const prediction = model.predict(reshapedTensor);
     const predictionArray = await prediction.array(); 
