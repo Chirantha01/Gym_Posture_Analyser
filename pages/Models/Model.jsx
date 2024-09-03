@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Dimensions, ActivityIndicator } from 'react-native';
-import PoseDetectionCamera from '../Components/cameraComponent'; // Adjust path as necessary
-import { loadModel, predict } from '../offline_model/squat_class/squatModel';
+import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
+import { loadModel, predict } from '../../offline_model/squat_class/squatModel';
 import * as tf from '@tensorflow/tfjs';
 
 const Model = () => {
