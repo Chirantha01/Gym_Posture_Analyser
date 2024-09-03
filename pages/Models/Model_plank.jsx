@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, Dimensions, ActivityIndicator } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
 import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader_Plank';
 import * as tf from '@tensorflow/tfjs';
@@ -9,9 +9,8 @@ const Model = () => {
     const [poseType, setPose] = useState('normal')
     const [prediction, setPrediction] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
-  
-    const CAM_PREVIEW_WIDTH = Dimensions.get('window').width;
-    const CAM_PREVIEW_HEIGHT = CAM_PREVIEW_WIDTH / (3 / 4);
+    const [time, setTime] = useState(0);
+    const timerRef = useRef(null);
   
     useEffect(() => {
       const loadModelAsync = async () => {
@@ -25,6 +24,30 @@ const Model = () => {
   
       loadModelAsync();
     }, []);
+
+    useEffect(() => {
+      if (poseType === 'correct') {
+          // Start the timer if in correct posture
+          if (!timerRef.current) {
+              timerRef.current = setInterval(() => {
+                  setTime(prevTime => prevTime + 1);
+              }, 1000);
+          }
+      } else {
+          // Stop the timer if not in correct posture
+          if (timerRef.current) {
+              clearInterval(timerRef.current);
+              timerRef.current = null;
+          }
+      }
+
+      return () => {
+          // Cleanup the interval on component unmount
+          if (timerRef.current) {
+              clearInterval(timerRef.current);
+          }
+      };
+    }, [poseType]);
 
     const inputTensorData = (keypoints) => {
       const nose = keypoints.find((k) => k.name === 'nose');
@@ -146,19 +169,43 @@ const Model = () => {
     return (
       <View style={{ flex: 1 }}>
         <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType}/>
-        {/* <View style={{ padding: 10 }}>
-          <Text>Detected Landmarks:</Text>
-          {landmarks.map((keypoint, index) => (
-            <Text key={index}>
-              {keypoint.name}: ({keypoint.x.toFixed(2)}, {keypoint.y.toFixed(2)})
-            </Text>
-          ))}
-        </View> */}
         <View style={{ padding: 10 }}>
-          {/* <Text>Prediction: {prediction !== null ? prediction[0] : 'Calculating...'}</Text> */}
+                {poseType === 'correct' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Time in Correct Posture: {time}s</Text></View>)}
+                {poseType === 'incorrect' && (
+                    <View style={styles.alertBoxIncorrect}>
+                        <Text style={styles.alertText}>Incorrect Posture! Straighten your body</Text>
+                    </View>
+                )}
         </View>
       </View>
     );
   };
+
+  const styles = StyleSheet.create({
+    alertBoxIncorrect: {
+        position: 'absolute',
+        bottom: 20,
+        left: '35%',
+        transform: [{ translateX: -75 }],
+        backgroundColor: 'red',
+        padding: 10,
+        borderRadius: 5,
+        zIndex: 100,
+    },
+    alertBoxCorrect: {
+      position: 'absolute',
+      bottom: 20,
+      left: '45%',
+      transform: [{ translateX: -75 }],
+      backgroundColor: 'green',
+      padding: 10,
+      borderRadius: 5,
+      zIndex: 100,
+  },
+    alertText: {
+        color: 'white',
+        fontWeight: 'bold',
+    },
+});
   
   export default Model;
