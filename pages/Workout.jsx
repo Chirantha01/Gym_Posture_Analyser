@@ -8,25 +8,25 @@ const Workout = () => {
       id: '1',
       image: require('../assets/img-bicep.jpg'),
       title: 'Bicep Curls',
-      subtitle: 'Arm Exercise'
+      subtitle: 'Top Arm Excercise'
     },
     {
       id: '2',
       image: require('../assets/img-squat.jpg'),
       title: 'Squats',
-      subtitle: 'Leg Exercises'
+      subtitle: 'Top Leg Exercises'
     },
     {
       id: '3',
-      image: require('../assets/img-sideLateral.jpg'),
-      title: 'Side Lateral',
-      subtitle: 'Shoulder Exercises'
+      image: require('../assets/benchPress.jpg'),
+      title: 'Bench Press',
+      subtitle: 'Top Chest Execises'
     },
     {
       id: '4',
-      image: require('../assets/img-DumbellPress.jpg'),
-      title: 'Dumbell Press',
-      subtitle: 'Chest Exercises'
+      image: require('../assets/latPullDown.jpg'),
+      title: 'Lat Pull Down',
+      subtitle: 'Top Back Exercises'
     },
     {
       id: '5',

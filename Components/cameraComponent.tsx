@@ -22,7 +22,7 @@ const OUTPUT_TENSOR_HEIGHT = OUTPUT_TENSOR_WIDTH / (IS_IOS ? 9 / 16 : 3 / 4);
 const AUTO_RENDER = false;
 const LOAD_MODEL_FROM_BUNDLE = false;
 
-const PoseDetectionCamera = ({ onLandmarksDetected }) => {
+const PoseDetectionCamera = ({ onLandmarksDetected , poseType }) => {
   const cameraRef = useRef(null);
   const [tfReady, setTfReady] = useState(false);
   const [model, setModel] = useState(null); // No TypeScript annotation
@@ -132,6 +132,7 @@ const PoseDetectionCamera = ({ onLandmarksDetected }) => {
   //Landmarks rendering
   const renderPose = () => {
     if (poses != null && poses.length > 0) {
+      const color = poseType === 'correct' ? 'green' : poseType === 'incorrect' ? 'red' : 'white';
       const keypoints = poses[0].keypoints
         .filter((k) => (k.score ?? 0) > MIN_KEYPOINT_SCORE)
         .map((k) => {
@@ -155,8 +156,8 @@ const PoseDetectionCamera = ({ onLandmarksDetected }) => {
           cy={k.cy}
           r='4'
           strokeWidth='2'
-          fill='#FFFFFF'
-          stroke='white'
+          fill={color}
+          stroke={color}
         />
       ));
       // Render lines between keypoints for the skeleton
@@ -172,8 +173,8 @@ const PoseDetectionCamera = ({ onLandmarksDetected }) => {
               y1={kp1.cy}
               x2={kp2.cx}
               y2={kp2.cy}
-              stroke='white'
-              strokeWidth='2'
+              stroke={color}
+              strokeWidth='3'
             />
           );
         }
