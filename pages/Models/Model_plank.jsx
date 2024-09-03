@@ -6,7 +6,7 @@ import * as tf from '@tensorflow/tfjs';
 import {calculateAngle , averagePostureHeight} from './../supporting_methods/angle';
 
 const Model = () => {
-    const [landmarks, setLandmarks] = useState([]);
+    const [poseType, setPose] = useState('normal')
     const [prediction, setPrediction] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
   
@@ -101,7 +101,6 @@ const Model = () => {
 
   
     const handleLandmarksDetected = async (keypoints) => {
-      inputTensorData(keypoints);
       try {
         const [knee, hip, shoulder, elbow, height] = inputTensorData(keypoints);
 
@@ -112,7 +111,25 @@ const Model = () => {
         // Get the prediction
         const result = await predict(inputTensor);
         setPrediction(result); // Assuming result is a single prediction value
-        console.log(prediction)
+        
+        let maxIndex = result.indexOf(Math.max(...result));
+        
+        let pose;
+
+        if (maxIndex === 0) {
+          pose = 'correct';
+          setPose('correct')
+        } else if (maxIndex === 1) {
+          pose = 'incorrect';
+          setPose('incorrect');
+        } else if (maxIndex === 2) {
+          pose = 'random';
+          setPose('random');
+        } 
+        console.log('Result:', result, 'Pose:', pose);
+
+        console.log('correct: ',result[0],' incorrect: ',result[1],' random: ',result[2]);
+
       } catch (error) {
         console.error("Error during prediction:", error);
       };
@@ -128,7 +145,7 @@ const Model = () => {
   
     return (
       <View style={{ flex: 1 }}>
-        <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} />
+        <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType}/>
         {/* <View style={{ padding: 10 }}>
           <Text>Detected Landmarks:</Text>
           {landmarks.map((keypoint, index) => (
@@ -138,7 +155,7 @@ const Model = () => {
           ))}
         </View> */}
         <View style={{ padding: 10 }}>
-          <Text>Prediction: {prediction !== null ? prediction : 'Calculating...'}</Text>
+          {/* <Text>Prediction: {prediction !== null ? prediction[0] : 'Calculating...'}</Text> */}
         </View>
       </View>
     );

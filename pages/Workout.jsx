@@ -7,31 +7,31 @@ const Workout = () => {
       id: '1',
       image: require('../assets/img-bicep.jpg'),
       title: 'Bicep Curls',
-      subtitle: 'Arm Exercise'
+      subtitle: 'Top Arm Excercise'
     },
     {
       id: '2',
       image: require('../assets/img-squat.jpg'),
       title: 'Squats',
-      subtitle: 'Leg Exercises'
+      subtitle: 'Top Leg Exercises'
     },
     {
       id: '3',
-      image: require('../assets/img3.jpg'),
-      title: 'Delicious Pizza',
-      subtitle: 'Yum!'
+      image: require('../assets/benchPress.jpg'),
+      title: 'Bench Press',
+      subtitle: 'Top Chest Execises'
     },
     {
       id: '4',
-      image: require('../assets/img4.jpg'),
-      title: 'Beautiful Beach',
-      subtitle: 'Paradise'
+      image: require('../assets/latPullDown.jpg'),
+      title: 'Lat Pull Down',
+      subtitle: 'Top Back Exercises'
     },
     {
       id: '5',
-      image: require('../assets/user.jpg'),
-      title: 'Crazy Concert',
-      subtitle: 'Rock on!'
+      image: require('../assets/Plank.jpg'),
+      title: 'Plank',
+      subtitle: 'Top Ab Exercises'
     },
   ];
 
