@@ -1,37 +1,43 @@
+// Workout.js
 import React from 'react';
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { View, Text, Image, StyleSheet, FlatList , StatusBar } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-
 const Workout = () => {
+  const navigation = useNavigation(); // Use this hook to access navigation in non-screen components
+
   const data = [
     {
       id: '1',
       image: require('../assets/img-bicep.jpg'),
       title: 'Bicep Curls',
-      subtitle: 'Top Arm Excercise'
+      subtitle: 'Top Arm Exercise',
     },
     {
       id: '2',
       image: require('../assets/img-squat.jpg'),
       title: 'Squats',
-      subtitle: 'Top Leg Exercises'
+      subtitle: 'Top Leg Exercises',
     },
     {
       id: '3',
       image: require('../assets/benchPress.jpg'),
       title: 'Bench Press',
-      subtitle: 'Top Chest Execises'
+      subtitle: 'Top Chest Exercises',
     },
     {
       id: '4',
       image: require('../assets/latPullDown.jpg'),
       title: 'Lat Pull Down',
-      subtitle: 'Top Back Exercises'
+      subtitle: 'Top Back Exercises',
     },
     {
       id: '5',
       image: require('../assets/img-plank.jpg'),
       title: 'Plank',
+      subtitle: 'Top Ab Exercises',
+      navigateTo: 'Model',
       subtitle: 'Abdominal Exercises'
     },
     {
@@ -54,16 +60,23 @@ const Workout = () => {
     },
   ];
 
-
-  const renderItem = ({ item, index }) => {
+  const renderItem = ({ item }) => {
     return (
-      <View style={styles.itemContainer}>
-        <Image source={item.image } style={styles.image} />
+      <TouchableOpacity
+        style={styles.itemContainer}
+        onPress={() => {
+          // Navigate to the Model screen when the "Plank" item is pressed
+          if (item.navigateTo) {
+            navigation.navigate(item.navigateTo);
+          }
+        }}
+      >
+        <Image source={item.image} style={styles.image} />
         <View style={styles.textContainer}>
           <Text style={styles.title}>{item.title}</Text>
           <Text style={styles.subtitle}>{item.subtitle}</Text>
         </View>
-      </View>
+      </TouchableOpacity>
     );
   };
 
@@ -86,7 +99,7 @@ const Workout = () => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor:'#fff'
+    backgroundColor: '#fff',
   },
   itemContainer: {
     width: '48%',
@@ -98,7 +111,7 @@ const styles = StyleSheet.create({
     padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection:  'column' 
+    flexDirection: 'column',
   },
   image: {
     width: '100%',

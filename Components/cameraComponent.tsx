@@ -296,13 +296,16 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: CAM_PREVIEW_WIDTH,
     height: CAM_PREVIEW_HEIGHT,
-    marginTop: Dimensions.get('window').height / 2 - CAM_PREVIEW_HEIGHT / 2,
+    marginTop: 0,
+    marginBottom:0
   },
   containerLandscape: {
     position: 'relative',
     width: CAM_PREVIEW_HEIGHT,
     height: CAM_PREVIEW_WIDTH,
     marginLeft: Dimensions.get('window').height / 2 - CAM_PREVIEW_HEIGHT / 2,
+    marginTop: 0,
+    marginBottom:0
   },
   loadingMsg: {
     position: 'absolute',
