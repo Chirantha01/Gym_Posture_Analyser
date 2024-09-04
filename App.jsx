@@ -6,13 +6,15 @@ import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
 import Workout from './pages/Workout'
 import { NavigationContainer } from '@react-navigation/native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoadingScreen from './pages/loading';
 import Carousel from './Components/Image-Carousel/ImageCarouselScreen';
 import Graph from './pages/Graph';
 import Progress from './pages/WorkoutHistory';
 
+const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 const PoseApp = () => {
@@ -30,36 +32,68 @@ const PoseApp = () => {
     return <LoadingScreen />;
   }
 
-  return(
-    <NavigationContainer>
-      <Tab.Navigator
-      screenOptions={({route}) => ({
-        tabBarIcon:({focused , color , size}) => {
-          let iconName;
-
-          if (route.name=== 'Home'){iconName = focused ? 'home' : 'home';}
-          else if(route.name === 'Profile'){iconName = focused ? 'person' : 'person-outline';}
-          else if(route.name === 'Workout'){iconName = focused ? 'sports-mma' : 'sports-mma';}
-          else if(route.name === 'Progress'){iconName = focused ? 'history' : 'history';}
-          else if(route.name === 'Camera'){iconName = focused ? 'camera-alt' : 'camera-alt';}
-
-          return <MaterialIcons name={iconName} size = {focused ? 35 : 30} color = {color}/>;
-        },
-        tabBarActiveTintColor: 'black',
-        tabBarInactiveTintColor: 'gray',
-        headerShown: false,
-        tabBarLabel: () => null,
-      })}
+return (
+  <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: '#fff', // Header background color
+          },
+          headerTintColor: '#000', // Header text color
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+        }}
       >
-        <Tab.Screen name='Home' component={Home}/>
-        <Tab.Screen name='Workout' component={Workout}/>
-        <Tab.Screen name='Camera' component={Model}/>
-        <Tab.Screen name='Progress' component={Progress}/>
-        <Tab.Screen name='Profile' component={Profile}/>
-
-      </Tab.Navigator>
+        <Stack.Screen
+          name="Main"
+          component={TabNavigator}
+          options={{ headerTitle: 'GymPro', headerTitleAlign: 'center' }} // Main screen title
+        />
+        <Stack.Screen
+          name="Model"
+          component={Model} // Plank model component
+          options={{ headerTitle: 'Model', headerTitleAlign: 'center' }}
+        />
+      </Stack.Navigator>
     </NavigationContainer>
-  );
+);
+};
+
+const TabNavigator = () => {
+return (
+  <Tab.Navigator
+    screenOptions={({ route }) => ({
+      tabBarIcon: ({ focused, color, size }) => {
+        let iconName;
+
+        if (route.name === 'Home') {
+          iconName = focused ? 'home' : 'home';
+        } else if (route.name === 'Profile') {
+          iconName = focused ? 'person' : 'person-outline';
+        } else if (route.name === 'Workout') {
+          iconName = focused ? 'sports-mma' : 'sports-mma';
+        } else if (route.name === 'Progress') {
+          iconName = focused ? 'history' : 'history';
+        } else if (route.name === 'Camera') {
+          iconName = focused ? 'camera-alt' : 'camera-alt';
+        }
+
+        return <MaterialIcons name={iconName} size={focused ? 35 : 30} color={color} />;
+      },
+      tabBarActiveTintColor: 'black',
+      tabBarInactiveTintColor: 'gray',
+      headerShown: false,
+      tabBarLabel: () => null,
+    })}
+  >
+    <Tab.Screen name="Home" component={Home} />
+    <Tab.Screen name="Workout" component={Workout} />
+    <Tab.Screen name="Camera" component={Model} />
+    <Tab.Screen name="Progress" component={Progress} />
+    <Tab.Screen name="Profile" component={Profile} />
+  </Tab.Navigator>
+);
 };
 
 

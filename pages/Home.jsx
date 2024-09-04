@@ -23,17 +23,28 @@ export default function Home() {
     <ScrollView contentContainerStyle={{ alignItems: 'center', backgroundColor: "white" }}>
       <View style={{alignItems:"center"}} className="flex-col">
       {/* <StatusBar style="auto" /> */}
-      <View className=" bg-blue-800 rounded-b-3xl" style={{width:ScreenWidth}}>
-        <Image
+      <View
+          className="bg-blue-800 rounded-b-3xl rounded-t-3xl"
+          style={{
+            width: ScreenWidth * 0.98,
+            shadowColor: '#000',       // Ensure the shadow color is set to black for contrast
+            shadowOffset: { width: 0, height: 4 },  // Adjust shadow offset for better visibility
+            shadowOpacity: 0.9,        // Increase shadow opacity for stronger effect
+            shadowRadius: 20,           // Increase shadow radius for a larger shadow
+            elevation: 30,             // Use elevation on Android for shadow effect
+          }}
+        >
+        {/* <Image
           source={require("../assets/icon-white.png")}
           className="h-24 w-52 ml-8"
-        />
+
+        /> */}
         <View className="flex-row">
           <View className="m-6 items-center w-25 h-25 rounded-full bg-white justify-center p-1">
           <Image source={require("../assets/user.jpg")} className="w-24 h-24 rounded-full"/>
           </View>
           <View className="flex-col my-7 justify-center">
-            <Text className="text-3xl text-white font-bold font">Hey Sansa</Text>
+            <Text className="text-2xl text-white font-bold font">Hey John,</Text>
             <View className="flex-row items-center">
               <MaterialIcons name="star" color={'gold'} size={15}/>
               <Text className="text-white text-lg font-semibold mx-2">88% Healthy</Text>
