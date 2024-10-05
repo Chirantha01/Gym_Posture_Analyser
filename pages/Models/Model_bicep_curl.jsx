@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
-import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader_Plank';
+import { loadModel, predict } from '../../offline_model/bicep_curl_class/Model_Loader_Bicep_Curl';
 import * as tf from '@tensorflow/tfjs';
-import {calculateAngle , averagePostureHeight} from './../supporting_methods/angle';
+import {calculateAngle} from '../supporting_methods/angle';
 
-const Plank_Model = () => {
+const Bicep_Model = () => {
     const [poseType, setPose] = useState('normal')
+    const [excercisePose, setExcercisePose] = useState(NaN)
     const [prediction, setPrediction] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
     const [time, setTime] = useState(0);
@@ -56,29 +57,16 @@ const Plank_Model = () => {
       const leftElbow = keypoints.find((k) => k.name === 'left_elbow');
       const leftWrist = keypoints.find((k) => k.name === 'left_wrist');
       const leftHip = keypoints.find((k) => k.name === 'left_hip');
-      const leftKnee = keypoints.find((k) => k.name === 'left_knee');
-      const leftAnkle = keypoints.find((k) => k.name === 'left_ankle');
       
       const rightShoulder = keypoints.find((k) => k.name === 'right_shoulder');
       const rightElbow = keypoints.find((k) => k.name === 'right_elbow');
       const rightWrist = keypoints.find((k) => k.name === 'right_wrist');
       const rightHip = keypoints.find((k) => k.name === 'right_hip');
-      const rightKnee = keypoints.find((k) => k.name === 'right_knee');
-      const rightAnkle = keypoints.find((k) => k.name === 'right_ankle');
     
       let leftShoulderAngle = null;
       let rightShoulderAngle = null;
       let leftElbowAngle = null;
       let rightElbowAngle = null;
-      let leftHipAngle = null;
-      let rightHipAngle = null;
-      let leftKneeAngle = null;
-      let rightKneeAngle = null;
-
-      let knee = null;
-      let shoulder = null;
-      let hip = null;
-      let elbow = null;
 
     
       if (leftShoulder && leftElbow && leftWrist) {
@@ -93,42 +81,16 @@ const Plank_Model = () => {
       if (rightShoulder && rightElbow && rightHip) {
         rightShoulderAngle = calculateAngle(rightElbow,rightShoulder,rightHip);
       }
-      if (leftShoulder && leftHip && leftKnee) {
-        leftHipAngle = calculateAngle(leftShoulder,leftHip,leftKnee);
-      }
-      if (rightShoulder && rightHip && rightKnee) {
-        rightHipAngle = calculateAngle(rightShoulder,rightHip,rightKnee);
-      }
-      if (leftHip && leftKnee && leftAnkle) {
-        leftKneeAngle = calculateAngle(leftHip,leftKnee,leftAnkle);
-      }
-      if (rightHip && rightKnee && rightAnkle) {
-        rightKneeAngle = calculateAngle(rightHip,rightKnee,rightAnkle);
-      }
-      if (leftElbowAngle && rightElbowAngle) {
-        elbow = (leftElbowAngle + rightElbowAngle)/2;
-      }
-      if (leftShoulderAngle && rightShoulderAngle) {
-        shoulder = (leftShoulderAngle + rightShoulderAngle)/2;
-      }
-      if (leftHipAngle && rightHipAngle) {
-        hip = (leftHipAngle + rightHipAngle)/2;
-      }
-      if (leftKneeAngle && rightKneeAngle) {
-        knee = (leftKneeAngle + rightKneeAngle)/2;
-      }
-      
-      let height = averagePostureHeight(rightAnkle,leftAnkle,nose);
-      return [knee, hip, shoulder, elbow, height];
+      return [leftElbowAngle, rightElbowAngle, leftShoulderAngle, rightShoulderAngle];
   };
 
   
     const handleLandmarksDetected = async (keypoints) => {
       try {
-        const [knee, hip, shoulder, elbow, height] = inputTensorData(keypoints);
+        const [leftElbowAngle, rightElbowAngle, leftShoulderAngle, rightShoulderAngle] = inputTensorData(keypoints);
 
-        // Create a 5D tensor from the calculated angles and height
-        const inputArray = [knee, hip, shoulder, elbow, height];
+        // Create a 4D tensor from the calculated angles and height
+        const inputArray = [leftElbowAngle, rightElbowAngle, leftShoulderAngle, rightShoulderAngle];
         const inputTensor = tf.tensor2d([inputArray], [1, inputArray.length]);
 
         // Get the prediction
@@ -140,18 +102,26 @@ const Plank_Model = () => {
         let pose;
 
         if (maxIndex === 0) {
-          pose = 'correct';
-          setPose('correct')
+          pose = 'correct_low';
+          setExcercisePose(pose);
+          setPose('correct');
         } else if (maxIndex === 1) {
-          pose = 'incorrect';
-          setPose('incorrect');
+          pose = 'correct_hight';
+          setExcercisePose(pose);
+          setPose('correct');
         } else if (maxIndex === 2) {
-          pose = 'random';
-          setPose('random');
+          pose = 'incorrect_forward';
+          setExcercisePose(pose);
+          setPose('incorrect');
         } 
+        else if (maxIndex === 3) {
+          pose = 'incorrect_backward';
+          setExcercisePose(pose);
+          setPose('incorrect');
+        }
         console.log('Result:', result, 'Pose:', pose);
 
-        console.log('correct: ',result[0],' incorrect: ',result[1],' random: ',result[2]);
+        console.log('correct_low: ',result[0],' correct_hight: ',result[1],' incorrect_forwad: ',result[2], ' incorrect_backward: ',result[3]);
 
       } catch (error) {
         console.error("Error during prediction:", error);
@@ -170,12 +140,10 @@ const Plank_Model = () => {
       <View style={{ flex: 1 }}>
         <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType}/>
         <View style={{ padding: 10 }}>
-                {poseType === 'correct' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Time in Correct Posture: {time}s</Text></View>)}
-                {poseType === 'incorrect' && (
-                    <View style={styles.alertBoxIncorrect}>
-                        <Text style={styles.alertText}>Incorrect Posture! Straighten your body</Text>
-                    </View>
-                )}
+                {excercisePose === 'correct_low' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
+                {excercisePose === 'correct_high' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_HIGH</Text></View>)}
+                {excercisePose === 'correct_low' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
+                {excercisePose === 'correct_low' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
         </View>
       </View>
     );
@@ -208,4 +176,4 @@ const Plank_Model = () => {
     },
 });
   
-  export default Plank_Model;
+  export default Bicep_Model;

@@ -12,6 +12,8 @@ const Workout = () => {
       image: require('../assets/img-bicep.jpg'),
       title: 'Bicep Curls',
       subtitle: 'Top Arm Exercise',
+      navigateTo: 'Model_bicep',
+
     },
     {
       id: '2',
@@ -36,8 +38,7 @@ const Workout = () => {
       image: require('../assets/img-plank.jpg'),
       title: 'Plank',
       subtitle: 'Top Ab Exercises',
-      navigateTo: 'Model',
-      subtitle: 'Abdominal Exercises'
+      navigateTo: 'Model_plank',
     },
     {
       id: '6',
