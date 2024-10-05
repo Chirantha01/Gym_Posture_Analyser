@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
-import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader_Bicep_Curl';
+import { loadModel, predict } from '../../offline_model/bicep_curl_class/Model_Loader_Bicep_Curl';
 import * as tf from '@tensorflow/tfjs';
-import {calculateAngle , averagePostureHeight} from '../supporting_methods/angle';
+import {calculateAngle} from '../supporting_methods/angle';
 
-const Model = () => {
+const Bicep_Model = () => {
     const [poseType, setPose] = useState('normal')
     const [excercisePose, setExcercisePose] = useState(NaN)
     const [prediction, setPrediction] = useState(null);
@@ -176,4 +176,4 @@ const Model = () => {
     },
 });
   
-  export default Model;
+  export default Bicep_Model;

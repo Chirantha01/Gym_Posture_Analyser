@@ -1,7 +1,8 @@
 import React, {useState,useEffect} from 'react';
 import { View, Text, Dimensions, ActivityIndicator, StyleSheet } from 'react-native';
 import HomeCard from './Components/Cards';
-import Model from './pages/Models/Model_plank';
+import Plank_Model from './pages/Models/Model_plank';
+import Bicep_Model from './pages/Models/Model_bicep_curl';
 import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
 import Workout from './pages/Workout'
@@ -51,9 +52,14 @@ return (
           options={{ headerTitle: 'GymPro', headerTitleAlign: 'center' }} // Main screen title
         />
         <Stack.Screen
-          name="Model"
-          component={Model} // Plank model component
-          options={{ headerTitle: 'Model', headerTitleAlign: 'center' }}
+          name="Model_plank"
+          component={Plank_Model} // Plank model component
+          options={{ headerTitle: 'Plank_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_bicep"
+          component={Bicep_Model} // Plank model component
+          options={{ headerTitle: 'Bicep_Model', headerTitleAlign: 'center' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -89,7 +95,7 @@ return (
   >
     <Tab.Screen name="Home" component={Home} />
     <Tab.Screen name="Workout" component={Workout} />
-    <Tab.Screen name="Camera" component={Model} />
+    <Tab.Screen name="Camera" component={Plank_Model} />
     <Tab.Screen name="Progress" component={Progress} />
     <Tab.Screen name="Profile" component={Profile} />
   </Tab.Navigator>
