@@ -138,4 +138,8 @@ docs/pages/versions/*/react-native/*.diff
 /ios/Pods
 
 .squat.mp4
-excercise_model_training
+trainDataset
+correct plank
+randoms
+wrong plank
+test
