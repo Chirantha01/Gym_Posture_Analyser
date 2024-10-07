@@ -1,8 +1,8 @@
 import * as tf from '@tensorflow/tfjs';
 import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 
-const modelJson = require('./model.json');
-const modelWeights = require('./group1-shard1of1.bin');
+const modelJson = require('./bicep_archi.json');
+const modelWeights = require('./bicep_weights.bin');
 
 let model: tf.LayersModel | null = null;
 
@@ -26,7 +26,8 @@ export async function predict(inputTensor) {
     throw new Error("Model not loaded yet. Call loadModel() first.");
   }
 
-  const reshapedTensor = inputTensor.reshape([1, 34]); 
+  const reshapedTensor = inputTensor.reshape([1, 4]); 
+  
   try {
     const prediction = model.predict(reshapedTensor);
     const predictionArray = await prediction.array(); 
