@@ -20,12 +20,14 @@ const Workout = () => {
       image: require('../assets/img-squat.jpg'),
       title: 'Squats',
       subtitle: 'Top Leg Exercises',
+      navigateTo: 'Model_squat',
     },
     {
       id: '3',
-      image: require('../assets/benchPress.jpg'),
-      title: 'Bench Press',
+      image: require('../assets/pushup.jpg'),
+      title: 'Push Ups',
       subtitle: 'Top Chest Exercises',
+      navigateTo: 'Model_push_up',
     },
     {
       id: '4',

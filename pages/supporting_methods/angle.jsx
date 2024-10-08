@@ -28,7 +28,7 @@ export const calculateDistance = (a, b) => {
 
 export const calculateDistance_2 = (x_1,y_1,x_2,y_2) => {
   const deltaX = x_1 - x_2;
-  const deltyY = y_1 - y_2;
+  const deltaY = y_1 - y_2;
 
   return Math.sqrt(deltaX ** 2 + deltaY ** 2);
 }
