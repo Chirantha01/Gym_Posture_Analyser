@@ -1,8 +1,8 @@
 import * as tf from '@tensorflow/tfjs';
 import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
 
-const modelJson = require('./bicep_archi.json');
-const modelWeights = require('./bicep_weights.bin');
+const modelJson = require('./pushup_archi.json');
+const modelWeights = require('./pushup_weights.bin');
 
 let model: tf.LayersModel | null = null;
 

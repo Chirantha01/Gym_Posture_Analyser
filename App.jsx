@@ -3,6 +3,7 @@ import { View, Text, Dimensions, ActivityIndicator, StyleSheet } from 'react-nat
 import HomeCard from './Components/Cards';
 import Plank_Model from './pages/Models/Model_plank';
 import Bicep_Model from './pages/Models/Model_bicep_curl';
+import Squat_Model from './pages/Models/Model_squat';
 import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
 import Workout from './pages/Workout'
@@ -58,8 +59,13 @@ return (
         />
         <Stack.Screen
           name="Model_bicep"
-          component={Bicep_Model} // Plank model component
+          component={Bicep_Model} // Bicep Curl model component
           options={{ headerTitle: 'Bicep_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_squat"
+          component={Squat_Model} // Squat model component
+          options={{ headerTitle: 'Squat_Model', headerTitleAlign: 'center' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

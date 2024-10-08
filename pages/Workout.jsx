@@ -20,6 +20,7 @@ const Workout = () => {
       image: require('../assets/img-squat.jpg'),
       title: 'Squats',
       subtitle: 'Top Leg Exercises',
+      navigateTo: 'Model_squat',
     },
     {
       id: '3',
