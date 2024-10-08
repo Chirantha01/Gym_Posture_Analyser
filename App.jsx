@@ -5,6 +5,7 @@ import Plank_Model from './pages/Models/Model_plank';
 import Bicep_Model from './pages/Models/Model_bicep_curl';
 import Squat_Model from './pages/Models/Model_squat';
 import PushUp_Model from './pages/Models/Model_push_up';
+import LatPullDown_Model from './pages/Models/Model_lat_pull_down';
 import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
 import Workout from './pages/Workout'
@@ -72,6 +73,11 @@ return (
           name="Model_push_up"
           component={PushUp_Model} // Pushup model component
           options={{ headerTitle: 'Push_Up_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_lat_pull_down"
+          component={LatPullDown_Model} // Lat pull down model component
+          options={{ headerTitle: 'Lat_Pull_Down_Model', headerTitleAlign: 'center' }}
         />
       </Stack.Navigator>
     </NavigationContainer>

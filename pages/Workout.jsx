@@ -34,6 +34,7 @@ const Workout = () => {
       image: require('../assets/latPullDown.jpg'),
       title: 'Lat Pull Down',
       subtitle: 'Top Back Exercises',
+      navigateTo: 'Model_lat_pull_down',
     },
     {
       id: '5',
