@@ -26,6 +26,13 @@ export const calculateDistance = (a, b) => {
   return Math.sqrt(deltaX ** 2 + deltaY ** 2);
 };
 
+export const calculateDistance_2 = (x_1,y_1,x_2,y_2) => {
+  const deltaX = x_1 - x_2;
+  const deltyY = y_1 - y_2;
+
+  return Math.sqrt(deltaX ** 2 + deltaY ** 2);
+}
+
 export const averagePostureHeight = (a1, a2, b) => {
   const avgLegX = (a1.x + a2.x)/2;
   const avgLegY = (a1.y + a2.y)/2;
