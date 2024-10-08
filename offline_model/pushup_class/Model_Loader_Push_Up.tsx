@@ -26,7 +26,7 @@ export async function predict(inputTensor) {
     throw new Error("Model not loaded yet. Call loadModel() first.");
   }
 
-  const reshapedTensor = inputTensor.reshape([1, 4]); 
+  const reshapedTensor = inputTensor.reshape([1, 10]); 
   
   try {
     const prediction = model.predict(reshapedTensor);

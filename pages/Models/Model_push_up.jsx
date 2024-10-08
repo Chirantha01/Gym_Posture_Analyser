@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
-import { loadModel, predict } from '../../offline_model/squat_class/Model_Loader_Squat';
+import { loadModel, predict } from '../../offline_model/pushup_class/Model_Loader_Push_Up';
 import * as tf from '@tensorflow/tfjs';
 import {calculateAngle, calculateDistance, calculateDistance_2} from '../supporting_methods/angle';
 
-const Squat_Model = () => {
+const PushUp_Model = () => {
     const [poseType, setPose] = useState('normal')
     const [excercisePose, setExcercisePose] = useState(NaN)
     const [prediction, setPrediction] = useState(null);
@@ -57,20 +57,41 @@ const Squat_Model = () => {
       const leftHip = keypoints.find((k) => k.name === 'left_hip');
       const leftKnee = keypoints.find((k) => k.name === 'left_knee');
       const leftAnkle = keypoints.find((k) => k.name === 'left_ankle');
+      const leftElbow = keypoints.find((k) => k.name === 'left_elbow');
+      const leftWrist = keypoints.find((k) => k.name === 'left_wrist');
       
       const rightShoulder = keypoints.find((k) => k.name === 'right_shoulder');
       const rightHip = keypoints.find((k) => k.name === 'right_hip');
       const rightKnee = keypoints.find((k) => k.name === 'right_knee');
       const rightAnkle = keypoints.find((k) => k.name === 'right_ankle');
-    
+      const rightElbow = keypoints.find((k) => k.name === 'right_elbow');
+      const rightWrist = keypoints.find((k) => k.name === 'right_wrist');
+
+      let leftElbowAngle = null;
+      let rightElbowAngle = null;
+      let leftShoulderAngle = null;
+      let rightShoulderAngle = null;
       let leftHipAngle = null;
       let rightHipAngle = null;
       let leftKneeAngle = null;
       let rightKneeAngle = null;
-      let knee_displacement_ratio = null;
-      let hip_displacement_ratio = null;
-      let shoulder_descent_ratio = null;
-    
+
+      let body_to_ground_angle = null;
+      let body_to_hip_angle = null;
+
+      
+      if (leftElbow && leftShoulder && leftWrist) {
+        leftElbowAngle = calculateAngle(leftShoulder, leftElbow, leftWrist);
+      }
+      if (rightElbow && rightShoulder && rightWrist) {
+        rightElbowAngle = calculateAngle(rightShoulder, rightElbow, rightWrist);
+      }
+      if (leftShoulder && leftElbow && leftHip) {
+        leftShoulderAngle = calculateAngle(leftElbow, leftShoulder, leftHip);
+      }
+      if (rightShoulder && rightElbow && rightHip) {
+        rightShoulderAngle = calculateAngle(rightElbow, rightShoulder, rightHip);
+      }
       if (leftShoulder && leftHip && leftKnee) {
         leftHipAngle = calculateAngle(leftShoulder, leftHip, leftKnee);
       }   
@@ -93,20 +114,19 @@ const Squat_Model = () => {
       let ankle_x = (leftAnkle.x + rightAnkle.x) / 2;
       let ankle_y = (leftAnkle.y + rightAnkle.y) / 2;
 
-      knee_displacement_ratio = (knee_y - ankle_y) / calculateDistance_2(knee_x,knee_y,hip_x,hip_y);
-      hip_displacement_ratio = (hip_y - shoulder_y) / calculateDistance_2(hip_x,hip_y,knee_x,knee_y);
-      shoulder_descent_ratio = calculateDistance_2(knee_x,knee_y,shoulder_x,shoulder_y) / (calculateDistance_2(hip_x,hip_y,knee_x,knee_y) + calculateDistance_2(shoulder_x,shoulder_y,hip_x,hip_y));
+      body_to_ground_angle = (nose.y - ankle_y) / (nose.x - ankle_x);
+      body_to_hip_angle = (hip_y - ankle_y) / (hip_x - ankle_x);
    
-      return [leftHipAngle, rightHipAngle, leftKneeAngle, rightKneeAngle, knee_displacement_ratio, hip_displacement_ratio, shoulder_descent_ratio];
-  };
+      return [leftElbowAngle,rightElbowAngle,leftShoulderAngle,rightShoulderAngle,leftHipAngle,rightHipAngle,leftKneeAngle,rightKneeAngle,body_to_ground_angle,body_to_hip_angle]; 
+    };
 
   
     const handleLandmarksDetected = async (keypoints) => {
       try {
-        const [leftHipAngle, rightHipAngle, leftKneeAngle, rightKneeAngle, knee_displacement_ratio, hip_displacement_ratio, shoulder_descent_ratio] = inputTensorData(keypoints);
+        const [leftElbowAngle,rightElbowAngle,leftShoulderAngle,rightShoulderAngle,leftHipAngle,rightHipAngle,leftKneeAngle,rightKneeAngle,body_to_ground_angle,body_to_hip_angle] = inputTensorData(keypoints);
 
-        // Create a 7D tensor from the calculated angles and height
-        const inputArray = [leftHipAngle, rightHipAngle, leftKneeAngle, rightKneeAngle, knee_displacement_ratio, hip_displacement_ratio, shoulder_descent_ratio];
+        // Create a 10D tensor from the calculated angles and height
+        const inputArray = [leftElbowAngle,rightElbowAngle,leftShoulderAngle,rightShoulderAngle,leftHipAngle,rightHipAngle,leftKneeAngle,rightKneeAngle,body_to_ground_angle,body_to_hip_angle];
         const inputTensor = tf.tensor2d([inputArray], [1, inputArray.length]);
 
         // Get the prediction
@@ -118,26 +138,20 @@ const Squat_Model = () => {
         let pose;
 
         if (maxIndex === 0) {
-          pose = 'correct_high';
+          pose = 'correct';
           setExcercisePose(pose);
           setPose('correct');
         } else if (maxIndex === 1) {
-          pose = 'correct_low';
-          setExcercisePose(pose);
-          setPose('correct');
-        } else if (maxIndex === 2) {
           pose = 'incorrect';
           setExcercisePose(pose);
           setPose('incorrect');
-        } 
-        else if (maxIndex === 3) {
+        } else if (maxIndex === 2) {
           pose = 'random';
           setExcercisePose(pose);
           setPose('random');
-        }
+        } 
         console.log('Result:', result, 'Pose:', pose);
-
-        console.log('correct_high: ',result[0],' correct_low: ',result[1],' incorrect: ',result[2], ' random: ',result[3]);
+        console.log('correct_high: ',result[0],' correct_low: ',result[1],' incorrect: ',result[2]);
 
       } catch (error) {
         console.error("Error during prediction:", error);
@@ -156,10 +170,8 @@ const Squat_Model = () => {
       <View style={{ flex: 1 }}>
         <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType}/>
         <View style={{ padding: 10 }}>
-                {excercisePose === 'correct_low' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
-                {excercisePose === 'correct_high' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_HIGH</Text></View>)}
-                {excercisePose === 'correct_low' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
-                {excercisePose === 'correct_low' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
+                {excercisePose === 'correct' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct</Text></View>)}
+                {excercisePose === 'incorrect' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Incorrect</Text></View>)}
         </View>
       </View>
     );
@@ -192,4 +204,4 @@ const Squat_Model = () => {
     },
 });
   
-  export default Squat_Model;
+export default PushUp_Model;

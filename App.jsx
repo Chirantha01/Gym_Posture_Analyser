@@ -4,6 +4,7 @@ import HomeCard from './Components/Cards';
 import Plank_Model from './pages/Models/Model_plank';
 import Bicep_Model from './pages/Models/Model_bicep_curl';
 import Squat_Model from './pages/Models/Model_squat';
+import PushUp_Model from './pages/Models/Model_push_up';
 import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
 import Workout from './pages/Workout'
@@ -66,6 +67,11 @@ return (
           name="Model_squat"
           component={Squat_Model} // Squat model component
           options={{ headerTitle: 'Squat_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_push_up"
+          component={PushUp_Model} // Pushup model component
+          options={{ headerTitle: 'Push_Up_Model', headerTitleAlign: 'center' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
