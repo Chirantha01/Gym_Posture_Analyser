@@ -34,12 +34,14 @@ const PoseApp = () => {
     const timer = setTimeout(() => {
       setIsLoading(false);
       AsyncStorage.getItem("jwtToken")
-        .then(token => {
+        .then(async (token) => {
           if (token){
             
             console.log("Token found" , token);
-            tokenStatus = checkTokenValidity(token);
+            tokenStatus = await checkTokenValidity(token);
+            console.log("tokenStatus :  ", tokenStatus)
             if (tokenStatus === true){
+              console.log("Already authenticated")
               setIsAuthenticated(true);
               console.log("Token Accepted");
             }
@@ -55,16 +57,17 @@ const PoseApp = () => {
           console.log("Error fetching Token" , error);
         });
       
-    }, 5000);
+    }, 10000);
 
     return () => clearTimeout(timer);
   }, []);
 
   const checkTokenValidity = async (token) =>{
     console.log("sending a post request to validate the token");
-    const res = await axios.post("http://192.168.1.148:4000/validate",{token:token});
+    const res = await axios.post("http://192.168.1.148:4000/startup",{},{headers:{'authorization': `Bearer ${token}`}});
     console.log("resonse came for the post request");
-    if (res.success === true){
+    console.log("response: " , res.data);
+    if (res.data.token_Status === true){
       console.log("token success : True");
       return true;
     }
