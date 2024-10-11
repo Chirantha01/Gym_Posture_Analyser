@@ -1,6 +1,6 @@
 // Workout.js
 import React from 'react';
-import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity , StatusBar } from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity, StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ScrollView } from 'react-native-gesture-handler';
 const Workout = () => {
@@ -12,32 +12,36 @@ const Workout = () => {
       image: require('../assets/img-bicep.jpg'),
       title: 'Bicep Curls',
       subtitle: 'Top Arm Exercise',
+      navigateTo: 'Model_bicep',
+
     },
     {
       id: '2',
       image: require('../assets/img-squat.jpg'),
       title: 'Squats',
       subtitle: 'Top Leg Exercises',
+      navigateTo: 'Model_squat',
     },
     {
       id: '3',
-      image: require('../assets/benchPress.jpg'),
-      title: 'Bench Press',
+      image: require('../assets/pushup.jpg'),
+      title: 'Push Ups',
       subtitle: 'Top Chest Exercises',
+      navigateTo: 'Model_push_up',
     },
     {
       id: '4',
       image: require('../assets/latPullDown.jpg'),
       title: 'Lat Pull Down',
       subtitle: 'Top Back Exercises',
+      navigateTo: 'Model_lat_pull_down',
     },
     {
       id: '5',
       image: require('../assets/img-plank.jpg'),
       title: 'Plank',
       subtitle: 'Top Ab Exercises',
-      navigateTo: 'Model',
-      subtitle: 'Abdominal Exercises'
+      navigateTo: 'Model_plank',
     },
     {
       id: '6',

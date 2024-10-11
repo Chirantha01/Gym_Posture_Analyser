@@ -5,7 +5,7 @@ import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader
 import * as tf from '@tensorflow/tfjs';
 import {calculateAngle , averagePostureHeight} from './../supporting_methods/angle';
 
-const Model = () => {
+const Plank_Model = () => {
     const [poseType, setPose] = useState('normal')
     const [prediction, setPrediction] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
@@ -208,4 +208,4 @@ const Model = () => {
     },
 });
   
-  export default Model;
+  export default Plank_Model;

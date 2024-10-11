@@ -1,7 +1,11 @@
 import React, {useState,useEffect} from 'react';
 import { View, Text, Dimensions, ActivityIndicator, StyleSheet } from 'react-native';
 import HomeCard from './Components/Cards';
-import Model from './pages/Models/Model_plank';
+import Plank_Model from './pages/Models/Model_plank';
+import Bicep_Model from './pages/Models/Model_bicep_curl';
+import Squat_Model from './pages/Models/Model_squat';
+import PushUp_Model from './pages/Models/Model_push_up';
+import LatPullDown_Model from './pages/Models/Model_lat_pull_down';
 import Profile from "./Components/Profile/Profile"
 import Home from './pages/Home';
 import Workout from './pages/Workout'
@@ -112,9 +116,29 @@ return (
           options={{hearderShown : false }} // Main screen title
         />
         <Stack.Screen
-          name="Model"
-          component={Model} // Plank model component
-          options={{ headerTitle: 'Model', headerTitleAlign: 'center' }}
+          name="Model_plank"
+          component={Plank_Model} // Plank model component
+          options={{ headerTitle: 'Plank_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_bicep"
+          component={Bicep_Model} // Bicep Curl model component
+          options={{ headerTitle: 'Bicep_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_squat"
+          component={Squat_Model} // Squat model component
+          options={{ headerTitle: 'Squat_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_push_up"
+          component={PushUp_Model} // Pushup model component
+          options={{ headerTitle: 'Push_Up_Model', headerTitleAlign: 'center' }}
+        />
+        <Stack.Screen
+          name="Model_lat_pull_down"
+          component={LatPullDown_Model} // Lat pull down model component
+          options={{ headerTitle: 'Lat_Pull_Down_Model', headerTitleAlign: 'center' }}
         />
       </Stack.Navigator>
     </NavigationContainer>
@@ -150,7 +174,7 @@ return (
   >
     <Tab.Screen name="Home" component={Home} />
     <Tab.Screen name="Workout" component={Workout} />
-    <Tab.Screen name="Camera" component={Model} />
+    <Tab.Screen name="Camera" component={Plank_Model} />
     <Tab.Screen name="Progress" component={Progress} />
     <Tab.Screen name="Profile" component={Profile} />
   </Tab.Navigator>
