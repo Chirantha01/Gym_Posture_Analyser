@@ -12,6 +12,10 @@ const PushUp_Model = () => {
     const [isModelLoaded, setIsModelLoaded] = useState(false);
     const [time, setTime] = useState(0);
     const timerRef = useRef(null);
+    const repPoseRef = useRef(null);
+    const rel_pose = useRef(null); 
+    const poseFrameCountRef = useRef(0);
+    const repCountRef = useRef(0);
   
     useEffect(() => {
       const loadModelAsync = async () => {
@@ -120,6 +124,32 @@ const PushUp_Model = () => {
       return [leftElbowAngle,rightElbowAngle,leftShoulderAngle,rightShoulderAngle,leftHipAngle,rightHipAngle,leftKneeAngle,rightKneeAngle,body_to_ground_angle,body_to_hip_angle]; 
     };
 
+    const countReps = async (pose,body_to_ground_angle) => {
+      if (pose === 'correct') {
+
+          if (Math.abs(body_to_ground_angle) < 0.1) {
+            rel_pose.current = 'high';
+          }
+          else {
+            rel_pose.current = 'low';
+          }
+          if (rel_pose.current === repPoseRef.current) {
+            poseFrameCountRef.current = 0;
+          } 
+          else {
+              poseFrameCountRef.current += 1
+              if (poseFrameCountRef.current >= 4) {
+                  if (repPoseRef.current === 'low', rel_pose.current === 'high') {
+                      repCountRef.current += 1;
+                  }
+                  // setRepPose(pose);
+                  repPoseRef.current = rel_pose.current;
+                  
+              }
+          }
+      }
+    };
+
   
     const handleLandmarksDetected = async (keypoints) => {
       try {
@@ -150,8 +180,7 @@ const PushUp_Model = () => {
           setExcercisePose(pose);
           setPose('random');
         } 
-        console.log('Result:', result, 'Pose:', pose);
-        console.log('correct_high: ',result[0],' correct_low: ',result[1],' incorrect: ',result[2]);
+        countReps(pose, body_to_ground_angle);
 
       } catch (error) {
         console.error("Error during prediction:", error);
@@ -172,6 +201,7 @@ const PushUp_Model = () => {
         <View style={{ padding: 10 }}>
                 {excercisePose === 'correct' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct</Text></View>)}
                 {excercisePose === 'incorrect' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Incorrect</Text></View>)}
+                <Text style={styles.repText}>Reps: {repCountRef.current}</Text>
         </View>
       </View>
     );
@@ -202,6 +232,12 @@ const PushUp_Model = () => {
         color: 'white',
         fontWeight: 'bold',
     },
+    repText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginTop: 20,
+      textAlign: 'center',
+  },
 });
   
 export default PushUp_Model;
