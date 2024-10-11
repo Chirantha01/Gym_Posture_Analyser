@@ -95,7 +95,7 @@ const Bicep_Model = () => {
           else {
               poseFrameCountRef.current += 1
               if (poseFrameCountRef.current >= 5) {
-                  if (repPoseRef.current === 'correct_high', pose === 'correct_low') {
+                  if (repPoseRef.current === 'correct_low', pose === 'correct_high') {
                       repCountRef.current += 1;
                   }
                   // setRepPose(pose);
