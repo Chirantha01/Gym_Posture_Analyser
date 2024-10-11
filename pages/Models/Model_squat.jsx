@@ -12,7 +12,10 @@ const Squat_Model = () => {
     const [isModelLoaded, setIsModelLoaded] = useState(false);
     const [time, setTime] = useState(0);
     const timerRef = useRef(null);
-  
+    const repPoseRef = useRef(null); // Ref to track current repPose immediately
+    const poseFrameCountRef = useRef(0); // Ref to track frames in the same pose immediately
+    const repCountRef = useRef(0); // Ref to track repCount immediately
+
     useEffect(() => {
       const loadModelAsync = async () => {
         try {
@@ -100,6 +103,25 @@ const Squat_Model = () => {
       return [leftHipAngle, rightHipAngle, leftKneeAngle, rightKneeAngle, knee_displacement_ratio, hip_displacement_ratio, shoulder_descent_ratio];
   };
 
+  const countReps = async (pose) => {
+    if (pose === 'correct_low' || pose === 'correct_high') {
+        console.log(poseFrameCountRef.current);
+        if (pose === repPoseRef.current) {
+          poseFrameCountRef.current = 0;
+        } 
+        else {
+            poseFrameCountRef.current += 1
+            if (poseFrameCountRef.current >= 5) {
+                if (repPoseRef.current === 'correct_high', pose === 'correct_low') {
+                    repCountRef.current += 1;
+                }
+                // setRepPose(pose);
+                repPoseRef.current = pose;
+                
+            }
+        }
+    }
+  };
   
     const handleLandmarksDetected = async (keypoints) => {
       try {
@@ -135,9 +157,8 @@ const Squat_Model = () => {
           setExcercisePose(pose);
           setPose('random');
         }
-        console.log('Result:', result, 'Pose:', pose);
 
-        console.log('correct_high: ',result[0],' correct_low: ',result[1],' incorrect: ',result[2], ' random: ',result[3]);
+        countReps(pose);
 
       } catch (error) {
         console.error("Error during prediction:", error);
@@ -158,8 +179,8 @@ const Squat_Model = () => {
         <View style={{ padding: 10 }}>
                 {excercisePose === 'correct_low' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
                 {excercisePose === 'correct_high' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_HIGH</Text></View>)}
-                {excercisePose === 'correct_low' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
-                {excercisePose === 'correct_low' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
+                {excercisePose === 'incorrect' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Streighten Torso</Text></View>)}
+                <Text style={styles.repText}>Reps: {repCountRef.current}</Text>
         </View>
       </View>
     );
@@ -190,6 +211,12 @@ const Squat_Model = () => {
         color: 'white',
         fontWeight: 'bold',
     },
+    repText: {
+      fontSize: 20,
+      fontWeight: 'bold',
+      marginTop: 20,
+      textAlign: 'center',
+  },
 });
   
   export default Squat_Model;
