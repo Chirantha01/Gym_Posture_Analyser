@@ -24,9 +24,9 @@ export default function Home() {
       <View style={{alignItems:"center"}} className="flex-col">
       {/* <StatusBar style="auto" /> */}
       <View
-          className="bg-blue-800 rounded-b-3xl rounded-t-3xl"
+          className="bg-blue-800 rounded-b-3xl"
           style={{
-            width: ScreenWidth * 0.98,
+            width: ScreenWidth,
             shadowColor: '#000',       // Ensure the shadow color is set to black for contrast
             shadowOffset: { width: 0, height: 4 },  // Adjust shadow offset for better visibility
             shadowOpacity: 0.9,        // Increase shadow opacity for stronger effect
@@ -34,11 +34,11 @@ export default function Home() {
             elevation: 30,             // Use elevation on Android for shadow effect
           }}
         >
-        {/* <Image
+        {<Image
           source={require("../assets/icon-white.png")}
           className="h-24 w-52 ml-8"
 
-        /> */}
+        />}
         <View className="flex-row">
           <View className="m-6 items-center w-25 h-25 rounded-full bg-white justify-center p-1">
           <Image source={require("../assets/user.jpg")} className="w-24 h-24 rounded-full"/>

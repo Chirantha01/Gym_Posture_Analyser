@@ -1,8 +1,7 @@
 // Workout.js
 import React from 'react';
-import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity , StatusBar } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { View, Text, Image, StyleSheet, FlatList , StatusBar } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 const Workout = () => {
   const navigation = useNavigation(); // Use this hook to access navigation in non-screen components
@@ -93,7 +92,7 @@ const Workout = () => {
           <Text className="text-3xl font-bold p-6 justify-center bg-white">Workouts</Text>
         )}
       />
-    </View>
+    </View> 
   );
 };
 

@@ -23,11 +23,6 @@ const Graph = () => {
     { value: 23, label: 'Sun' },
     { value: 50, label: 'Mon' },
     { value: 60, label: 'Tue' },
-    { value: 70, label: 'Wed' },
-    { value: 90, label: 'Thu' },
-    { value: 253, label: 'Fri' },
-    { value: 61, label: 'Sat' },
-    { value: 23, label: 'Sun' },
   ];
 
   const renderTooltip = (item) => {
