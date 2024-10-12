@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View , ScrollView , Dimensions} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View , ScrollView , Dimensions, Animated} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const logo = require("../assets/logo.png")
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import ImagePlaceholder from '../assets/image-placeholder.jpg';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
+const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +24,21 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
 
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
+  const buttonScale = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(buttonScale, {
+        toValue: 0.95, // Scale down to 95%
+        useNativeDriver: true, // Use native driver for better performance
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(buttonScale, {
+        toValue: 1, // Scale back to 100%
+        useNativeDriver: true,
+    }).start();
+  };
 
   const onChange = (event, selectedDate) => {
     if (selectedDate){
@@ -109,6 +124,9 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
     <SafeAreaView style={styles.container}>
         <View style={styles.header}>
                 <Text style={styles.headerTitle}>Create Account</Text>
+                <Pressable onPress={onGoBack} style={styles.backButton}>
+                  <Icons name="arrow-left" size={24} color="#E2F163" />
+                </Pressable>
         </View>
         <Text style={styles.title}>Let's Start !</Text>
         {/* <Image source={logo} style={styles.image} resizeMode='contain' /> */}
@@ -170,9 +188,14 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
         </View> */}
 
         <View style={styles.buttonView}>
-            <Pressable style={styles.button} onPress={handleSignUp}>
-                <Text style={styles.buttonText}>Sign Up</Text>
-            </Pressable>
+            <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
+              <Pressable style={styles.button} 
+                        onPressIn={handlePressIn} 
+                        onPressOut={handlePressOut} 
+                        onPress={handleSignUp}>
+                  <Text style={styles.buttonText}>Sign Up</Text>
+              </Pressable>
+            </Animated.View>
         </View>
 
         <Text style={styles.footerText}>Already Have an Account?<Text style={styles.signup} onPress={onSwitchToSignIn}>  Sign In</Text></Text>
