@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View , ScrollView , Dimensions} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View , ScrollView , Dimensions, Animated} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const logo = require("../assets/logo.png")
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -7,7 +7,7 @@ import * as ImagePicker from 'expo-image-picker';
 import ImagePlaceholder from '../assets/image-placeholder.jpg';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 
-const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
+const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -24,6 +24,21 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
 
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
+  const buttonScale = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = () => {
+    Animated.spring(buttonScale, {
+        toValue: 0.95, // Scale down to 95%
+        useNativeDriver: true, // Use native driver for better performance
+    }).start();
+  };
+
+  const handlePressOut = () => {
+    Animated.spring(buttonScale, {
+        toValue: 1, // Scale back to 100%
+        useNativeDriver: true,
+    }).start();
+  };
 
   const onChange = (event, selectedDate) => {
     if (selectedDate){
@@ -107,24 +122,31 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
   return (
     <ScrollView>
     <SafeAreaView style={styles.container}>
-        
-        <Image source={logo} style={styles.image} resizeMode='contain' />
-        <Text style={styles.title}>Sign Up</Text>
-        <View>
-        <Pressable style={styles.profileImageView} onPress={pickImage}>
-          {profileImage ? (
-            <Image source={{uri : profileImage}} style={styles.profileImage}  />
-          ): (
-            <Image source={ImagePlaceholder} style={styles.profileImage}/>
-          )} 
-        </Pressable >
-          {profileImage ? (
-            <Pressable style={styles.profileIcons} onPress={removeImage}><Icons name='minus-circle-outline' size={40} color='white'/></Pressable>
-          ): (
-            <Pressable style={styles.profileIcons} onPress={pickImage}><Icons name='plus-circle-outline' size={40} color='white'/></Pressable>
-          )}
+        <View style={styles.header}>
+                <Text style={styles.headerTitle}>Create Account</Text>
+                <Pressable onPress={onGoBack} style={styles.backButton}>
+                  <Icons name="arrow-left" size={24} color="#E2F163" />
+                </Pressable>
         </View>
-        <View style={styles.inputView}>
+        <Text style={styles.title}>Let's Start !</Text>
+        {/* <Image source={logo} style={styles.image} resizeMode='contain' /> */}
+        {/* <Text style={styles.title}>Sign Up</Text> */}
+        
+        <View style={styles.profilePic}>
+              <Pressable style={styles.profileImageView} onPress={pickImage}>
+                {profileImage ? (
+                  <Image source={{uri : profileImage}} style={styles.profileImage}  />
+                ): (
+                  <Image source={ImagePlaceholder} style={styles.profileImage}/>
+                )} 
+              </Pressable >
+                {profileImage ? (
+                  <Pressable style={styles.profileIcons} onPress={removeImage}><Icons name='minus-circle-outline' size={40} color='white'/></Pressable>
+                ): (
+                  <Pressable style={styles.profileIcons} onPress={pickImage}><Icons name='plus-circle-outline' size={40} color='white'/></Pressable>
+                )}
+        </View>
+       <View style={styles.inputView}>
             <Text style={styles.text}>Username</Text>
             <TextInput style={styles.input} placeholder='USERNAME' value={username} onChangeText={setUsername} autoCorrect={false}
         autoCapitalize='none' />
@@ -158,22 +180,25 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn }) => {
             <TextInput style={styles.input} placeholder='WEIGHT' value={weight} onChangeText={setWeight} autoCorrect={false}
         autoCapitalize='none'/>
         </View>
-        <View style={styles.rememberView}>
+        {/* <View style={styles.rememberView}>
             <View style={styles.switch}>
                 <Switch  value={click} onValueChange={setClick} trackColor={{true : "green" , false : "gray"}} />
                 <Text style={styles.rememberText}>Remember Me</Text>
             </View>
-        </View>
+        </View> */}
 
         <View style={styles.buttonView}>
-            <Pressable style={styles.button} onPress={handleSignUp}>
-                <Text style={styles.buttonText}>Sign Up</Text>
-            </Pressable>
+            <Animated.View style={{ transform: [{ scale: buttonScale }] }}>
+              <Pressable style={styles.button} 
+                        onPressIn={handlePressIn} 
+                        onPressOut={handlePressOut} 
+                        onPress={handleSignUp}>
+                  <Text style={styles.buttonText}>Sign Up</Text>
+              </Pressable>
+            </Animated.View>
         </View>
 
         <Text style={styles.footerText}>Already Have an Account?<Text style={styles.signup} onPress={onSwitchToSignIn}>  Sign In</Text></Text>
-
-        
     </SafeAreaView>
     </ScrollView>
   );
@@ -188,27 +213,38 @@ const mockSignUp = (username, password) => {
 };
 
 const styles = StyleSheet.create({
-  container : {
-    alignItems : "center",
-    paddingTop: 20,
-  },
+  container: {
+    alignItems: "center",
+    paddingTop: 70,
+    paddingBottom: 70,
+    backgroundColor: "#232323",
+    flex: 1,
+},
   image : {
     height : 100,
     width : 220
   },
-  title : {
-    fontSize : 30,
-    fontWeight : "bold",
-    textTransform : "uppercase",
+  title: {
+    fontSize: 25,
+    fontWeight: "bold",
     textAlign: "center",
-    paddingVertical : 5,
-    color : "black"
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: "white"
+  },
+  profilePic:{
+    paddingTop: 20,
+    alignItems: 'center', // Center horizontally
+    justifyContent: 'center',
+    position: 'relative', 
+    paddingBottom: 40
+    ,
   },
   profileImageView:{
     height:Dimensions.get('window').width*0.32,
     width:Dimensions.get('window').width*0.32,
     borderRadius: Math.round((Dimensions.get('window').height + Dimensions.get('window').width) / 2),
-    backgroundColor:'grey',
+    backgroundColor:'#232323',
     alignItems:'center',
     justifyContent:'center',
     borderWidth:0,
@@ -222,35 +258,45 @@ const styles = StyleSheet.create({
     height:Dimensions.get('window').width*0.3,
     width:Dimensions.get('window').width*0.3,
     borderRadius: Math.round((Dimensions.get('window').height + Dimensions.get('window').width) / 2),
-    backgroundColor: 'grey',
+    backgroundColor: '#232323',
     alignItems:'center',
     justifyContent:'center',
   },
-  profileIcons:{
-    position:'absolute',
-    bottom:0,
-    right:0,
+  profileIcons: {
+    position: 'absolute', // Position absolutely within profilePic
+    bottom: 30, // Adjust this value to move the icon up or down
+    right: 10, // Adjust this value to move the icon left or right
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius:50,
-    backgroundColor:'grey',
+    borderRadius: 50,
+    backgroundColor: '#232323',
+    padding: 5, // Optional: Add some padding around the icon
   },
   inputView : {
-    gap : 15,
-    width : "100%",
-    paddingHorizontal : 40,
-    marginBottom  :5
+    gap: 15,
+    width: "100%",
+    paddingHorizontal: 40,
+    paddingBottom: 20,
+    marginBottom: 5,
+    paddingTop: 10,
+    backgroundColor: "#B3A0FF",
   },
   input : {
-    height : 50,
-    paddingHorizontal : 20,
-    borderColor : "blue",
-    borderWidth : 1,
-    borderRadius: 7
+    fontSize: 17,
+    height: 50,
+    fontWeight: "500",
+    paddingHorizontal: 20,
+    backgroundColor: "white",
+    borderWidth: 0,
+    borderRadius: 15
   },
   text : {
-    fontSize : 20,
-    fontWeight : "semibold"
+    color: "#232323",
+    fontSize: 15,
+    fontWeight: "600",
+    paddingTop: 5,
+    paddingBottom: 5,
+    paddingLeft: 10,
   },
   requiredText:{
     fontsize: 10,
@@ -278,24 +324,28 @@ const styles = StyleSheet.create({
     fontSize : 11,
     color : "red"
   },
-  button : {
-    backgroundColor : "blue",
-    height : 45,
-    borderColor : "gray",
-    borderWidth  : 1,
-    borderRadius : 10,
-    alignItems : "center",
-    justifyContent : "center"
+  button: {
+    backgroundColor: "#373737",
+    height: 50,
+    width: 200,
+    borderColor: "white",
+    borderWidth: 1,
+    borderRadius: 100,
+    alignItems: "center",
+    justifyContent: "center"
   },
-  buttonText : {
-    color : "white"  ,
-    fontSize: 18,
-    fontWeight : "bold"
-  }, 
-  buttonView :{
-    width :"100%",
-    paddingHorizontal : 50
+  buttonText: {
+    color: "white",
+    fontSize: 20,
+    fontWeight: "bold"
   },
+  buttonView: {
+    paddingTop: 5,
+    paddingBottom: 5,
+    width: "100%",
+    paddingHorizontal: 50,
+    alignItems: 'center',
+},
   optionsText : {
     textAlign : "center",
     paddingVertical : 10,
@@ -319,9 +369,31 @@ const styles = StyleSheet.create({
     color : "gray",
   },
   signup : {
-    color : "",
+    color : "#E2F163",
     fontSize : 13
-  }
+  },
+  header: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+    position: 'relative',
+  },
+  backButton: {
+      position: 'absolute',
+      flex: 1,
+      left: 20,
+      top: 9,
+  },
+  headerTitle: {
+      fontSize: 25,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      color: '#E2F163',
+      flex: 1,
+  },
 })
 
 export default SignUpScreen;

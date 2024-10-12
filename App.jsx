@@ -100,7 +100,7 @@ const PoseApp = () => {
 
   if(!isAuthenticated){
     return isNewUser? (
-      <SignUpScreen onSignUp={onSignUp} onSwitchToSignIn={onSwitchToSignIn}/>
+      <SignUpScreen onSignUp={onSignUp} onSwitchToSignIn={onSwitchToSignIn} onGoBack={onSwitchToSignIn}/>
     ):(
       <LogInForm onSignIn={onSignIn} onSwitchToSignUp={onSwitchToSignUp}/>
     );
