@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef , useEffect } from 'react';
 import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View, Animated } from 'react-native';
 const logo = require("../assets/logo.png");
 import axios from "axios";
@@ -9,7 +9,14 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
     const [click, setClick] = useState(false);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [errors, setErrors] = useState({usernameOrEmail:[],password:[]});
+    const [otherError , setOtherError] = useState("");
     const buttonScale = useRef(new Animated.Value(1)).current;
+
+    useEffect(() => {
+        console.log(errors); // This will log after the state has updated and re-rendered
+        console.log(otherError);
+    }, [errors,otherError]);
 
     const handlePressIn = () => {
         Animated.spring(buttonScale, {
@@ -25,19 +32,57 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
         }).start();
     };
 
+    const handleBackendErrors = (responseErrors) => {
+        const errorMap = {
+            usernameOrEmail: [],
+            password: []
+        };
+    
+        // Initialize each field with an empty array
+        responseErrors.forEach((error) => {
+          if (!errorMap[error.field]) {
+            errorMap[error.field] = [];
+          }
+          // Push the error message to the array of errors for the corresponding field
+          errorMap[error.field].push(error.message);
+        });
+        console.log(errorMap);
+        setErrors(errorMap); // Update error state
+      };
+
     const handleSignIn = async (event) => {
         console.log(username);
         event.preventDefault();
-        console.log({ usernameOrEmail: username, password: password });
-        const response = await axios.post("http://192.168.1.148:4000/signin", { usernameOrEmail: username, password: password });
+        setErrors({usernameOrEmail:[],password:[]});
+        setOtherError("");
+        try{
+            console.log({ usernameOrEmail: username, password: password });
+            const response = await axios.post("http://192.168.1.148:4000/signin", { usernameOrEmail: username, password: password });
 
-        const data = response.data;
-        const token = data.token;
-        if (token) {
-            await AsyncStorage.setItem('jwtToken', token);
+            const data = response.data;
+            const token = data.token;
+            if (token) {
+                await AsyncStorage.setItem('jwtToken', token);
+            }
             onSignIn();
-        } else {
-            console.error("sign in failed", data.message);
+        } catch(error) {
+            if (error.response && error.response.status === 400) {
+                const data = error.response.data;
+                if (data.errors) {
+                  handleBackendErrors(data.errors); // Update the error state with backend errors
+              
+                } else{
+                    const newErrorMap = { ...errors };
+                    if (!newErrorMap[data.field].includes(data.message)) {
+                        newErrorMap[data.field] = [...newErrorMap[data.field], data.message];
+                    }
+                    setErrors(newErrorMap);
+                }
+              } else {
+                // Handle other possible errors (network issues, server problems, etc.)
+                console.log("Something went wrong: ", error.message);
+                setOtherError("Something went Wrong! Check your Internet connection.")
+              }
         }
     };
 
@@ -52,9 +97,15 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
                 <Text style={styles.textInputTitle}>Username or email</Text>
                 <TextInput style={styles.input} placeholder='EMAIL OR USERNAME' value={username} onChangeText={(text) => setUsername(text)} autoCorrect={false}
                     autoCapitalize='none' />
+                {errors.usernameOrEmail && errors.usernameOrEmail.length > 0 && errors.usernameOrEmail.map((err, idx) => (
+                    <Text key={idx} style={styles.requiredText}>{err}</Text>
+                ))}
                 <Text style={styles.textInputTitle}>Password</Text>
                 <TextInput style={styles.input} placeholder='PASSWORD' secureTextEntry value={password} onChangeText={setPassword} autoCorrect={false}
                     autoCapitalize='none' />
+                {errors.password && errors.password.length > 0 && errors.password.map((err, idx) => (
+                    <Text key={idx} style={styles.requiredText}>{err}</Text>
+                ))}
                 <Text style={styles.forgetText}>Forgot Password?</Text>
             </View>
 
@@ -71,6 +122,7 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
                 </Animated.View>
                 <Text style={styles.optionsText}>or sign up with</Text>
             </View>
+            {otherError !== "" && <Text style={styles.requiredText}>{otherError}</Text>}
 
             <Text style={styles.footerText}>Don't have an account?<Text style={styles.signup} onPress={onSwitchToSignUp}>  Sign Up</Text></Text>
         </SafeAreaView>
@@ -120,6 +172,10 @@ const styles = StyleSheet.create({
         paddingTop: 20,
         paddingBottom: 5,
         paddingLeft: 10,
+    },
+    requiredText:{
+        fontsize: 10,
+        color:"red"
     },
     forgetText:{
         fontSize: 13,
