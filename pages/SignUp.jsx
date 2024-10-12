@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef , useEffect} from 'react';
 import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View , ScrollView , Dimensions, Animated} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const logo = require("../assets/logo.png")
@@ -6,6 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import ImagePlaceholder from '../assets/image-placeholder.jpg';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from "axios";
 
 const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
   const [username, setUsername] = useState('');
@@ -16,15 +17,19 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
   const [weight, setWeight] = useState('');
   const [profileImage , setProfileImage] = useState(null);
   const [click,setClick] = useState(false);
-  const [isUsernameEmpty , setIsUsernameEmpty] = useState(false);
-  const [isPasswordEmpty , setIsPasswordEmpty] = useState(false);
-  const [isEmailEmpty , setIsEmailEmpty] = useState(false);
-  const [isMultipleWordUsername , setIsMultipleUsername] = useState(false);
-  const [usernameMessege , setUsernameMessege] = useState("")
+  const [usernameMessege , setUsernameMessege] = useState("");
+  const [errors, setErrors] = useState({username:[],password:[],email:[]});
+  const [otherError , setOtherError] = useState("")
 
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
   const buttonScale = useRef(new Animated.Value(1)).current;
+
+  useEffect(() => {
+    console.log(errors); // This will log after the state has updated and re-rendered
+    console.log(usernameMessege); // Check if usernameMessage state is correctly updating
+    console.log(otherError);
+  }, [errors, usernameMessege , otherError]);
 
   const handlePressIn = () => {
     Animated.spring(buttonScale, {
@@ -58,43 +63,94 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
     setShowPicker(true);
   };
 
-  const handleSignUp = async () => {
-    const username_extracted = username.trim().split(/\s+/);
-    const password_whiteSpace_present = /\s/.test(password);
-    const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-    if (username_extracted.length > 1){
-      setUsernameMessege("Username should be in 1 word!");
-    }
-    if (username_extracted)
-    if(password===""){
-      setIsPasswordEmpty(true);
-    }
-    else{
-      setIsPasswordEmpty(false);
-    }
-    if(email===""){
-      setIsEmailEmpty(true);
-    }
-    else{
-      setIsEmailEmpty(false);
-    }
-    if(username===""){
-      setIsUsernameEmpty(true);
-    }
-    else{
-      setIsUsernameEmpty(false);
-    }
-    if(password !== "" && email !== "" && username !== ""){
-      // Call API to get JWT token (mock here)
-      // const token = await mockSignUp(username, password);
-      
-      // if (token) {
-      //   await AsyncStorage.setItem('jwtToken', token); // Save token in AsyncStorage
-      //   onSignUp(); // Navigate to main app after sign-up
-      // }
-      onSignUp();
-    } 
+  const handleBackendErrors = (responseErrors) => {
+    const errorMap = {
+      username: [],
+      password: [],
+      email: [],
+    };
+
+    // Initialize each field with an empty array
+    responseErrors.forEach((error) => {
+      if (!errorMap[error.field]) {
+        errorMap[error.field] = [];
+      }
+      // Push the error message to the array of errors for the corresponding field
+      errorMap[error.field].push(error.message);
+    });
+    console.log(errorMap);
+    setErrors(errorMap); // Update error state
   };
+
+  const handleSignUp = async (event) => {
+    event.preventDefault();
+    setErrors({username:[],password:[],email:[]});
+    setUsernameMessege("");
+    setOtherError("");
+    // const username_extracted = username.trim().split(/\s+/);
+    // const password_whiteSpace_present = /\s/.test(password);
+    // const isEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    // if (username_extracted.length > 1){
+    //   setUsernameMessege("Username should be in 1 word!");
+    // }
+    // if (username_extracted)
+    // if(password===""){
+    //   setIsPasswordEmpty(true);
+    // }
+    // else{
+    //   setIsPasswordEmpty(false);
+    // }
+    // if(email===""){
+    //   setIsEmailEmpty(true);
+    // }
+    // else{
+    //   setIsEmailEmpty(false);
+    // }
+    // if(username===""){
+    //   setIsUsernameEmpty(true);
+    // }
+    // else{
+    //   setIsUsernameEmpty(false);
+    // }
+    try{
+      // Call API to get JWT token (mock here)
+      const response = await axios.post("http://192.168.1.148:4000/signup", 
+        {
+          username:username,
+          email:email,
+          password:password,
+          profilePicture:profileImage,
+          birthday:bDay,
+          weight:weight,
+          height:height
+        });
+      
+
+        const data = response.data;
+        const success = data.success;
+
+      if (success){
+        const token = data.token;
+        await AsyncStorage.setItem('jwtToken', token);
+        onSignUp();
+      }
+    } catch(error){
+      if (error.response && error.response.status === 400) {
+        const data = error.response.data;
+        if (data.errors) {
+          handleBackendErrors(data.errors); // Update the error state with backend errors
+      
+        } if(data.usernameMessage) {
+          console.log("Error occurred: ", data.usernameMessage);
+          setUsernameMessege(data.usernameMessage);
+        }
+      } else {
+        // Handle other possible errors (network issues, server problems, etc.)
+        console.log("Something went wrong: ", error.message);
+        setOtherError("Something went Wrong!")
+      }
+    }
+  }
 
   const pickImage = async () => {
     // Ask for permission
@@ -150,17 +206,24 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
             <Text style={styles.text}>Username</Text>
             <TextInput style={styles.input} placeholder='USERNAME' value={username} onChangeText={setUsername} autoCorrect={false}
         autoCapitalize='none' />
-            {isUsernameEmpty ? <Text style={styles.requiredText}>Enter a username!</Text>:<View></View>}
+            {errors.username && errors.username.length > 0 && errors.username.map((err, idx) => (
+              <Text key={idx} style={styles.requiredText}>{err}</Text>
+            ))}
+            {usernameMessege !== "" && <Text style={styles.requiredText}>{usernameMessege}</Text>}
             
             <Text style={styles.text}>E-mail</Text>
             <TextInput style={styles.input} placeholder='E-MAIL' value={email} onChangeText={setEmail} autoCorrect={false}
         autoCapitalize='none'/>
-            {isEmailEmpty ? <Text style={styles.requiredText}>Enter an Email!</Text>:<View></View>}
+            {errors.email && errors.email.length > 0 && errors.email.map((err, idx) => (
+              <Text key={idx} style={styles.requiredText}>{err}</Text>
+            ))}
 
             <Text style={styles.text}>Password</Text>
             <TextInput style={styles.input} placeholder='PASSWORD' secureTextEntry value={password} onChangeText={setPassword} autoCorrect={false}
         autoCapitalize='none'/>
-            {isPasswordEmpty? <Text style={styles.requiredText}>Enter a Password!</Text>:<View></View>}
+            {errors.password && errors.password.length > 0 && errors.password.map((err, idx) => (
+              <Text key={idx} style={styles.requiredText}>{err}</Text>
+            ))}
 
             <Text style={styles.text}>Birth Day</Text>
             <TextInput style={styles.input} placeholder='BIRTH DAY' value={bDay} onFocus={showDatePicker} autoCorrect={false}
@@ -202,14 +265,6 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
     </SafeAreaView>
     </ScrollView>
   );
-};
-
-const mockSignUp = (username, password) => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve('mock-jwt-token');
-    }, 1000);
-  });
 };
 
 const styles = StyleSheet.create({
