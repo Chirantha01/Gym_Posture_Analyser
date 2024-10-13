@@ -1,55 +1,123 @@
-import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import { StyleSheet, Text, View , Dimensions } from "react-native";
+import React , { useState } from "react";
 import Colors from "../Constants/Colors";
 import Sizes from "../Constants/Sizes";
 import Card from "../Constants/Card";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+import CircularProgress from 'react-native-circular-progress-indicator';
+
+const WIDTH =  Dimensions.get("window").width;
 
 export default function Bottom() {
-  return (
-    <View style={styles.bottomContainer}>
-      <Text style={{ fontSize: 20, color: Colors.white, fontWeight: "bold" }}>
-        Begin your Gym career
-      </Text>
+  const [value, setValue] = useState(85);
 
+  return (
+    //<ScrollView contentContainerStyle={{ alignItems: 'center', backgroundColor: "white" }}>
+    <View style={styles.bottomContainer}>
       <View style={styles.completeContainer}>
         <Card
           icon={
-            <FontAwesome
-              name="heartbeat"
-              size={24}
+            <Icons
+              name="heart-pulse"
+              size={50}
               color="red"
             />
+            
           }
-          cardTextOne="2 Issues"
+          cardTextOne="2"
           cardText="Health"
-          style={{ backgroundColor: Colors.primary}}
+          style={{ backgroundColor: "#93E9BE" ,marginLeft:WIDTH*0.035 , marginRight:WIDTH*0.01}}
         />
         <Card
           icon={
-            <FontAwesome name="trophy" size={24} color={Colors.secondary} />
+            <Icons name="trophy" size={50} color="gold" />
           }
-          cardTextOne="1 Achievement"
+          cardTextOne="1"
           cardText="Achievements"
-          style={{ backgroundColor: Colors.secondary }}
+          style={{ backgroundColor: "#FFE4C4" , marginLeft:WIDTH*0.01 , marginRight:WIDTH*0.02}}
         />
       </View>
-
+      <View className="flex-row m-3 rounded-3xl p-3 bg-fuchsia-200">
+        <CircularProgress
+          radius={60}
+          value={value}
+          textColor='#222'
+          fontSize={20}
+          valueSuffix={'%'}
+          activeStrokeColor={'tomato'}
+          inActiveStrokeOpacity={0.2}
+          duration={4000}
+        />
+        <View className="justify-center mx-5">
+          <Text className="font-bold text-2xl mb-2">Weakly Progress</Text>
+          <Text className="font-semibold text-xl">Time Spent : 15 hours</Text>
+          <Text className="font-semibold text-xl">Challenges : 12/15</Text>
+        </View>
+      </View>
+      <View className="mt-2 flex-row">
+        <Card
+          icon={
+            <Icons
+              name="heart-pulse"
+              size={50}
+              color="red"
+            />
+            
+          }
+          cardTextOne="2"
+          cardText="Health"
+          style={{ backgroundColor: "#93E9BE" ,marginLeft:WIDTH*0.035 , marginRight:WIDTH*0.01}}
+        />
+        <Card
+          icon={
+            <Icons name="trophy" size={50} color="gold" />
+          }
+          cardTextOne="1"
+          cardText="Achievements"
+          style={{ backgroundColor: "#FFE4C4" , marginLeft:WIDTH*0.01 , marginRight:WIDTH*0.02}}
+        />
+      </View>
+      <View style={styles.completeContainer}>
+        <Card
+          icon={
+            <Icons
+              name="heart-pulse"
+              size={50}
+              color="red"
+            />
+            
+          }
+          cardTextOne="2"
+          cardText="Health"
+          style={{ backgroundColor: "#93E9BE" ,marginLeft:WIDTH*0.035 , marginRight:WIDTH*0.01}}
+        />
+        <Card
+          icon={
+            <Icons name="trophy" size={50} color="gold" />
+          }
+          cardTextOne="1"
+          cardText="Achievements"
+          style={{ backgroundColor: "#FFE4C4" , marginLeft:WIDTH*0.01 , marginRight:WIDTH*0.02}}
+        />
+      </View>
       <View style={styles.bottomSection} className="p-3 bg-green-300 rounded-3xl w-8/12 mx-auto">
         <Text style={styles.bottomSectionText}>Start Exercising Now</Text>
       </View>
     </View>
+    //</ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   bottomContainer: {
     marginTop: Sizes.medium,
+    width:WIDTH,
+    flexDirection:"column"
   },
   completeContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
     marginTop: Sizes.xs,
   },
   card: {

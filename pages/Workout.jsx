@@ -96,7 +96,7 @@ const Workout = () => {
           <Text className="text-3xl font-bold p-6 justify-center bg-white">Workouts</Text>
         )}
       />
-    </View>
+    </View> 
   );
 };
 
