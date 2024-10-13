@@ -11,7 +11,6 @@ export default function Home() {
   const name = "User";
 
   const navigation = useNavigation();
-
   const handleArticlePress = (articleName) => {
     navigation.navigate('ArticleScreen', { article: articleName });
   };
@@ -23,6 +22,7 @@ export default function Home() {
         <Text style={styles.sub_salutation}>It's time to challenge your limits</Text>
         <View>
           <Carousel />
+
         </View>
 
         {/* Cube-like Containers for Articles */}

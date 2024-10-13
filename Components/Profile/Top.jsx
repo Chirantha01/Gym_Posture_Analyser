@@ -8,10 +8,10 @@ export default function Top() {
   return (
     <View style={styles.icons}>
       <TouchableOpacity style={styles.back}>
-        <AntDesign name="arrowleft" size={24} color="white" />
+        <AntDesign name="arrowleft" size={24} color="black" />
       </TouchableOpacity>
       <TouchableOpacity style={styles.setting}>
-        <AntDesign name="setting" size={35} color="white" />
+        <AntDesign name="setting" size={35} color="black" />
       </TouchableOpacity>
     </View>
   );

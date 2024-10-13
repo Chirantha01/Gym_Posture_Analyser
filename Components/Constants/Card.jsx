@@ -1,9 +1,11 @@
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, View , Dimensions} from "react-native";
 import React from "react";
 import { AntDesign } from "@expo/vector-icons";
 import Colors from "./Colors";
 import { Entypo } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+
+const width =  Dimensions.get("window").width;
 
 export default function Card({ icon, cardTextOne, cardTextTwo, cardText, style }) {
   return (
@@ -11,18 +13,9 @@ export default function Card({ icon, cardTextOne, cardTextTwo, cardText, style }
       <View style={styles.iconContainer}>
         {icon}
       </View>
-      <Text style={styles.cardText}>{cardText}</Text>
-
-      <Text style={styles.cardTextOne}>{cardTextOne}</Text>
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
-        <Text style={styles.cardTextTwo}>Review</Text>
-        <AntDesign name="arrowright" size={24} color={Colors.darkGray} />
+      <View className="items-center justify-center mx-auto">
+        <Text style={styles.cardTextOne}>{cardTextOne}</Text>
+        <Text style={styles.cardText}>{cardText}</Text>
       </View>
     </View>
   );
@@ -31,14 +24,15 @@ export default function Card({ icon, cardTextOne, cardTextTwo, cardText, style }
 const styles = StyleSheet.create({
   cardContainer: {
     backgroundColor: Colors.white,
-    width: 150,
-    height: 180,
-    borderRadius: 10,
+    width: width*0.46,
+    height: 100,
+    borderRadius: 30,
     padding: 10,
-    marginTop: 20,
+    flexDirection:"row",
+    alignItems: "center",
   },
   iconContainer: {
-    backgroundColor: Colors.white,
+    //backgroundColor: Colors.white,
     width: 45,
     height: 45,
     borderRadius: 10,
@@ -49,12 +43,12 @@ const styles = StyleSheet.create({
     color: Colors.darkGray,
     fontWeight: "400",
     fontSize: 16,
-    marginVertical: 15,
+    marginVertical: 5,
   },
   cardTextOne: {
     fontWeight: "bold",
     color: Colors.darkGray,
-    fontSize: 18,
+    fontSize: 24,
   },
   cardTextTwo: {
     borderBottomColor: Colors.darkGray,
