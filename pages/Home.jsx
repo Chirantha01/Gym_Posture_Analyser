@@ -1,70 +1,142 @@
 import React from "react";
-import { View, Text , StatusBar , Image , StyleSheet , Dimensions , ScrollView} from "react-native";
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { View, Text, SafeAreaView, StyleSheet, Dimensions, ScrollView, TouchableOpacity, ImageBackground } from "react-native";
 import Carousel from '../Components/Image-Carousel/ImageCarouselScreen';
-import Workout from './Workout';
-import Graph from "./Graph";
-
-
-// const SRC_WIDTH = Dimensions.get("window").width;
-// const CARD_LENGTH = SRC_WIDTH*0.8;
-// const SPACING = SRC_WIDTH*0.02;
-// const SIDECARD_LENGTH = (SRC_WIDTH*0.18)/2;
-
+import { useNavigation } from '@react-navigation/native';
+import { LinearGradient } from 'expo-linear-gradient';
 
 export default function Home() {
   console.log("Home screen loaded...");
 
-  const ScreenHeight = Dimensions.get('window').height;
   const ScreenWidth = Dimensions.get('window').width;
+  const name = "User";
 
+  const navigation = useNavigation();
 
-  return(
-    <ScrollView contentContainerStyle={{ alignItems: 'center', backgroundColor: "white" }}>
-      <View style={{alignItems:"center"}} className="flex-col">
-      {/* <StatusBar style="auto" /> */}
-      <View
-          className="bg-blue-800 rounded-b-3xl rounded-t-3xl"
-          style={{
-            width: ScreenWidth * 0.98,
-            shadowColor: '#000',       // Ensure the shadow color is set to black for contrast
-            shadowOffset: { width: 0, height: 4 },  // Adjust shadow offset for better visibility
-            shadowOpacity: 0.9,        // Increase shadow opacity for stronger effect
-            shadowRadius: 20,           // Increase shadow radius for a larger shadow
-            elevation: 30,             // Use elevation on Android for shadow effect
-          }}
-        >
-        {/* <Image
-          source={require("../assets/icon-white.png")}
-          className="h-24 w-52 ml-8"
+  const handleArticlePress = (articleName) => {
+    navigation.navigate('ArticleScreen', { article: articleName });
+  };
 
-        /> */}
-        <View className="flex-row">
-          <View className="m-6 items-center w-25 h-25 rounded-full bg-white justify-center p-1">
-          <Image source={require("../assets/user.jpg")} className="w-24 h-24 rounded-full"/>
-          </View>
-          <View className="flex-col my-7 justify-center">
-            <Text className="text-2xl text-white font-bold font">Hey John,</Text>
-            <View className="flex-row items-center">
-              <MaterialIcons name="star" color={'gold'} size={15}/>
-              <Text className="text-white text-lg font-semibold mx-2">88% Healthy</Text>
-            </View>
-            <View className="flex-row items-center">
-              <MaterialIcons name="sync" color={'red'} size={20} />
-              <Text className="text-white text-lg font-semibold mx-2">Last Workout: 2 Days ago</Text>
-            </View>
-          </View>
+  return (
+    <ScrollView style={styles.container}>
+      <SafeAreaView>
+        <Text style={styles.salutation}>Hi, {name}</Text>
+        <Text style={styles.sub_salutation}>It's time to challenge your limits</Text>
+        <View>
+          <Carousel />
         </View>
-      </View>
-      <View className="my-3 flex-1">
-      <Text className="font-bold text-2xl mx-6 mb-1">Start your Workout now...</Text>
-        <Carousel/>
-      </View>
-      <View className=" bg-white flex-1"> 
-        <Text className="font-bold text-2xl mx-6">Workout History</Text>
-        <Graph/>
-      </View>
-      </View>
+
+        {/* Cube-like Containers for Articles */}
+        <View style={styles.articleContainer}>
+          <TouchableOpacity style={styles.cube} onPress={() => handleArticlePress('Article 1')}>
+            <ImageBackground
+              source={require('../assets/home_screen/thumb_1.jpg')}  // Replace with your image URL
+              style={styles.imageBackground}
+              imageStyle={{ borderRadius: 10 }}
+            >
+              <LinearGradient
+                colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+                style={styles.gradient}
+              />
+              <Text style={styles.cubeText}>Start my Workout</Text>
+              <Text style={styles.cubeDiscription}>Workout with posture detection for a better posture</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.cube} onPress={() => handleArticlePress('Article 2')}>
+            <ImageBackground
+              source={require('../assets/home_screen/thumb_2.jpg')}  // Replace with your image URL
+              style={styles.imageBackground}
+              imageStyle={{ borderRadius: 10 }}
+            >
+              <LinearGradient
+                colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+                style={styles.gradient}
+              />
+              <Text style={styles.cubeText}>Check my Stats</Text>
+              <Text style={styles.cubeDiscription}>Comprehensive summerization of your progress</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.cube} onPress={() => handleArticlePress('Article 2')}>
+            <ImageBackground
+              source={require('../assets/home_screen/thumb_3.jpg')}  // Replace with your image URL
+              style={styles.imageBackground}
+              imageStyle={{ borderRadius: 10 }}
+            >
+              <LinearGradient
+                colors={['rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+                style={styles.gradient}
+              />
+              <Text style={styles.cubeText}>Check my Profile</Text>
+              <Text style={styles.cubeDiscription}>Edit your profile details</Text>
+            </ImageBackground>
+          </TouchableOpacity>
+
+          {/* Add more cubes as needed */}
+        </View>
+      </SafeAreaView>
     </ScrollView>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    paddingTop: 10,
+    backgroundColor: "#232323",
+    flex: 1,
+  },
+  salutation: {
+    color: "#896CFE",
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 0,
+    alignSelf: "flex-start",
+    marginLeft: 20,
+  },
+  sub_salutation: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "semi-bold",
+    marginBottom: 20,
+    alignSelf: "flex-start",
+    marginLeft: 20,
+  },
+  articleContainer: {
+    flexDirection: 'column',  // Display items vertically
+    alignItems: 'center',  // Center align items
+    marginTop: 20,
+  },
+  cube: {
+    width: '90%',  // Take up 90% of the screen width
+    height: Dimensions.get('window').width * 0.4,  // Aspect ratio to keep it like a 'cube'
+    marginBottom: 20,
+    borderRadius: 10,
+    overflow: 'hidden',  // To ensure content stays within cube bounds
+  },
+  imageBackground: {
+    flex: 1,
+    justifyContent: 'flex-end',  // Aligns the title to the bottom
+  },
+  gradient: {
+    position: 'absolute',
+    bottom: -5,
+    left: 0,
+    right: 0,
+    height: '80%',  // Adjust height for the gradient to cover the bottom half
+  },
+  cubeText: {
+    color: "#E2F163",
+    fontSize: 20,
+    fontWeight: '500',
+    marginLeft: 20,  // Adjust positioning if needed
+    marginBottom: 0,
+  },
+  cubeDiscription : {
+    color: "white",
+    fontSize: 15,
+    fontWeight: '400',
+    marginLeft: 20,  // Adjust positioning if needed
+    marginRight: 20,
+    marginBottom: 15,
+  },
+});
