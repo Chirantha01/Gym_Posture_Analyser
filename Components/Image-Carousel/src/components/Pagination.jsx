@@ -6,7 +6,7 @@ const Pagination = ({data, x, size}) => {
   return (
     <View style={styles.paginationContainer}>
       {data.map((_, i) => {
-        return <Dot key={i} x={x} index={i} size={size} />;
+        return <Dot key={i} x={x} index={i} size={size}/>;
       })}
     </View>
   );

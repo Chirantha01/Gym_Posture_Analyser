@@ -33,7 +33,7 @@ export default Dot;
 const styles = StyleSheet.create({
   dots: {
     height: 10,
-    backgroundColor: 'orange',
+    backgroundColor: '#e2f163',
     marginHorizontal: 10,
     borderRadius: 5,
   },

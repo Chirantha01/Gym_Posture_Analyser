@@ -14,29 +14,23 @@ const App = () => {
   const data = [
     {
       image: require('../../assets/img1.jpg'),
+      title: 'Weekly Challenge',
+      description: 'Tackle this Challenge',
     },
     {
       image: require('../../assets/img2.jpg'),
+      title: 'Workout Routines',
+      description: 'Check out the latest routines',
     },
     {
       image: require('../../assets/img3.jpg'),
+      title: 'Daily Nutrients',
+      description: 'Fast track your fitness journey',
     },
     {
       image: require('../../assets/img4.jpg'),
-    },
-  ];
-  const data2 = [
-    {
-      image: require('./src/assets/image-product-1-landscape.jpg'),
-    },
-    {
-      image: require('./src/assets/image-product-2-landscape.jpg'),
-    },
-    {
-      image: require('./src/assets/image-product-3-landscape.jpg'),
-    },
-    {
-      image: require('./src/assets/image-product-4-landscape.jpg'),
+      title: 'Healthy Recipes',
+      description: 'Tasty but Healthy',
     },
   ];
   return (
@@ -44,26 +38,21 @@ const App = () => {
       <View style={styles.carouselContainer}>
         <CustomImageCarousal data={data} autoPlay={true} pagination={true} />
       </View>
-      {/* <View style={styles.carouselContainer}>
-        <Text style={styles.text}>Image Carousel Landscape</Text>
-        <CustomImageCarousal data={data2} autoPlay={true} pagination={true} />
-      </View> */}
     </SafeAreaView>
   );
-
-  
 };
 
 export default App;
 
 const styles = StyleSheet.create({
   container: {
+    paddingTop: 30,
     flex: 1,
-    // paddingTop: Platform.OS === 'android' ? StatusBar.currentHeight : 0,
-    backgroundColor: 'white',
+    backgroundColor: '#B3A0FF',
+    paddingBottom: 0,
   },
-  text: {textAlign: 'center', color: 'black', marginBottom: 10},
+  text: { textAlign: 'center', color: 'white', marginBottom: 10 },
   carouselContainer: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
 });
