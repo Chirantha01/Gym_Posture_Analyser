@@ -1,10 +1,23 @@
 // Workout.js
-import React from 'react';
-import { View, Text, Image, StyleSheet, FlatList, TouchableOpacity, StatusBar } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, StyleSheet, ScrollView, TouchableOpacity, StatusBar, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import { ScrollView } from 'react-native-gesture-handler';
+
+const WorkoutCard = ({ workoutTitle, workoutSubTitle, image, onPress }) => {
+  return (
+    <TouchableOpacity style={styles.itemContainer} onPress={onPress}>
+      <View style={styles.textContainer}>
+        <Text style={styles.title}>{workoutTitle}</Text>
+        <Text style={styles.subtitle}>{workoutSubTitle}</Text>
+      </View>
+      <Image source={image} style={styles.image} />
+    </TouchableOpacity>
+  );
+};
+
 const Workout = () => {
   const navigation = useNavigation(); // Use this hook to access navigation in non-screen components
+  const [searchQuery, setSearchQuery] = useState('');
 
   const data = [
     {
@@ -13,7 +26,6 @@ const Workout = () => {
       title: 'Bicep Curls',
       subtitle: 'Top Arm Exercise',
       navigateTo: 'Model_bicep',
-
     },
     {
       id: '2',
@@ -43,95 +55,107 @@ const Workout = () => {
       subtitle: 'Top Ab Exercises',
       navigateTo: 'Model_plank',
     },
-    {
-      id: '6',
-      image: require('../assets/img-SumoSquat.jpg'),
-      title: 'Sumo Squat',
-      subtitle: 'Leg Exercises'
-    },
-    {
-      id: '7',
-      image: require('../assets/img-BenchPress.jpg'),
-      title: 'Bench Press',
-      subtitle: 'Chest Exercises'
-    },
-    {
-      id: '8',
-      image: require('../assets/img-BarbelCurl.jpg'),
-      title: 'Barbel Curl',
-      subtitle: 'Arm Exercises'
-    },
+    
   ];
 
-  const renderItem = ({ item }) => {
-    return (
-      <TouchableOpacity
-        style={styles.itemContainer}
-        onPress={() => {
-          // Navigate to the Model screen when the "Plank" item is pressed
-          if (item.navigateTo) {
-            navigation.navigate(item.navigateTo);
-          }
-        }}
-      >
-        <Image source={item.image} style={styles.image} />
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Text style={styles.subtitle}>{item.subtitle}</Text>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+  // Filter the workout data based on the search query
+  const filteredData = data.filter((item) =>
+    item.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
-    <View>
+    <View style={styles.container}>
       <StatusBar style="auto" />
-      <FlatList
-        data={data}
-        contentContainerStyle={styles.container}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id}
-        numColumns={2}
-        ListHeaderComponent={() => (
-          <Text className="text-3xl font-bold p-6 justify-center bg-white">Workouts</Text>
-        )}
+      <TextInput
+        style={styles.searchInput}
+        placeholder="Search Workouts..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
       />
-    </View> 
+      <Text style={styles.text}>Select your workout,</Text>
+      <Text style={styles.sub_text}>We will help you correct your posture...</Text>
+      <ScrollView contentContainerStyle={styles.scrollContainer}>
+        {filteredData.map((item) => (
+          <WorkoutCard
+            key={item.id}
+            workoutTitle={item.title}
+            workoutSubTitle={item.subtitle}
+            image={item.image}
+            onPress={() => {
+              if (item.navigateTo) {
+                navigation.navigate(item.navigateTo);
+              }
+            }}
+          />
+        ))}
+      </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#fff',
+    flex: 1,
+    backgroundColor: '#232323',
+  },
+  scrollContainer: {
+    paddingBottom: 16,
+  },
+  text: {
+    color: "#896CFE",
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 0,
+    alignSelf: "flex-start",
+    marginLeft: 20,
+  },
+  sub_text: {
+    color: "white",
+    fontSize: 15,
+    fontWeight: "semi-bold",
+    marginBottom: 20,
+    alignSelf: "flex-start",
+    marginLeft: 20,
   },
   itemContainer: {
-    width: '48%',
-    height: 300,
-    margin: '1%',
-    backgroundColor: '#f9f9f9',
-    borderRadius: 8,
-    overflow: 'hidden',
-    padding: 16,
+    flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column',
-  },
-  image: {
-    width: '100%',
-    height: 200,
-    resizeMode: 'cover',
-    borderRadius: 8,
+    marginBottom: 16,
+    padding: 16,
+    backgroundColor: '#f9f9f9',
+    paddingRight: 0,
+    paddingTop: 0,
+    paddingBottom: 0,
+    marginHorizontal: 15,
+    height: 140,
+    marginVertical: 10,
+    borderRadius: 20,
   },
   textContainer: {
-    padding: 16,
+    flex: 1,
+    paddingRight: 16,
+  },
+  image: {
+    width: 175,
+    height: 140,
+    borderRadius: 20,
+    resizeMode: 'cover',
   },
   title: {
-    fontWeight: 'bold',
-    fontSize: 18,
+    fontWeight: '500',
+    fontSize: 20,
   },
   subtitle: {
     fontSize: 14,
     color: 'gray',
+  },
+  searchInput: {
+    height: 40,
+    borderWidth: 1,
+    borderRadius: 100,
+    backgroundColor: 'white',
+    paddingHorizontal: 10,
+    margin: 16,
   },
 });
 
