@@ -1,25 +1,65 @@
-import React from "react";
+import React, { useEffect , useState , useCallback } from "react";
 import { View, Text, SafeAreaView, StyleSheet, Dimensions, ScrollView, TouchableOpacity, ImageBackground } from "react-native";
 import Carousel from '../Components/Image-Carousel/ImageCarouselScreen';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation , useFocusEffect } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
 import Workout from './Workout'
+import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function Home() {
+  const [username , setUsername] = useState("")
   console.log("Home screen loaded...");
 
   const ScreenWidth = Dimensions.get('window').width;
-  const name = "User";
 
   const navigation = useNavigation();
   const handleArticlePress = (articleName) => {
     navigation.navigate(articleName);
   };
 
+  useEffect(()=>{
+    console.log(username);
+  }, [username])
+
+  const fetchHome = async(token) =>{
+    const res = await axios.get("http://192.168.1.148:4000/home",{headers:{'authorization': `Bearer ${token}`}});
+    const data = res.data;
+    console.log(data);
+    if (data.userName){
+      return data.userName;
+    }
+    else{
+      return null;
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      const fetchUsername = async () => {
+        try {
+          const token = await AsyncStorage.getItem("jwtToken");
+          if (token) {
+            const user = await fetchHome(token);
+            if (user) {
+              setUsername(user);  // Set the username after fetching
+            }
+          } else {
+            console.log("Token not found.");
+          }
+        } catch (error) {
+          console.log("Error fetching Token", error);
+        }
+      };
+
+      fetchUsername();  // Fetch username when the screen is focused
+    }, []) // Empty dependency array to ensure this runs every time the screen is focused
+  );
+
   return (
     <ScrollView style={styles.container}>
       <SafeAreaView>
-        <Text style={styles.salutation}>Hi, {name}</Text>
+        <Text style={styles.salutation}>Hi, {username}</Text>
         <Text style={styles.sub_salutation}>It's time to challenge your limits</Text>
         <View>
           <Carousel />
