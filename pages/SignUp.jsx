@@ -19,7 +19,7 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
   const [click,setClick] = useState(false);
   const [usernameMessege , setUsernameMessege] = useState("");
   const [errors, setErrors] = useState({username:[],password:[],email:[]});
-  const [otherError , setOtherError] = useState("")
+  const [otherError , setOtherError] = useState("");
 
   const [showPicker, setShowPicker] = useState(false);
   const [date, setDate] = useState(new Date());
