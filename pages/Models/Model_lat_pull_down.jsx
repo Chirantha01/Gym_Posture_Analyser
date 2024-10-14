@@ -169,55 +169,106 @@ const LatPullDown_Model = () => {
             </View>
         );
     }
+    const alertBoxStyle =
+        excercisePose === 'correct_low' || excercisePose === 'correct_high'
+            ? styles.alertBoxCorrect
+            : styles.alertBoxIncorrect;
+    const alertTextStyle =
+        excercisePose === 'correct_low' || excercisePose === 'correct_high'
+            ? styles.alertTextCorrect
+            : styles.alertTextIncorrect;
+    const infoBoxStyle =
+        excercisePose === 'correct_low' || excercisePose === 'correct_high'
+            ? styles.infoBoxCorrect
+            : styles.infoBoxIncorrect;
 
     return (
-        <View style={{ flex: 1 }}>
-            {!workoutStarted ? (
-                <View style={styles.startContainer}>
-                    <Button title="Start Workout" onPress={() => setWorkoutStarted(true)} />
-                </View>
-            ) : (
-                <View style={{ flex: 1 }}>
+                <View style={styles.container}>
                     <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType} />
-                    <View style={{ padding: 10 }}>
-                        {excercisePose === 'correct_low' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_LOW</Text></View>)}
-                        {excercisePose === 'correct_high' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct_HIGH</Text></View>)}
-                        {excercisePose === 'incorrect' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Incorrect</Text></View>)}
-                        <Text style={styles.repText}>Reps: {repCountRef.current}</Text>
+                    <View style={infoBoxStyle}>
+                        <View style={styles.centeredTopView}>
+                            <View style={alertBoxStyle}>
+                                {excercisePose === 'correct_low' && (<Text style={alertTextStyle}>Good Posture</Text>)}
+                                {excercisePose === 'correct_high' && (<Text style={alertTextStyle}>Good Posture</Text>)}
+                                {excercisePose === 'incorrect' && (<Text style={alertTextStyle}>Straighten your torso, keep your torso Vertical</Text>)}
+                            </View>
+                        </View>
+                        <View style={styles.stats}>
+                            <Text style={styles.statTitle}>
+                                Reps: <Text style={styles.statText}>{repCountRef.current}</Text>
+                            </Text>
+                            <Text style={styles.statTitle}>
+                                Time: <Text style={styles.statText}>{time}s</Text>
+                            </Text>
+                        </View>
                     </View>
                 </View>
-            )}
-        </View>
-    );
-};
+    )};
 
-const styles = StyleSheet.create({
-    startContainer: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    alertBoxCorrect: {
-        backgroundColor: 'lightgreen',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 10,
-    },
-    alertBoxIncorrect: {
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
-        marginBottom: 10,
-    },
-    alertText: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        textAlign: 'center',
-    },
-    repText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-});
-
-export default LatPullDown_Model;
+    const styles = StyleSheet.create({
+        container: {
+            flex: 1,
+            backgroundColor: '#232323',
+        },
+        centeredTopView: {
+            alignItems: 'center', // Center the top content
+            marginBottom: 20, // Add space between top view and reps/timer
+        },
+        infoBoxCorrect: {
+            backgroundColor: '#E2F163',
+            padding: 15,
+            borderRadius: 12,
+            alignItems: 'center', // Center the text vertically
+            marginTop: 20,
+            marginHorizontal: 50,
+            height: 150,
+        },
+        infoBoxIncorrect: {
+            backgroundColor: '#F99A46',
+            padding: 15,
+            borderRadius: 12,
+            alignItems: 'center', // Center the text vertically
+            marginTop: 20,
+            marginHorizontal: 50,
+            height: 150,
+        },
+        alertBoxCorrect: {
+            alignItems: 'center',
+            padding: 10,
+            borderRadius: 8,
+        },
+        alertBoxIncorrect: {
+            alignItems: 'center',
+            padding: 0,
+            borderRadius: 8,
+        },
+        alertTextCorrect: {
+            fontSize: 20,
+            color: 'black',
+            fontWeight: 'bold',
+        },
+        alertTextIncorrect: {
+            fontSize: 20,
+            color: 'black',
+            fontWeight: 'bold',
+        },
+        stats: {
+            alignItems: 'center',
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: 190
+        },
+        statTitle: {
+            fontSize: 18,
+            fontWeight: 'bold',
+        },
+        statText: {
+            fontSize: 16,
+            color: '#505050',
+            marginTop: 5,
+        }
+    });
+    
+    export default LatPullDown_Model;
+    

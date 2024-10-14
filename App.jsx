@@ -143,6 +143,11 @@ return (
           component={LatPullDown_Model} // Lat pull down model component
           options={{ headerTitle: 'Lat_Pull_Down_Model', headerTitleAlign: 'center' }}
         />
+        <Stack.Screen
+          name="Workout"
+          component={Workout} // Lat pull down model component
+          // options={{ headerTitle: 'Lat_Pull_Down_Model', headerTitleAlign: 'center' }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
 );

@@ -194,50 +194,106 @@ const PushUp_Model = () => {
         </View>
       );
     }
+
+    const alertBoxStyle =
+        excercisePose === 'correct'
+            ? styles.alertBoxCorrect
+            : styles.alertBoxIncorrect;
+    const alertTextStyle =
+        excercisePose === 'correct'
+            ? styles.alertTextCorrect
+            : styles.alertTextIncorrect;
+    const infoBoxStyle =
+        excercisePose === 'correct'
+            ? styles.infoBoxCorrect
+            : styles.infoBoxIncorrect;
   
     return (
-      <View style={{ flex: 1 }}>
+      <View style={styles.container}>
         <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType}/>
-        <View style={{ padding: 10 }}>
-                {excercisePose === 'correct' && (<View style={styles.alertBoxCorrect}><Text style={styles.alertText}>Correct</Text></View>)}
-                {excercisePose === 'incorrect' && (<View style={styles.alertBoxIncorrect}><Text style={styles.alertText}>Incorrect</Text></View>)}
-                <Text style={styles.repText}>Reps: {repCountRef.current}</Text>
+        <View style={infoBoxStyle}>
+          <View style={styles.centeredTopView}>
+            <View style={alertBoxStyle}>
+                    {poseType === 'correct' && (<Text style={alertTextStyle}>Good Posture</Text>)}
+                    {poseType === 'incorrect' && (<Text style={alertTextStyle}>Back is arched. Keep your body straight.</Text>)}
+            </View>
+          </View>
+          <View style={styles.stats}>
+                    <Text style={styles.statTitle}>
+                        Reps: <Text style={styles.statText}>{repCountRef.current}</Text>
+                    </Text>
+                    <Text style={styles.statTitle}>
+                        Time: <Text style={styles.statText}>{time}s</Text>
+                    </Text>
+          </View>
         </View>
       </View>
     );
   };
 
   const styles = StyleSheet.create({
-    alertBoxIncorrect: {
-        position: 'absolute',
-        bottom: 20,
-        left: '35%',
-        transform: [{ translateX: -75 }],
-        backgroundColor: 'red',
-        padding: 10,
-        borderRadius: 5,
-        zIndex: 100,
+    container: {
+        flex: 1,
+        backgroundColor: '#232323',
+    },
+    centeredTopView: {
+        alignItems: 'center', // Center the top content
+        marginBottom: 20, // Add space between top view and reps/timer
+    },
+    infoBoxCorrect: {
+        backgroundColor: '#E2F163',
+        padding: 15,
+        borderRadius: 12,
+        alignItems: 'center', // Center the text vertically
+        marginTop: 20,
+        marginHorizontal: 50,
+        height: 150,
+    },
+    infoBoxIncorrect: {
+        backgroundColor: '#F99A46',
+        padding: 15,
+        borderRadius: 12,
+        alignItems: 'center', // Center the text vertically
+        marginTop: 20,
+        marginHorizontal: 50,
+        height: 150,
     },
     alertBoxCorrect: {
-      position: 'absolute',
-      bottom: 20,
-      left: '45%',
-      transform: [{ translateX: -75 }],
-      backgroundColor: 'green',
-      padding: 10,
-      borderRadius: 5,
-      zIndex: 100,
-  },
-    alertText: {
-        color: 'white',
+        alignItems: 'center',
+        padding: 10,
+        borderRadius: 8,
+    },
+    alertBoxIncorrect: {
+        alignItems: 'center',
+        padding: 0,
+        borderRadius: 8,
+    },
+    alertTextCorrect: {
+        fontSize: 20,
+        color: 'Black',
         fontWeight: 'bold',
     },
-    repText: {
-      fontSize: 20,
-      fontWeight: 'bold',
-      marginTop: 20,
-      textAlign: 'center',
-  },
+    alertTextIncorrect: {
+        fontSize: 20,
+        color: 'black',
+        fontWeight: 'bold',
+    },
+    stats: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: 190
+    },
+    statTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+    },
+    statText: {
+        fontSize: 16,
+        color: '#505050',
+        marginTop: 5,
+    }
 });
   
 export default PushUp_Model;

@@ -125,7 +125,7 @@ const styles = StyleSheet.create({
     paddingTop: 5,
   },
   imageContainer: {
-    width: 200, // Set the width of the image container to 200 pixels
+    width: 180, // Set the width of the image container to 200 pixels
     height: '100%', // Fill the entire height of the card
     overflow: 'hidden', // Prevent overflow
     justifyContent: 'center', // Center the image vertically
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   image: {
-    width: 200, // Fill the entire width of the container
+    width: 180, // Fill the entire width of the container
     height: undefined, // Allow height to be determined by aspect ratio
     aspectRatio: 1,
     borderRadius: 30,

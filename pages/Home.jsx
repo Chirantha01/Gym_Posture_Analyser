@@ -3,6 +3,7 @@ import { View, Text, SafeAreaView, StyleSheet, Dimensions, ScrollView, Touchable
 import Carousel from '../Components/Image-Carousel/ImageCarouselScreen';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
+import Workout from './Workout'
 
 export default function Home() {
   console.log("Home screen loaded...");
@@ -12,7 +13,7 @@ export default function Home() {
 
   const navigation = useNavigation();
   const handleArticlePress = (articleName) => {
-    navigation.navigate('ArticleScreen', { article: articleName });
+    navigation.navigate(articleName);
   };
 
   return (
@@ -27,7 +28,7 @@ export default function Home() {
 
         {/* Cube-like Containers for Articles */}
         <View style={styles.articleContainer}>
-          <TouchableOpacity style={styles.cube} onPress={() => handleArticlePress('Article 1')}>
+          <TouchableOpacity style={styles.cube} onPress={() => handleArticlePress('Workout')}>
             <ImageBackground
               source={require('../assets/home_screen/thumb_1.jpg')}  // Replace with your image URL
               style={styles.imageBackground}
