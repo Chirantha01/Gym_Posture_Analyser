@@ -168,21 +168,22 @@ return (
           iconName = focused ? 'sports-mma' : 'sports-mma';
         } else if (route.name === 'Progress') {
           iconName = focused ? 'history' : 'history';
-        } else if (route.name === 'Camera') {
-          iconName = focused ? 'camera-alt' : 'camera-alt';
         }
 
         return <MaterialIcons name={iconName} size={focused ? 35 : 30} color={color} />;
       },
-      tabBarActiveTintColor: 'black',
-      tabBarInactiveTintColor: 'gray',
+      tabBarActiveTintColor: '#E2F163',
+      tabBarInactiveTintColor: 'grey',
       headerShown: false,
       tabBarLabel: () => null,
+      tabBarStyle: {
+        backgroundColor: '#1A1A1A',
+        borderTopWidth: 0,
+      },
     })}
   >
     <Tab.Screen name="Home" component={Home} />
     <Tab.Screen name="Workout" component={Workout} />
-    <Tab.Screen name="Camera" component={Plank_Model} />
     <Tab.Screen name="Progress" component={Progress} />
     <Tab.Screen name="Profile" component={Profile} />
   </Tab.Navigator>
