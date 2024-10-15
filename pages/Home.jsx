@@ -3,12 +3,8 @@ import { View, Text, SafeAreaView, StyleSheet, Dimensions, ScrollView, Touchable
 import Carousel from '../Components/Image-Carousel/ImageCarouselScreen';
 import { useNavigation } from '@react-navigation/native';
 import { LinearGradient } from 'expo-linear-gradient';
-import Workout from './Workout'
 
 export default function Home() {
-  console.log("Home screen loaded...");
-
-  const ScreenWidth = Dimensions.get('window').width;
   const name = "User";
 
   const navigation = useNavigation();
@@ -22,7 +18,7 @@ export default function Home() {
         <Text style={styles.salutation}>Hi, {name}</Text>
         <Text style={styles.sub_salutation}>It's time to challenge your limits</Text>
         <View>
-          <Carousel />
+          {/* <Carousel /> */}
 
         </View>
 

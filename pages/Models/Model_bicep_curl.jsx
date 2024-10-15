@@ -4,6 +4,8 @@ import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust pa
 import { loadModel, predict } from '../../offline_model/bicep_curl_class/Model_Loader_Bicep_Curl';
 import * as tf from '@tensorflow/tfjs';
 import { calculateAngle } from '../supporting_methods/angle';
+import { bundleResourceIO } from '@tensorflow/tfjs-react-native';
+
 
 const Bicep_Model = () => {
     const [poseType, setPose] = useState('random');

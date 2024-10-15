@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#fff",
+      "flex": 1,
+      "justifyContent": "center",
+    }
+  }
+>
+  <Image
+    source={
+      {
+        "testUri": "../../../assets/Loading_Screen/loading.jpg",
+      }
+    }
+    style={
+      {
+        "height": "100%",
+        "position": "absolute",
+        "resizeMode": "cover",
+        "width": "100%",
+      }
+    }
+  />
+  <ActivityIndicator
+    color="#0000ff"
+    size="large"
+    style={
+      {
+        "position": "absolute",
+        "top": "50%",
+      }
+    }
+  />
+</View>
+`;

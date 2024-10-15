@@ -1,0 +1,436 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<View
+  style={
+    {
+      "backgroundColor": "#232323",
+      "flex": 1,
+    }
+  }
+>
+  <TextInput
+    onChangeText={[Function]}
+    placeholder="Search Workouts..."
+    style={
+      {
+        "backgroundColor": "white",
+        "borderRadius": 100,
+        "borderWidth": 1,
+        "height": 40,
+        "margin": 16,
+        "paddingHorizontal": 10,
+      }
+    }
+    value=""
+  />
+  <Text
+    style={
+      {
+        "alignSelf": "flex-start",
+        "color": "#896CFE",
+        "fontSize": 26,
+        "fontWeight": "bold",
+        "marginBottom": 0,
+        "marginLeft": 20,
+      }
+    }
+  >
+    Select your workout,
+  </Text>
+  <Text
+    style={
+      {
+        "alignSelf": "flex-start",
+        "color": "white",
+        "fontSize": 15,
+        "fontWeight": "semi-bold",
+        "marginBottom": 20,
+        "marginLeft": 20,
+      }
+    }
+  >
+    We will help you correct your posture...
+  </Text>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "paddingBottom": 16,
+      }
+    }
+  >
+    <View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#f9f9f9",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "height": 140,
+            "marginBottom": 16,
+            "marginHorizontal": 15,
+            "marginVertical": 10,
+            "opacity": 1,
+            "padding": 16,
+            "paddingBottom": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "flex": 1,
+              "paddingRight": 16,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "fontSize": 20,
+                "fontWeight": "500",
+              }
+            }
+          >
+            Bicep Curls
+          </Text>
+          <Text
+            style={
+              {
+                "color": "gray",
+                "fontSize": 14,
+              }
+            }
+          >
+            Top Arm Exercise
+          </Text>
+        </View>
+        <Image
+          source={
+            {
+              "testUri": "../../../assets/img-bicep.jpg",
+            }
+          }
+          style={
+            {
+              "borderRadius": 20,
+              "height": 140,
+              "resizeMode": "cover",
+              "width": 175,
+            }
+          }
+        />
+      </View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#f9f9f9",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "height": 140,
+            "marginBottom": 16,
+            "marginHorizontal": 15,
+            "marginVertical": 10,
+            "opacity": 1,
+            "padding": 16,
+            "paddingBottom": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "flex": 1,
+              "paddingRight": 16,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "fontSize": 20,
+                "fontWeight": "500",
+              }
+            }
+          >
+            Squats
+          </Text>
+          <Text
+            style={
+              {
+                "color": "gray",
+                "fontSize": 14,
+              }
+            }
+          >
+            Top Leg Exercises
+          </Text>
+        </View>
+        <Image
+          source={
+            {
+              "testUri": "../../../assets/img-squat.jpg",
+            }
+          }
+          style={
+            {
+              "borderRadius": 20,
+              "height": 140,
+              "resizeMode": "cover",
+              "width": 175,
+            }
+          }
+        />
+      </View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#f9f9f9",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "height": 140,
+            "marginBottom": 16,
+            "marginHorizontal": 15,
+            "marginVertical": 10,
+            "opacity": 1,
+            "padding": 16,
+            "paddingBottom": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "flex": 1,
+              "paddingRight": 16,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "fontSize": 20,
+                "fontWeight": "500",
+              }
+            }
+          >
+            Push Ups
+          </Text>
+          <Text
+            style={
+              {
+                "color": "gray",
+                "fontSize": 14,
+              }
+            }
+          >
+            Top Chest Exercises
+          </Text>
+        </View>
+        <Image
+          source={
+            {
+              "testUri": "../../../assets/pushup.jpg",
+            }
+          }
+          style={
+            {
+              "borderRadius": 20,
+              "height": 140,
+              "resizeMode": "cover",
+              "width": 175,
+            }
+          }
+        />
+      </View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#f9f9f9",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "height": 140,
+            "marginBottom": 16,
+            "marginHorizontal": 15,
+            "marginVertical": 10,
+            "opacity": 1,
+            "padding": 16,
+            "paddingBottom": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "flex": 1,
+              "paddingRight": 16,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "fontSize": 20,
+                "fontWeight": "500",
+              }
+            }
+          >
+            Lat Pull Down
+          </Text>
+          <Text
+            style={
+              {
+                "color": "gray",
+                "fontSize": 14,
+              }
+            }
+          >
+            Top Back Exercises
+          </Text>
+        </View>
+        <Image
+          source={
+            {
+              "testUri": "../../../assets/latPullDown.jpg",
+            }
+          }
+          style={
+            {
+              "borderRadius": 20,
+              "height": 140,
+              "resizeMode": "cover",
+              "width": 175,
+            }
+          }
+        />
+      </View>
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onClick={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#f9f9f9",
+            "borderRadius": 20,
+            "flexDirection": "row",
+            "height": 140,
+            "marginBottom": 16,
+            "marginHorizontal": 15,
+            "marginVertical": 10,
+            "opacity": 1,
+            "padding": 16,
+            "paddingBottom": 0,
+            "paddingRight": 0,
+            "paddingTop": 0,
+          }
+        }
+      >
+        <View
+          style={
+            {
+              "flex": 1,
+              "paddingRight": 16,
+            }
+          }
+        >
+          <Text
+            style={
+              {
+                "fontSize": 20,
+                "fontWeight": "500",
+              }
+            }
+          >
+            Plank
+          </Text>
+          <Text
+            style={
+              {
+                "color": "gray",
+                "fontSize": 14,
+              }
+            }
+          >
+            Top Ab Exercises
+          </Text>
+        </View>
+        <Image
+          source={
+            {
+              "testUri": "../../../assets/img-plank.jpg",
+            }
+          }
+          style={
+            {
+              "borderRadius": 20,
+              "height": 140,
+              "resizeMode": "cover",
+              "width": 175,
+            }
+          }
+        />
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;

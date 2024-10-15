@@ -1,6 +1,4 @@
 import React, {useState,useEffect} from 'react';
-import { View, Text, Dimensions, ActivityIndicator, StyleSheet } from 'react-native';
-import HomeCard from './Components/Cards';
 import Plank_Model from './pages/Models/Model_plank';
 import Bicep_Model from './pages/Models/Model_bicep_curl';
 import Squat_Model from './pages/Models/Model_squat';
@@ -15,8 +13,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import LoadingScreen from './pages/loading';
-import Carousel from './Components/Image-Carousel/ImageCarouselScreen';
-import Graph from './pages/Graph';
 import Progress from './pages/WorkoutHistory';
 import LogInForm from './pages/SignIn';
 import SignUpScreen from './pages/SignUp';

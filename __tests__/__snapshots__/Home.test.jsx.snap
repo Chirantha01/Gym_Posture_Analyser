@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders Home correctly 1`] = `
+<RCTScrollView
+  style={
+    {
+      "backgroundColor": "#232323",
+      "flex": 1,
+      "paddingTop": 50,
+    }
+  }
+>
+  <View>
+    <RCTSafeAreaView
+      emulateUnlessSupported={true}
+    >
+      <Text
+        style={
+          {
+            "alignSelf": "flex-start",
+            "color": "#896CFE",
+            "fontSize": 26,
+            "fontWeight": "bold",
+            "marginBottom": 0,
+            "marginLeft": 20,
+          }
+        }
+      >
+        Hi, 
+        User
+      </Text>
+      <Text
+        style={
+          {
+            "alignSelf": "flex-start",
+            "color": "white",
+            "fontSize": 15,
+            "fontWeight": "semi-bold",
+            "marginBottom": 20,
+            "marginLeft": 20,
+          }
+        }
+      >
+        It's time to challenge your limits
+      </Text>
+      <View />
+      <View
+        style={
+          {
+            "alignItems": "center",
+            "flexDirection": "column",
+            "marginTop": 20,
+          }
+        }
+      >
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "borderRadius": 10,
+              "height": 300,
+              "marginBottom": 20,
+              "opacity": 1,
+              "overflow": "hidden",
+              "width": "90%",
+            }
+          }
+        >
+          <View
+            accessibilityIgnoresInvertColors={true}
+            style={
+              {
+                "flex": 1,
+                "justifyContent": "flex-end",
+              }
+            }
+          >
+            <Image
+              source={
+                {
+                  "testUri": "../../../assets/home_screen/thumb_1.jpg",
+                }
+              }
+              style={
+                [
+                  {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  {
+                    "height": undefined,
+                    "width": undefined,
+                  },
+                  {
+                    "borderRadius": 10,
+                  },
+                ]
+              }
+            />
+            <div />
+            <Text
+              style={
+                {
+                  "color": "#E2F163",
+                  "fontSize": 20,
+                  "fontWeight": "500",
+                  "marginBottom": 0,
+                  "marginLeft": 20,
+                }
+              }
+            >
+              Start my Workout
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "white",
+                  "fontSize": 15,
+                  "fontWeight": "400",
+                  "marginBottom": 15,
+                  "marginLeft": 20,
+                  "marginRight": 20,
+                }
+              }
+            >
+              Workout with posture detection for a better posture
+            </Text>
+          </View>
+        </View>
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "borderRadius": 10,
+              "height": 300,
+              "marginBottom": 20,
+              "opacity": 1,
+              "overflow": "hidden",
+              "width": "90%",
+            }
+          }
+        >
+          <View
+            accessibilityIgnoresInvertColors={true}
+            style={
+              {
+                "flex": 1,
+                "justifyContent": "flex-end",
+              }
+            }
+          >
+            <Image
+              source={
+                {
+                  "testUri": "../../../assets/home_screen/thumb_2.jpg",
+                }
+              }
+              style={
+                [
+                  {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  {
+                    "height": undefined,
+                    "width": undefined,
+                  },
+                  {
+                    "borderRadius": 10,
+                  },
+                ]
+              }
+            />
+            <div />
+            <Text
+              style={
+                {
+                  "color": "#E2F163",
+                  "fontSize": 20,
+                  "fontWeight": "500",
+                  "marginBottom": 0,
+                  "marginLeft": 20,
+                }
+              }
+            >
+              Check my Stats
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "white",
+                  "fontSize": 15,
+                  "fontWeight": "400",
+                  "marginBottom": 15,
+                  "marginLeft": 20,
+                  "marginRight": 20,
+                }
+              }
+            >
+              Comprehensive summerization of your progress
+            </Text>
+          </View>
+        </View>
+        <View
+          accessible={true}
+          collapsable={false}
+          focusable={true}
+          onClick={[Function]}
+          onResponderGrant={[Function]}
+          onResponderMove={[Function]}
+          onResponderRelease={[Function]}
+          onResponderTerminate={[Function]}
+          onResponderTerminationRequest={[Function]}
+          onStartShouldSetResponder={[Function]}
+          style={
+            {
+              "borderRadius": 10,
+              "height": 300,
+              "marginBottom": 20,
+              "opacity": 1,
+              "overflow": "hidden",
+              "width": "90%",
+            }
+          }
+        >
+          <View
+            accessibilityIgnoresInvertColors={true}
+            style={
+              {
+                "flex": 1,
+                "justifyContent": "flex-end",
+              }
+            }
+          >
+            <Image
+              source={
+                {
+                  "testUri": "../../../assets/home_screen/thumb_3.jpg",
+                }
+              }
+              style={
+                [
+                  {
+                    "bottom": 0,
+                    "left": 0,
+                    "position": "absolute",
+                    "right": 0,
+                    "top": 0,
+                  },
+                  {
+                    "height": undefined,
+                    "width": undefined,
+                  },
+                  {
+                    "borderRadius": 10,
+                  },
+                ]
+              }
+            />
+            <div />
+            <Text
+              style={
+                {
+                  "color": "#E2F163",
+                  "fontSize": 20,
+                  "fontWeight": "500",
+                  "marginBottom": 0,
+                  "marginLeft": 20,
+                }
+              }
+            >
+              Check my Profile
+            </Text>
+            <Text
+              style={
+                {
+                  "color": "white",
+                  "fontSize": 15,
+                  "fontWeight": "400",
+                  "marginBottom": 15,
+                  "marginLeft": 20,
+                  "marginRight": 20,
+                }
+              }
+            >
+              Edit your profile details
+            </Text>
+          </View>
+        </View>
+      </View>
+    </RCTSafeAreaView>
+  </View>
+</RCTScrollView>
+`;

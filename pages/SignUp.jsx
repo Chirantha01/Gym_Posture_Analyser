@@ -1,11 +1,10 @@
 import React, { useState, useRef , useEffect} from 'react';
-import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View , ScrollView , Dimensions, Animated} from 'react-native';
+import { Image, Pressable, SafeAreaView, StyleSheet, Text, TextInput, View , ScrollView , Dimensions, Animated} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const logo = require("../assets/logo.png")
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import ImagePlaceholder from '../assets/image-placeholder.jpg';
-import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
+// import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from "axios";
 
 const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
@@ -181,7 +180,7 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
         <View style={styles.header}>
                 <Text style={styles.headerTitle}>Create Account</Text>
                 <Pressable onPress={onGoBack} style={styles.backButton}>
-                  <Icons name="arrow-left" size={24} color="#E2F163" />
+                  {/* <Icons name="arrow-left" size={24} color="#E2F163" /> */}
                 </Pressable>
         </View>
         <Text style={styles.title}>Let's Start !</Text>
@@ -189,18 +188,18 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
         {/* <Text style={styles.title}>Sign Up</Text> */}
         
         <View style={styles.profilePic}>
-              <Pressable style={styles.profileImageView} onPress={pickImage}>
+              {/* <Pressable style={styles.profileImageView} onPress={pickImage}>
                 {profileImage ? (
                   <Image source={{uri : profileImage}} style={styles.profileImage}  />
                 ): (
                   <Image source={ImagePlaceholder} style={styles.profileImage}/>
-                )} 
-              </Pressable >
+                )}  */}
+              {/* </Pressable >
                 {profileImage ? (
-                  <Pressable style={styles.profileIcons} onPress={removeImage}><Icons name='minus-circle-outline' size={40} color='white'/></Pressable>
+                  // <Pressable style={styles.profileIcons} onPress={removeImage}><Icons name='minus-circle-outline' size={40} color='white'/></Pressable>
                 ): (
-                  <Pressable style={styles.profileIcons} onPress={pickImage}><Icons name='plus-circle-outline' size={40} color='white'/></Pressable>
-                )}
+                  // <Pressable style={styles.profileIcons} onPress={pickImage}><Icons name='plus-circle-outline' size={40} color='white'/></Pressable>
+                )} */}
         </View>
        <View style={styles.inputView}>
             <Text style={styles.text}>Username</Text>

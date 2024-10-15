@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RCTSafeAreaView
+  emulateUnlessSupported={true}
+  style={
+    {
+      "alignItems": "center",
+      "backgroundColor": "#232323",
+      "flex": 1,
+      "paddingTop": 70,
+    }
+  }
+>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "paddingBottom": 20,
+        "paddingHorizontal": 20,
+        "position": "relative",
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#E2F163",
+          "flex": 1,
+          "fontSize": 25,
+          "fontWeight": "bold",
+          "textAlign": "center",
+        }
+      }
+    >
+      Log in
+    </Text>
+  </View>
+  <Text
+    style={
+      {
+        "color": "white",
+        "fontSize": 25,
+        "fontWeight": "bold",
+        "paddingTop": 60,
+        "textAlign": "center",
+      }
+    }
+  >
+    Welcome
+  </Text>
+  <Text
+    style={
+      {
+        "color": "white",
+        "fontSize": 14,
+        "paddingBottom": 60,
+        "paddingHorizontal": 50,
+        "paddingTop": 20,
+        "textAlign": "center",
+      }
+    }
+  >
+    Login to track your workout with good posture and get jacked
+  </Text>
+  <View
+    style={
+      {
+        "backgroundColor": "#B3A0FF",
+        "gap": 15,
+        "marginBottom": 5,
+        "paddingBottom": 20,
+        "paddingHorizontal": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <Text
+      style={
+        {
+          "color": "#232323",
+          "fontSize": 15,
+          "fontWeight": "600",
+          "paddingBottom": 5,
+          "paddingLeft": 10,
+          "paddingTop": 20,
+        }
+      }
+    >
+      Username or email
+    </Text>
+    <TextInput
+      autoCapitalize="none"
+      autoCorrect={false}
+      onChangeText={[Function]}
+      placeholder="EMAIL OR USERNAME"
+      style={
+        {
+          "backgroundColor": "white",
+          "borderRadius": 15,
+          "borderWidth": 0,
+          "fontSize": 17,
+          "fontWeight": "500",
+          "height": 50,
+          "paddingHorizontal": 20,
+        }
+      }
+      value=""
+    />
+    <Text
+      style={
+        {
+          "color": "#232323",
+          "fontSize": 15,
+          "fontWeight": "600",
+          "paddingBottom": 5,
+          "paddingLeft": 10,
+          "paddingTop": 20,
+        }
+      }
+    >
+      Password
+    </Text>
+    <TextInput
+      autoCapitalize="none"
+      autoCorrect={false}
+      onChangeText={[Function]}
+      placeholder="PASSWORD"
+      secureTextEntry={true}
+      style={
+        {
+          "backgroundColor": "white",
+          "borderRadius": 15,
+          "borderWidth": 0,
+          "fontSize": 17,
+          "fontWeight": "500",
+          "height": 50,
+          "paddingHorizontal": 20,
+        }
+      }
+      value=""
+    />
+    <Text
+      style={
+        {
+          "fontSize": 13,
+          "fontWeight": "500",
+          "paddingBottom": 5,
+          "paddingLeft": 10,
+          "paddingRight": 10,
+          "paddingTop": 10,
+          "textAlign": "right",
+        }
+      }
+    >
+      Forgot Password?
+    </Text>
+  </View>
+  <View
+    style={
+      {
+        "alignItems": "center",
+        "paddingHorizontal": 50,
+        "paddingTop": 40,
+        "width": "100%",
+      }
+    }
+  >
+    <View
+      collapsable={false}
+      style={
+        {
+          "transform": [
+            {
+              "scale": 1,
+            },
+          ],
+        }
+      }
+    >
+      <View
+        accessible={true}
+        collapsable={false}
+        focusable={true}
+        onBlur={[Function]}
+        onClick={[Function]}
+        onFocus={[Function]}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          {
+            "alignItems": "center",
+            "backgroundColor": "#373737",
+            "borderColor": "white",
+            "borderRadius": 100,
+            "borderWidth": 1,
+            "height": 50,
+            "justifyContent": "center",
+            "width": 200,
+          }
+        }
+      >
+        <Text
+          style={
+            {
+              "color": "white",
+              "fontSize": 20,
+              "fontWeight": "bold",
+            }
+          }
+        >
+          Log In
+        </Text>
+      </View>
+    </View>
+    <Text
+      style={
+        {
+          "color": "gray",
+          "fontSize": 13,
+          "marginBottom": 6,
+          "paddingVertical": 10,
+          "textAlign": "center",
+        }
+      }
+    >
+      or sign up with
+    </Text>
+  </View>
+  <Text
+    style={
+      {
+        "color": "gray",
+        "textAlign": "center",
+      }
+    }
+  >
+    Don't have an account?
+    <Text
+      style={
+        {
+          "color": "#E2F163",
+          "fontSize": 13,
+        }
+      }
+    >
+        Sign Up
+    </Text>
+  </Text>
+</RCTSafeAreaView>
+`;
