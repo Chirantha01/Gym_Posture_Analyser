@@ -22,7 +22,7 @@ const Bicep_Model = () => {
         const loadModelAsync = async () => {
             try {
                 await loadModel();
-                setIsModelLoaded(true);
+                // setIsModelLoaded(true);
             } catch (error) {
                 console.error("Model failed to load:", error);
             }
@@ -171,7 +171,7 @@ const Bicep_Model = () => {
             : styles.infoBoxIncorrect;
             
     return (
-        <View style={styles.container}>
+        <View testID='bicep-model-instance' style={styles.container}>
             <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType} />
             <View style={infoBoxStyle}>
             <View style={styles.centeredTopView}>

@@ -15,6 +15,9 @@ module.exports = {
     '^expo-font$': '<rootDir>/__mocks__/expo-font.js',
     '^@tensorflow/(.*)$': '<rootDir>/__mocks__/@tensorflow/$1.js',
     '^@tensorflow/tfjs-react-native$': '<rootDir>/__mocks__/@tensorflow/tfjs-react-native.js',
+    '^@tensorflow/tfjs$': '<rootDir>/__mocks__/tensorflow.js',
+    '^tensorflow/tfjs-react-native$': '<rootDir>/__mocks__/tensorflow.js',
+    '^@tensorflow-models/(.*)$': '<rootDir>/__mocks__/@tensorflow-models/$1.js',
     '^react-native-vector-icons/(.*)$': '<rootDir>/__mocks__/react-native-vector-icons/$1.js',
     '^react-native-vector-icons/(.*)$': '<rootDir>/__mocks__/react-native-vector-icons/$1.js',
     '^@tensorflow-models/(.*)$': '<rootDir>/__mocks__/@tensorflow/$1.js',
@@ -28,5 +31,6 @@ module.exports = {
     '^@react-native-community/datetimepicker$': '<rootDir>/__mocks__/@react-native-community/datetimepicker.js',
     '^expo-image-picker$': '<rootDir>/__mocks__/expo-image-picker.js',
     'react-native-vector-icons/(.*)': '<rootDir>/__mocks__/react-native-vector-icons.js',
+    '^../../offline_model/bicep_curl_class/Model_Loader_Bicep_Curl$': '<rootDir>/__mocks__/bicep_curl_class/Model_Loader_Bicep_Curl.js',
   },
 };

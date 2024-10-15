@@ -116,6 +116,9 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
                         onPressIn={handlePressIn} 
                         onPressOut={handlePressOut} 
                         onPress={handleSignIn}
+                        accessible={true}
+                        accessibilityRole="button"
+                        accessibilityLabel="Log In"
                     >
                         <Text style={styles.buttonText}>Log In</Text>
                     </Pressable>

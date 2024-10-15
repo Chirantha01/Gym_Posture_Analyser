@@ -1,0 +1,699 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WorkoutHistory Component matches the snapshot 1`] = `
+<View
+  style={
+    [
+      {
+        "backgroundColor": "#fff",
+      },
+    ]
+  }
+>
+  <Text
+    style={
+      [
+        {
+          "fontSize": 30,
+          "lineHeight": 36,
+        },
+        {
+          "fontWeight": "700",
+        },
+        {
+          "paddingBottom": 24,
+          "paddingLeft": 24,
+          "paddingRight": 24,
+          "paddingTop": 24,
+        },
+        {
+          "justifyContent": "center",
+        },
+        {
+          "backgroundColor": "#fff",
+        },
+      ]
+    }
+  >
+    Workouts
+  </Text>
+  <View
+    style={
+      [
+        {
+          "backgroundColor": "#fff",
+        },
+        {
+          "marginBottom": 32,
+        },
+      ]
+    }
+  >
+    <RCTScrollView
+      contentContainerStyle={
+        {
+          "backgroundColor": "#fff",
+          "borderRadius": 4,
+          "borderWidth": 0,
+          "margin": 5,
+          "padding": 5,
+          "width": 719.25,
+        }
+      }
+    >
+      <View>
+        <View>
+          <View
+            animationDuration={1000}
+            barBorderRadius={4}
+            barWidth={22}
+            data={
+              [
+                {
+                  "label": "Mon",
+                  "value": 50,
+                },
+                {
+                  "label": "Tue",
+                  "value": 60,
+                },
+                {
+                  "label": "Wed",
+                  "value": 70,
+                },
+                {
+                  "label": "Thu",
+                  "value": 90,
+                },
+                {
+                  "label": "Fri",
+                  "value": 253,
+                },
+                {
+                  "label": "Sat",
+                  "value": 61,
+                },
+                {
+                  "label": "Sun",
+                  "value": 23,
+                },
+                {
+                  "label": "Mon",
+                  "value": 50,
+                },
+                {
+                  "label": "Tue",
+                  "value": 60,
+                },
+                {
+                  "label": "Wed",
+                  "value": 70,
+                },
+                {
+                  "label": "Thu",
+                  "value": 90,
+                },
+                {
+                  "label": "Fri",
+                  "value": 253,
+                },
+                {
+                  "label": "Sat",
+                  "value": 61,
+                },
+                {
+                  "label": "Sun",
+                  "value": 23,
+                },
+                {
+                  "label": "Mon",
+                  "value": 50,
+                },
+                {
+                  "label": "Tue",
+                  "value": 60,
+                },
+              ]
+            }
+            frontColor="#177AD5"
+            hideRules={true}
+            hideYAxisText={true}
+            initialSpacing={20}
+            isAnimated={true}
+            renderTooltip={[Function]}
+            spacing={10}
+            xAxisThickness={0}
+            yAxisThickness={0}
+          />
+        </View>
+      </View>
+    </RCTScrollView>
+  </View>
+  <RCTScrollView
+    contentContainerStyle={
+      {
+        "backgroundColor": "#fff",
+      }
+    }
+    data={
+      [
+        {
+          "date": "Friday August 30",
+          "id": "1",
+          "time": "1 hour 15 min",
+          "workout": [
+            {
+              "Reps": 35,
+              "type": "Bicep Curl",
+            },
+            {
+              "Reps": 40,
+              "type": "Squats",
+            },
+            {
+              "Reps": 20,
+              "type": "Side Lateral",
+            },
+            {
+              "Reps": 20,
+              "type": "Barbel Curl",
+            },
+            {
+              "Reps": 20,
+              "type": "Dumbell Press",
+            },
+          ],
+        },
+        {
+          "date": "Saturday August 31",
+          "id": "2",
+          "time": "1 hour",
+          "workout": [
+            {
+              "Reps": 35,
+              "type": "Bicep Curl",
+            },
+            {
+              "Reps": 40,
+              "type": "Squats",
+            },
+            {
+              "Reps": 20,
+              "type": "Side Lateral",
+            },
+            {
+              "Reps": 20,
+              "type": "Barbel Curl",
+            },
+            {
+              "Reps": 20,
+              "type": "Dumbell Press",
+            },
+          ],
+        },
+        {
+          "date": "Sunday September 1",
+          "id": "3",
+          "time": "25 min",
+          "workout": [
+            {
+              "Reps": 35,
+              "type": "Bicep Curl",
+            },
+            {
+              "Reps": 20,
+              "type": "Barbel Curl",
+            },
+          ],
+        },
+        {
+          "date": "Monday September 2",
+          "id": "4",
+          "time": "45 min",
+          "workout": [
+            {
+              "Reps": 35,
+              "type": "Bicep Curl",
+            },
+            {
+              "Reps": 20,
+              "type": "Side Lateral",
+            },
+            {
+              "Reps": 20,
+              "type": "Barbel Curl",
+            },
+            {
+              "Reps": 20,
+              "type": "Dumbell Press",
+            },
+          ],
+        },
+        {
+          "date": "Tuesday September 3",
+          "id": "5",
+          "time": "1 hour 10 min",
+          "workout": [
+            {
+              "Reps": 35,
+              "type": "Bicep Curl",
+            },
+            {
+              "Reps": 40,
+              "type": "Squats",
+            },
+            {
+              "Reps": 20,
+              "type": "Side Lateral",
+            },
+            {
+              "Reps": 20,
+              "type": "Barbel Curl",
+            },
+            {
+              "Reps": 20,
+              "type": "Dumbell Press",
+            },
+          ],
+        },
+      ]
+    }
+    getItem={[Function]}
+    getItemCount={[Function]}
+    keyExtractor={[Function]}
+    onContentSizeChange={[Function]}
+    onLayout={[Function]}
+    onMomentumScrollBegin={[Function]}
+    onMomentumScrollEnd={[Function]}
+    onScroll={[Function]}
+    onScrollBeginDrag={[Function]}
+    onScrollEndDrag={[Function]}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    stickyHeaderIndices={[]}
+    viewabilityConfigCallbackPairs={[]}
+  >
+    <View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#60a5fa",
+              },
+              {
+                "paddingBottom": 24,
+                "paddingLeft": 24,
+                "paddingRight": 24,
+                "paddingTop": 24,
+              },
+              {
+                "borderRadius": 45,
+                "flexDirection": "column",
+                "margin": "2%",
+                "overflow": "hidden",
+                "padding": 16,
+                "width": "96%",
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 24,
+                  "lineHeight": 32,
+                },
+                {
+                  "color": "#1e3a8a",
+                },
+                {
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            Friday August 30
+          </Text>
+          <View>
+            <Text
+              style={
+                [
+                  {
+                    "fontSize": 20,
+                    "lineHeight": 28,
+                  },
+                  {
+                    "color": "#1e3a8a",
+                  },
+                  {
+                    "fontWeight": "600",
+                  },
+                ]
+              }
+            >
+              1 hour 15 min
+            </Text>
+            <Text>
+              Bicep Curl: 35 Reps
+            </Text>
+            <Text>
+              Squats: 40 Reps
+            </Text>
+            <Text>
+              Side Lateral: 20 Reps
+            </Text>
+            <Text>
+              Barbel Curl: 20 Reps
+            </Text>
+            <Text>
+              Dumbell Press: 20 Reps
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#60a5fa",
+              },
+              {
+                "paddingBottom": 24,
+                "paddingLeft": 24,
+                "paddingRight": 24,
+                "paddingTop": 24,
+              },
+              {
+                "borderRadius": 45,
+                "flexDirection": "column",
+                "margin": "2%",
+                "overflow": "hidden",
+                "padding": 16,
+                "width": "96%",
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 24,
+                  "lineHeight": 32,
+                },
+                {
+                  "color": "#1e3a8a",
+                },
+                {
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            Saturday August 31
+          </Text>
+          <View>
+            <Text
+              style={
+                [
+                  {
+                    "fontSize": 20,
+                    "lineHeight": 28,
+                  },
+                  {
+                    "color": "#1e3a8a",
+                  },
+                  {
+                    "fontWeight": "600",
+                  },
+                ]
+              }
+            >
+              1 hour
+            </Text>
+            <Text>
+              Bicep Curl: 35 Reps
+            </Text>
+            <Text>
+              Squats: 40 Reps
+            </Text>
+            <Text>
+              Side Lateral: 20 Reps
+            </Text>
+            <Text>
+              Barbel Curl: 20 Reps
+            </Text>
+            <Text>
+              Dumbell Press: 20 Reps
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#60a5fa",
+              },
+              {
+                "paddingBottom": 24,
+                "paddingLeft": 24,
+                "paddingRight": 24,
+                "paddingTop": 24,
+              },
+              {
+                "borderRadius": 45,
+                "flexDirection": "column",
+                "margin": "2%",
+                "overflow": "hidden",
+                "padding": 16,
+                "width": "96%",
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 24,
+                  "lineHeight": 32,
+                },
+                {
+                  "color": "#1e3a8a",
+                },
+                {
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            Sunday September 1
+          </Text>
+          <View>
+            <Text
+              style={
+                [
+                  {
+                    "fontSize": 20,
+                    "lineHeight": 28,
+                  },
+                  {
+                    "color": "#1e3a8a",
+                  },
+                  {
+                    "fontWeight": "600",
+                  },
+                ]
+              }
+            >
+              25 min
+            </Text>
+            <Text>
+              Bicep Curl: 35 Reps
+            </Text>
+            <Text>
+              Barbel Curl: 20 Reps
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#60a5fa",
+              },
+              {
+                "paddingBottom": 24,
+                "paddingLeft": 24,
+                "paddingRight": 24,
+                "paddingTop": 24,
+              },
+              {
+                "borderRadius": 45,
+                "flexDirection": "column",
+                "margin": "2%",
+                "overflow": "hidden",
+                "padding": 16,
+                "width": "96%",
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 24,
+                  "lineHeight": 32,
+                },
+                {
+                  "color": "#1e3a8a",
+                },
+                {
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            Monday September 2
+          </Text>
+          <View>
+            <Text
+              style={
+                [
+                  {
+                    "fontSize": 20,
+                    "lineHeight": 28,
+                  },
+                  {
+                    "color": "#1e3a8a",
+                  },
+                  {
+                    "fontWeight": "600",
+                  },
+                ]
+              }
+            >
+              45 min
+            </Text>
+            <Text>
+              Bicep Curl: 35 Reps
+            </Text>
+            <Text>
+              Side Lateral: 20 Reps
+            </Text>
+            <Text>
+              Barbel Curl: 20 Reps
+            </Text>
+            <Text>
+              Dumbell Press: 20 Reps
+            </Text>
+          </View>
+        </View>
+      </View>
+      <View
+        onLayout={[Function]}
+        style={null}
+      >
+        <View
+          style={
+            [
+              {
+                "backgroundColor": "#60a5fa",
+              },
+              {
+                "paddingBottom": 24,
+                "paddingLeft": 24,
+                "paddingRight": 24,
+                "paddingTop": 24,
+              },
+              {
+                "borderRadius": 45,
+                "flexDirection": "column",
+                "margin": "2%",
+                "overflow": "hidden",
+                "padding": 16,
+                "width": "96%",
+              },
+            ]
+          }
+        >
+          <Text
+            style={
+              [
+                {
+                  "fontSize": 24,
+                  "lineHeight": 32,
+                },
+                {
+                  "color": "#1e3a8a",
+                },
+                {
+                  "fontWeight": "700",
+                },
+              ]
+            }
+          >
+            Tuesday September 3
+          </Text>
+          <View>
+            <Text
+              style={
+                [
+                  {
+                    "fontSize": 20,
+                    "lineHeight": 28,
+                  },
+                  {
+                    "color": "#1e3a8a",
+                  },
+                  {
+                    "fontWeight": "600",
+                  },
+                ]
+              }
+            >
+              1 hour 10 min
+            </Text>
+            <Text>
+              Bicep Curl: 35 Reps
+            </Text>
+            <Text>
+              Squats: 40 Reps
+            </Text>
+            <Text>
+              Side Lateral: 20 Reps
+            </Text>
+            <Text>
+              Barbel Curl: 20 Reps
+            </Text>
+            <Text>
+              Dumbell Press: 20 Reps
+            </Text>
+          </View>
+        </View>
+      </View>
+    </View>
+  </RCTScrollView>
+</View>
+`;
