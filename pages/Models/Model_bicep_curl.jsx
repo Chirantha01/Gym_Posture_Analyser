@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, Button } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
 import { loadModel, predict } from '../../offline_model/bicep_curl_class/Model_Loader_Bicep_Curl';
 import * as tf from '@tensorflow/tfjs';
 import { calculateAngle } from '../supporting_methods/angle';
+import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
+import { event } from 'react-native-reanimated';
 
 const Bicep_Model = () => {
     const [poseType, setPose] = useState('random');
@@ -15,6 +18,10 @@ const Bicep_Model = () => {
     const repPoseRef = useRef(null); // Ref to track current repPose immediately
     const poseFrameCountRef = useRef(0); // Ref to track frames in the same pose immediately
     const repCountRef = useRef(0); // Ref to track repCount immediately
+    const correctFrameRef = useRef(0); // Ref to track correct frames immediately
+    const incorrectFrameRef = useRef(0); // Ref to track incorrect frames immediately
+    const isWorkoutStarted = useRef(false);
+    const navigator = useNavigation();
 
     useEffect(() => {
         const loadModelAsync = async () => {
@@ -30,6 +37,7 @@ const Bicep_Model = () => {
     }, []);
 
     useEffect(() => {
+
         if (poseType === 'correct') {
             // Start the timer if in correct posture
             if (!timerRef.current) {
@@ -51,11 +59,10 @@ const Bicep_Model = () => {
                 clearInterval(timerRef.current);
             }
         };
+
     }, [poseType]);
 
     const inputTensorData = (keypoints) => {
-        const nose = keypoints.find((k) => k.name === 'nose');
-
         const leftShoulder = keypoints.find((k) => k.name === 'left_shoulder');
         const leftElbow = keypoints.find((k) => k.name === 'left_elbow');
         const leftWrist = keypoints.find((k) => k.name === 'left_wrist');
@@ -86,9 +93,37 @@ const Bicep_Model = () => {
         return [leftElbowAngle, rightElbowAngle, leftShoulderAngle, rightShoulderAngle];
     };
 
+    const frameCount = async (pose  ) => {
+        if (pose === 'correct_low' || pose === 'correct_high') {
+            correctFrameRef.current += 1;
+        } else if (pose === 'incorrect_backward' || pose === 'incorrect_forward') { 
+            incorrectFrameRef.current += 1;
+        }
+    }
+
+    const stopWorkout = () => { 
+        const repCount = repCountRef.current;
+        const correctFrame = correctFrameRef.current;
+        const incorrectFrame = incorrectFrameRef.current;
+        const accuracy = correctFrame / (correctFrame + incorrectFrame);
+        console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy);
+        const jsonObject = { time: time, reps: repCount, correct_frames: correctFrame, incorrect_frames: incorrectFrame, accuracy: accuracy };
+        handleWorkoutData(jsonObject);
+        navigator.goBack();
+    };
+
+    const handleWorkoutData = async (jsonObject) => {
+        
+        try{
+            const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject);
+        } catch(error) {
+            console.log(error);
+        }
+    };
+
     const countReps = async (pose) => {
-      if (pose === 'correct_low' || pose === 'correct_high') {
-          console.log(poseFrameCountRef.current);
+      if ((pose === 'correct_low' || pose === 'correct_high')&& isWorkoutStarted.current) {
+
           if (pose === repPoseRef.current) {
             poseFrameCountRef.current = 0;
           } 
@@ -105,8 +140,17 @@ const Bicep_Model = () => {
           }
       }
     };
+    const changeWorkoutStatus = () => {
+        isWorkoutStarted.current = !isWorkoutStarted.current;
+        if (!isWorkoutStarted.current) {
+            setPose('random');
+        }
+    };
 
     const handleLandmarksDetected = async (keypoints) => {
+        if (!isWorkoutStarted.current) {
+            return;
+        } else{
         try {
             const [leftElbowAngle, rightElbowAngle, leftShoulderAngle, rightShoulderAngle] = inputTensorData(keypoints);
 
@@ -141,9 +185,11 @@ const Bicep_Model = () => {
             }
 
             countReps(pose);
+            frameCount(pose);
 
         } catch (error) {
             console.error("Error during prediction:", error);
+        };
         };
     };
 
@@ -156,34 +202,30 @@ const Bicep_Model = () => {
         );
     }
     const alertBoxStyle =
-        excercisePose === 'correct_low' || excercisePose === 'correct_high'
+        poseType === 'correct'
             ? styles.alertBoxCorrect
             : styles.alertBoxIncorrect;
     const alertTextStyle =
-        excercisePose === 'correct_low' || excercisePose === 'correct_high'
+        poseType === 'correct'
             ? styles.alertTextCorrect
             : styles.alertTextIncorrect;
     const infoBoxStyle =
-        excercisePose === 'correct_low' || excercisePose === 'correct_high'
+        poseType === 'correct'
             ? styles.infoBoxCorrect
             : styles.infoBoxIncorrect;
-            
+
     return (
         <View style={styles.container}>
             <PoseDetectionCamera onLandmarksDetected={handleLandmarksDetected} poseType={poseType} />
             <View style={infoBoxStyle}>
             <View style={styles.centeredTopView}>
                     <View style={alertBoxStyle}>
-                        {excercisePose === 'correct_low' && <Text style={alertTextStyle}>Good Posture</Text>}
-                        {excercisePose === 'correct_high' && <Text style={alertTextStyle}>Good Posture</Text>}
-                        {excercisePose === 'incorrect_forward' && (
-                            <Text style={alertTextStyle}>Keep your elbows tucked to torso</Text>
-                        )}
-                        {excercisePose === 'incorrect_backward' && (
+                        {poseType === 'correct' && <Text style={alertTextStyle}>Good Posture</Text>}
+                        {poseType === 'incorrect' && (
                             <Text style={alertTextStyle}>Keep your elbows tucked to torso</Text>
                         )}
                     </View>
-                </View>
+            </View>
                 <View style={styles.stats}>
                     <Text style={styles.statTitle}>
                         Reps: <Text style={styles.statText}>{repCountRef.current}</Text>
@@ -192,6 +234,8 @@ const Bicep_Model = () => {
                         Time: <Text style={styles.statText}>{time}s</Text>
                     </Text>
                 </View>
+                <Button title= {isWorkoutStarted.current ? "Pause" : "Start"} onPress={changeWorkoutStatus} />
+                <Button title= "Stop" onPress={stopWorkout} />
             </View>
         </View>
     );
