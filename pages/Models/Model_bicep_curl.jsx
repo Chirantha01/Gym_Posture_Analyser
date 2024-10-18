@@ -13,6 +13,7 @@ const Bicep_Model = () => {
     const [excercisePose, setExcercisePose] = useState(NaN);
     const [prediction, setPrediction] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
+    const [date , setDate] = useState("")
     const [time, setTime] = useState(0);
     const timerRef = useRef(null);
     const repPoseRef = useRef(null); // Ref to track current repPose immediately
@@ -106,18 +107,47 @@ const Bicep_Model = () => {
         const correctFrame = correctFrameRef.current;
         const incorrectFrame = incorrectFrameRef.current;
         const accuracy = correctFrame / (correctFrame + incorrectFrame);
-        console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy);
-        const jsonObject = { time: time, reps: repCount, correct_frames: correctFrame, incorrect_frames: incorrectFrame, accuracy: accuracy };
+        const [date , last_modified] = convertToUTC530()
+        console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
+        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
         handleWorkoutData(jsonObject);
         navigator.goBack();
     };
 
+    function convertToUTC530() {
+
+        const date = new Date();
+    
+        // Calculate offset for UTC+05:30 (5.5 hours or 330 minutes)
+        const offsetInMinutes = 330; // 5 hours 30 minutes
+    
+        // Adjust the date by the offset in minutes
+        const utc530Date = new Date(date.getTime() + offsetInMinutes * 60000);
+        // const extract_date = utc530Date.toISOString().replace('T', ' ').substr(0, 19);
+        // const dateDMY = extract_date.split()[0];
+        const dateDMY = utc530Date.toISOString().split('T')[0];
+    
+        return [dateDMY,utc530Date]; // Format the date and time
+    }
+
     const handleWorkoutData = async (jsonObject) => {
         
         try{
-            const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject);
+            const token = await AsyncStorage.getItem("jwtToken");
+            if (token) {
+                const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+            } else {
+                console.log("Token not found.");
+            }
+            
         } catch(error) {
-            console.log(error);
+            const data = error.response.data;
+            if (error.response.status === 403){
+                console.log(data.error);
+            }
+            if (error.respose.status === 402){
+                console.log(data.message);
+            }
         }
     };
 
