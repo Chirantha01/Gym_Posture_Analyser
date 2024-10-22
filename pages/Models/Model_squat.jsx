@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
 import { loadModel, predict } from '../../offline_model/squat_class/Model_Loader_Squat';
 import * as tf from '@tensorflow/tfjs';
-import {calculateAngle, calculateDistance, calculateDistance_2} from '../supporting_methods/angle';
+import {calculateAngle, calculateDistance_2} from '../supporting_methods/angle';
+import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
 
 const Squat_Model = () => {
     const [poseType, setPose] = useState('normal')
@@ -15,6 +17,10 @@ const Squat_Model = () => {
     const repPoseRef = useRef(null); // Ref to track current repPose immediately
     const poseFrameCountRef = useRef(0); // Ref to track frames in the same pose immediately
     const repCountRef = useRef(0); // Ref to track repCount immediately
+    const correctFrameRef = useRef(0); // Ref to track correct frames immediately
+    const incorrectFrameRef = useRef(0); // Ref to track incorrect frames immediately
+    const isWorkoutStarted = useRef(false);
+    const navigator = useNavigation();
 
     useEffect(() => {
       const loadModelAsync = async () => {
@@ -103,6 +109,63 @@ const Squat_Model = () => {
       return [leftHipAngle, rightHipAngle, leftKneeAngle, rightKneeAngle, knee_displacement_ratio, hip_displacement_ratio, shoulder_descent_ratio];
   };
 
+  const frameCount = async (pose  ) => {
+    if (pose === 'correct_low' || pose === 'correct_high') {
+        correctFrameRef.current += 1;
+    } else if (pose === 'incorrect_backward' || pose === 'incorrect_forward') { 
+        incorrectFrameRef.current += 1;
+    }
+}
+
+const stopWorkout = () => { 
+    const repCount = repCountRef.current;
+    const correctFrame = correctFrameRef.current;
+    const incorrectFrame = incorrectFrameRef.current;
+    const accuracy = correctFrame / (correctFrame + incorrectFrame);
+    const [date , last_modified] = convertToUTC530()
+    console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
+    const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
+    handleWorkoutData(jsonObject);
+    navigator.goBack();
+};
+
+function convertToUTC530() {
+
+    const date = new Date();
+
+    // Calculate offset for UTC+05:30 (5.5 hours or 330 minutes)
+    const offsetInMinutes = 330; // 5 hours 30 minutes
+
+    // Adjust the date by the offset in minutes
+    const utc530Date = new Date(date.getTime() + offsetInMinutes * 60000);
+    // const extract_date = utc530Date.toISOString().replace('T', ' ').substr(0, 19);
+    // const dateDMY = extract_date.split()[0];
+    const dateDMY = utc530Date.toISOString().split('T')[0];
+
+    return [dateDMY,utc530Date]; // Format the date and time
+}
+
+const handleWorkoutData = async (jsonObject) => {
+    
+    try{
+        const token = await AsyncStorage.getItem("jwtToken");
+        if (token) {
+            const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+        } else {
+            console.log("Token not found.");
+        }
+        
+    } catch(error) {
+        const data = error.response.data;
+        if (error.response.status === 403){
+            console.log(data.error);
+        }
+        if (error.respose.status === 402){
+            console.log(data.message);
+        }
+    }
+};
+
   const countReps = async (pose) => {
     if (pose === 'correct_low' || pose === 'correct_high') {
         console.log(poseFrameCountRef.current);
@@ -121,6 +184,14 @@ const Squat_Model = () => {
             }
         }
     }
+  };
+
+
+  const changeWorkoutStatus = () => {
+    isWorkoutStarted.current = !isWorkoutStarted.current;
+    if (!isWorkoutStarted.current) {
+        setPose('random');
+      }
   };
   
     const handleLandmarksDetected = async (keypoints) => {
@@ -159,6 +230,8 @@ const Squat_Model = () => {
         }
 
         countReps(pose);
+        frameCount(pose);
+        
 
       } catch (error) {
         console.error("Error during prediction:", error);
@@ -207,6 +280,14 @@ const Squat_Model = () => {
                         Time: <Text style={styles.statText}>{time}s</Text>
                     </Text>
                 </View>
+            </View>
+            <View style={styles.controlButtons}>
+                <TouchableOpacity style={styles.btn_1} onPress={changeWorkoutStatus}>
+                    <Text style={styles.btnText}>{isWorkoutStarted.current ? "Pause" : "Start"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btn_2} onPress={stopWorkout}>
+                    <Text style={styles.btnText}>Stop</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -274,7 +355,38 @@ const Squat_Model = () => {
         fontSize: 16,
         color: '#505050',
         marginTop: 5,
-    }
+    },
+    controlButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'space-between',
+        width: '100%',
+        alignSelf: 'center',
+    },
+    btn_1: {
+        width: "50%",
+        height: 40,
+        backgroundColor: '#E2F163',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // borderRadius: 10,
+    },
+    btn_2: {
+        // width: 70,
+        height: 40,
+        width: "50%",
+        backgroundColor: 'red',
+        alignItems: 'center',
+        justifyContent: 'center',
+        // borderRadius: 10,
+    },
+    btnText: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
 });
 
   

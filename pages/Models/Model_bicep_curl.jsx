@@ -284,14 +284,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#232323',
     },
     centeredTopView: {
-        alignItems: 'center', // Center the top content
-        marginBottom: 20, // Add space between top view and reps/timer
+        alignItems: 'center', 
+        marginBottom: 20, 
     },
     infoBoxCorrect: {
         backgroundColor: '#E2F163',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -300,7 +300,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F99A46',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,

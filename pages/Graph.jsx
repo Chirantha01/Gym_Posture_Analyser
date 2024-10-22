@@ -35,19 +35,21 @@ const Graph = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={{backgroundColor: '#fff' , width:graphWidth*0.959, borderRadius:4, borderWidth:0 , padding:5 , margin:5}}>
+    <ScrollView contentContainerStyle={{backgroundColor: '#232323' , width:graphWidth*0.959, borderRadius:4, borderWidth:0 , padding:5 , margin:5}}>
+      <Text style={styles.topicText}>Check your progress,</Text>
+      <Text style={styles.subTopicText}>Weekly</Text>
       <View>
         <BarChart
           data={data}
           barWidth={22}
           spacing={10}
           barBorderRadius={4}
-          initialSpacing={20}
           xAxisThickness={0}
           yAxisThickness={0}
           hideYAxisText
           hideRules
-          frontColor="#177AD5"
+          xAxisLabelTextStyle={{color: '#aaa' , fontSize: 11}}
+          frontColor="#E2F163"
           isAnimated = {true}
           animationDuration={1000}
           renderTooltip={renderTooltip}
@@ -59,14 +61,22 @@ const Graph = () => {
 
 const styles = StyleSheet.create({
   tooltipContainer: {
-    backgroundColor: '#000',
-    padding: 5,
-    borderRadius: 5,
+    backgroundColor: '#232323',
+    padding: 0,
+    borderRadius: 0,
     position: 'absolute',
   },
   tooltipText: {
     color: '#fff',
     fontSize: 12,
+  },
+  topicText: {
+    color: "#896CFE",
+    fontSize: 26,
+    fontWeight: "bold",
+    marginBottom: 0,
+    alignSelf: "flex-start",
+    marginLeft: 20,
   },
 });
 
