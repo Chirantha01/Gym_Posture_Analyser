@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet, Button } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
 import { loadModel, predict } from '../../offline_model/bicep_curl_class/Model_Loader_Bicep_Curl';
 import * as tf from '@tensorflow/tfjs';
@@ -264,8 +264,15 @@ const Bicep_Model = () => {
                         Time: <Text style={styles.statText}>{time}s</Text>
                     </Text>
                 </View>
-                <Button title= {isWorkoutStarted.current ? "Pause" : "Start"} onPress={changeWorkoutStatus} />
-                <Button title= "Stop" onPress={stopWorkout} />
+                
+            </View>
+            <View style={styles.controlButtons}>
+                <TouchableOpacity style={styles.btn_1} onPress={changeWorkoutStatus}>
+                    <Text style={styles.btnText}>{isWorkoutStarted.current ? "Pause" : "Start"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btn_2} onPress={stopWorkout}>
+                    <Text style={styles.btnText}>Stop</Text>
+                </TouchableOpacity>
             </View>
         </View>
     );
@@ -277,14 +284,14 @@ const styles = StyleSheet.create({
         backgroundColor: '#232323',
     },
     centeredTopView: {
-        alignItems: 'center', // Center the top content
-        marginBottom: 20, // Add space between top view and reps/timer
+        alignItems: 'center', 
+        marginBottom: 20, 
     },
     infoBoxCorrect: {
         backgroundColor: '#E2F163',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -293,7 +300,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#F99A46',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -319,7 +326,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     stats: {
-        alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -333,7 +339,39 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: '#505050',
         marginTop: 5,
-    }
+    },
+    controlButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'space-between',
+        width: '50%',
+        alignSelf: 'center',
+    },
+    btn_1: {
+        width: 70,
+        height: 40,
+        backgroundColor: '#E2F163',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+    btn_2: {
+        width: 70,
+        height: 40,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+    btnText: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
+
+
 });
 
 export default Bicep_Model;

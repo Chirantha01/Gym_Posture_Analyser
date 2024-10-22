@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Button, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
 import { loadModel, predict } from '../../offline_model/lat_pull_down_class/Model_Loader_Lat_Pull_Down';
 import * as tf from '@tensorflow/tfjs';
 import { calculateAngle, calculateDistance_2 } from '../supporting_methods/angle';
+import { useNavigation } from '@react-navigation/native';
+import axios from "axios";
 
 const LatPullDown_Model = () => {
     const [poseType, setPose] = useState('normal');
@@ -11,11 +13,14 @@ const LatPullDown_Model = () => {
     const [prediction, setPrediction] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
     const [time, setTime] = useState(0);
-    const [workoutStarted, setWorkoutStarted] = useState(false); // State to track if workout has started
     const timerRef = useRef(null);
     const repPoseRef = useRef(null); 
     const poseFrameCountRef = useRef(0);
     const repCountRef = useRef(0);
+    const correctFrameRef = useRef(0); // Ref to track correct frames immediately
+    const incorrectFrameRef = useRef(0); // Ref to track incorrect frames immediately
+    const isWorkoutStarted = useRef(false);
+    const navigator = useNavigation();
 
     useEffect(() => {
         const loadModelAsync = async () => {
@@ -109,7 +114,7 @@ const LatPullDown_Model = () => {
     };
 
     const countReps = async (pose) => {
-        if (pose === 'correct_low' || pose === 'correct_high') {
+        if ((pose === 'correct_low' || pose === 'correct_high')&& isWorkoutStarted.current) {
             console.log(poseFrameCountRef.current);
             if (pose === repPoseRef.current) {
                 poseFrameCountRef.current = 0;
@@ -125,7 +130,37 @@ const LatPullDown_Model = () => {
         }
     };
 
+    const frameCount = async (pose ) => {
+        if (pose === 'correct_low' || pose === 'correct_high') {
+            correctFrameRef.current += 1;
+        } else if (pose === 'incorrect_backward' || pose === 'incorrect_forward') { 
+            incorrectFrameRef.current += 1;
+        }
+    }
+
+    const stopWorkout = () => { 
+        const repCount = repCountRef.current;
+        const correctFrame = correctFrameRef.current;
+        const incorrectFrame = incorrectFrameRef.current;
+        const accuracy = correctFrame / (correctFrame + incorrectFrame);
+        const [date , last_modified] = convertToUTC530()
+        console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
+        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
+        handleWorkoutData(jsonObject);
+        navigator.goBack();
+    };
+
+    const changeWorkoutStatus = () => {
+        isWorkoutStarted.current = !isWorkoutStarted.current;
+        if (!isWorkoutStarted.current) {
+            setPose('random');
+        }
+    };
+
     const handleLandmarksDetected = async (keypoints) => {
+        if (!isWorkoutStarted.current) {
+            return;
+        } else{
         try {
             const [leftElbowAngle, rightElbowAngle, leftShoulderAngle, rightShoulderAngle, leftHipAngle, rightHipAngle, torso_straightness, arms_straightness] = inputTensorData(keypoints);
             const inputArray = [leftElbowAngle, rightElbowAngle, leftShoulderAngle, rightShoulderAngle, leftHipAngle, rightHipAngle, torso_straightness, arms_straightness];
@@ -155,9 +190,11 @@ const LatPullDown_Model = () => {
             }
 
             countReps(pose);
+            frameCount(pose);
 
         } catch (error) {
             console.error("Error during prediction:", error);
+        }
         }
     };
 
@@ -165,7 +202,7 @@ const LatPullDown_Model = () => {
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <ActivityIndicator size="large" color="#0000ff" />
-                <Text>Loading model...</Text>
+                <Text color="white">Loading model...</Text>
             </View>
         );
     }
@@ -188,9 +225,8 @@ const LatPullDown_Model = () => {
                     <View style={infoBoxStyle}>
                         <View style={styles.centeredTopView}>
                             <View style={alertBoxStyle}>
-                                {excercisePose === 'correct_low' && (<Text style={alertTextStyle}>Good Posture</Text>)}
-                                {excercisePose === 'correct_high' && (<Text style={alertTextStyle}>Good Posture</Text>)}
-                                {excercisePose === 'incorrect' && (<Text style={alertTextStyle}>Straighten your torso, keep your torso Vertical</Text>)}
+                                {poseType === 'correct' && (<Text style={alertTextStyle}>Good Posture</Text>)}
+                                {poseType === 'incorrect' && (<Text style={alertTextStyle}>Straighten your torso, keep your torso Vertical</Text>)}
                             </View>
                         </View>
                         <View style={styles.stats}>
@@ -201,6 +237,14 @@ const LatPullDown_Model = () => {
                                 Time: <Text style={styles.statText}>{time}s</Text>
                             </Text>
                         </View>
+                    </View>
+                    <View style={styles.controlButtons}>
+                        <TouchableOpacity style={styles.btn_1} onPress={changeWorkoutStatus}>
+                            <Text style={styles.btnText}>{isWorkoutStarted.current ? "Pause" : "Start"}</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btn_2} onPress={stopWorkout}>
+                            <Text style={styles.btnText}>Stop</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
     )};
@@ -267,7 +311,37 @@ const LatPullDown_Model = () => {
             fontSize: 16,
             color: '#505050',
             marginTop: 5,
-        }
+        },
+        controlButtons: {
+            flexDirection: 'row',
+            alignItems: 'center',
+            flex: 1,
+            justifyContent: 'space-between',
+            width: '50%',
+            alignSelf: 'center',
+        },
+        btn_1: {
+            width: 70,
+            height: 40,
+            backgroundColor: '#E2F163',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 10,
+        },
+        btn_2: {
+            width: 70,
+            height: 40,
+            backgroundColor: 'red',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: 10,
+        },
+        btnText: {
+            color: '#000',
+            fontSize: 16,
+            fontWeight: 'bold',
+            textAlign: 'center',
+        },
     });
     
     export default LatPullDown_Model;

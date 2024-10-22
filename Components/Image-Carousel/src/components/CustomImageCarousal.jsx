@@ -93,7 +93,7 @@ export default memo(CustomImageCarousal);
 const styles = StyleSheet.create({
   cardContainer: {
     flexDirection: 'row', // Align items in a row (text on the left, image on the right)
-    backgroundColor: '#212020',
+    backgroundColor: '#101010',
     borderRadius: 10,
     padding: 0,
     marginVertical: 10,

@@ -63,7 +63,6 @@ export default function Home() {
         <Text style={styles.sub_salutation}>It's time to challenge your limits</Text>
         <View>
           <Carousel />
-
         </View>
 
         {/* Cube-like Containers for Articles */}

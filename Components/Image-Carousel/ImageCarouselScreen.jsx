@@ -46,9 +46,9 @@ export default App;
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
+    paddingTop: 0,
     flex: 1,
-    backgroundColor: '#B3A0FF',
+    backgroundColor: '#232323',
     paddingBottom: 0,
   },
   text: { textAlign: 'center', color: 'white', marginBottom: 10 },
