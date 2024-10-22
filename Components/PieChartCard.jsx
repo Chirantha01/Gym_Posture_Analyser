@@ -14,8 +14,11 @@ function PieChartCard({value,title, reps, time}) {
                 progressValueColor={'white'}
                 maxValue={100}
                 title={title}
+                titleFontSize={12}
                 titleColor={'#E2F163'}
                 activeStrokeColor={'#E2F163'}
+                inActiveStrokeWidth={15}
+                activeStrokeWidth={5}
             />
             <View style={styles.statContainer}></View>
             <View style={styles.statsRow}>

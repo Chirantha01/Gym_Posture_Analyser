@@ -2,28 +2,11 @@ import React from "react";
 import { ScrollView, View, Text , StyleSheet , Dimensions} from "react-native";
 import { BarChart } from "react-native-gifted-charts";
 
-const Graph = () => {
+const Graph = ({data, title, spacing}) => {
     console.log("Graph Loaded");
   const graphWidth = Dimensions.get('window').width;
 
-  const data = [
-    { value: 50, label: 'Mon' },
-    { value: 60, label: 'Tue' },
-    { value: 70, label: 'Wed' },
-    { value: 90, label: 'Thu' },
-    { value: 253, label: 'Fri' },
-    { value: 61, label: 'Sat' },
-    { value: 23, label: 'Sun' },
-    { value: 50, label: 'Mon' },
-    { value: 60, label: 'Tue' },
-    { value: 70, label: 'Wed' },
-    { value: 90, label: 'Thu' },
-    { value: 253, label: 'Fri' },
-    { value: 61, label: 'Sat' },
-    { value: 23, label: 'Sun' },
-    { value: 50, label: 'Mon' },
-    { value: 60, label: 'Tue' },
-  ];
+  
 
   const renderTooltip = (item) => {
     return (
@@ -36,21 +19,21 @@ const Graph = () => {
 
   return (
     <ScrollView contentContainerStyle={{backgroundColor: '#232323' , width:graphWidth*0.959, borderRadius:4, borderWidth:0 , padding:5 , margin:5}}>
-      <Text style={styles.subTopicText}>Weekly</Text>
+      <Text style={styles.subTopicText}>{title}</Text>
       <View>
         <BarChart
           data={data}
           barWidth={22}
-          spacing={10}
+          noOfSections={5}
+          spacing={spacing ? spacing:22}
           barBorderRadius={4}
           xAxisThickness={0}
           yAxisThickness={0}
-          hideYAxisText
-          hideRules
           xAxisLabelTextStyle={{color: '#aaa' , fontSize: 11}}
+          yAxisTextStyle={{ color: "#aaa", fontSize: 12 }}
           frontColor="#E2F163"
           isAnimated = {true}
-          animationDuration={1000}
+          animationDuration={500}
           renderTooltip={renderTooltip}
         />
       </View>
