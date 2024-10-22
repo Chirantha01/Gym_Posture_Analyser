@@ -74,11 +74,11 @@ const WorkoutHistory = () => {
                 <Text>Your Workout Stats Today</Text>
                 <ScrollView horizontal={true}>
                     <View style={styles.progressChartContainer}>
-                        <PieChartCard value={20} title={'Bicep Curls'} />
-                        <PieChartCard value={10} title={'Squat'} />
-                        <PieChartCard value={10} title={'Push Ups'} />
-                        <PieChartCard value={10} title={'Plank'} />
-                        <PieChartCard value={10} title={'Pull Down'} />
+                        <PieChartCard value={20} title={'Bicep Curls'} reps={10} time={10}/>
+                        <PieChartCard value={10} title={'Squat'} reps={10} time={10}/>
+                        <PieChartCard value={10} title={'Push Ups'} reps={10} time={10}/>
+                        <PieChartCard value={10} title={'Plank'} reps={10} time={10}/>
+                        <PieChartCard value={10} title={'Pull Down'} reps={10} time={10}/>
                     </View>
                 </ScrollView>
 
