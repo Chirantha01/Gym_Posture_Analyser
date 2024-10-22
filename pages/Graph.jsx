@@ -36,7 +36,6 @@ const Graph = () => {
 
   return (
     <ScrollView contentContainerStyle={{backgroundColor: '#232323' , width:graphWidth*0.959, borderRadius:4, borderWidth:0 , padding:5 , margin:5}}>
-      <Text style={styles.topicText}>Check your progress,</Text>
       <Text style={styles.subTopicText}>Weekly</Text>
       <View>
         <BarChart
@@ -69,14 +68,6 @@ const styles = StyleSheet.create({
   tooltipText: {
     color: '#fff',
     fontSize: 12,
-  },
-  topicText: {
-    color: "#896CFE",
-    fontSize: 26,
-    fontWeight: "bold",
-    marginBottom: 0,
-    alignSelf: "flex-start",
-    marginLeft: 20,
   },
 });
 

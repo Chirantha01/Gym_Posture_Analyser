@@ -10,7 +10,8 @@ const WorkoutHistory = () => {
     return (
       <ScrollView style = {styles.container}>
       <View>
-        <View><Graph/></View>
+      <Text style={styles.topicText}>Check your progress,</Text>
+      <Text>Your Workout Stats Today</Text>
         <ScrollView horizontal={true}>
           <View style = {styles.progressChartContainer}>
             <PieChartCard value={10} title={'Bicep Curls'}/>
@@ -20,6 +21,7 @@ const WorkoutHistory = () => {
             <PieChartCard value={10} title={'Pull Down'}/>
           </View>
         </ScrollView>
+        <View><Graph/></View>
       </View>
       </ScrollView>
     );
@@ -30,8 +32,18 @@ const WorkoutHistory = () => {
       backgroundColor:'#232323',
       flex : 1,
     },
+    topicText: {
+      color: "#896CFE",
+      fontSize: 26,
+      fontWeight: "bold",
+      marginBottom: 0,
+      alignSelf: "flex-start",
+      marginLeft: 20,
+      paddingTop: 50,
+    },
     progressChartContainer: {
-      paddingTop:20,
+      paddingLeft:2.5,
+      paddingTop:10,
       flexDirection: 'row',
     },
     itemContainer: {
