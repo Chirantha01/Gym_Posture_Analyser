@@ -3,7 +3,13 @@ import CircularProgress from "react-native-circular-progress-indicator";
 import {View, Text, StyleSheet} from "react-native";
 import Icon from 'react-native-vector-icons/Ionicons';
 
-function PieChartCard({value,title, reps, time}) {
+function PieChartCard({value, title, reps, time}) {
+    const formatTime = (seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${mins}m ${secs}s`;
+    };
+
     return (
         <View style={styles.pieChartContainer}>
             <CircularProgress
@@ -21,14 +27,18 @@ function PieChartCard({value,title, reps, time}) {
                 activeStrokeWidth={5}
             />
             <View style={styles.statContainer}></View>
-            <View style={styles.statsRow}>
+            {reps !== undefined && (
+                <View style={styles.statsRow}>
                     <Icon name="ios-walk-outline" size={16} color="#E2F163" style={styles.icon} />
                     <Text style={styles.stats}>Reps: {reps}</Text>
                 </View>
-                <View style={styles.statsRow}>
-                    <Icon name="ios-stopwatch-outline" size={16} color="#E2F163" style={styles.icon} />
-                    <Text style={styles.stats}>Time: {time}</Text>
-                </View>
+            )}
+            <View style={styles.statsRow}>
+                <Icon name="ios-stopwatch-outline" size={16} color="#E2F163" style={styles.icon} />
+                <Text style={styles.stats}>
+                    Time: {time < 60 ? `${time}s` : formatTime(time)}
+                </Text>
+            </View>
             <View/>
         </View>
     );
