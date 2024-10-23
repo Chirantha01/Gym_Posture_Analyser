@@ -138,6 +138,22 @@ const LatPullDown_Model = () => {
         }
     }
 
+    function convertToUTC530() {
+
+        const date = new Date();
+    
+        // Calculate offset for UTC+05:30 (5.5 hours or 330 minutes)
+        const offsetInMinutes = 330; // 5 hours 30 minutes
+    
+        // Adjust the date by the offset in minutes
+        const utc530Date = new Date(date.getTime() + offsetInMinutes * 60000);
+        // const extract_date = utc530Date.toISOString().replace('T', ' ').substr(0, 19);
+        // const dateDMY = extract_date.split()[0];
+        const dateDMY = utc530Date.toISOString().split('T')[0];
+    
+        return [dateDMY,utc530Date]; // Format the date and time
+    }
+
     const stopWorkout = () => { 
         const repCount = repCountRef.current;
         const correctFrame = correctFrameRef.current;
@@ -145,9 +161,30 @@ const LatPullDown_Model = () => {
         const accuracy = correctFrame / (correctFrame + incorrectFrame);
         const [date , last_modified] = convertToUTC530()
         console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
-        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
+        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"LatPullDown" , date:date , last_modified:last_modified};
         handleWorkoutData(jsonObject);
         navigator.goBack();
+    };
+
+    const handleWorkoutData = async (jsonObject) => {
+        
+        try{
+            const token = await AsyncStorage.getItem("jwtToken");
+            if (token) {
+                const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+            } else {
+                console.log("Token not found.");
+            }
+            
+        } catch(error) {
+            const data = error.response.data;
+            if (error.response.status === 403){
+                console.log(data.error);
+            }
+            if (error.respose.status === 402){
+                console.log(data.message);
+            }
+        }
     };
 
     const changeWorkoutStatus = () => {
