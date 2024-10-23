@@ -8,7 +8,7 @@ import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 
 const Squat_Model = () => {
-    const [poseType, setPose] = useState('normal')
+    const [poseType, setPose] = useState('random')
     const [excercisePose, setExcercisePose] = useState(NaN)
     const [prediction, setPrediction] = useState(null);
     const [isModelLoaded, setIsModelLoaded] = useState(false);
@@ -115,19 +115,19 @@ const Squat_Model = () => {
     } else if (pose === 'incorrect_backward' || pose === 'incorrect_forward') { 
         incorrectFrameRef.current += 1;
     }
-}
+    }
 
-const stopWorkout = () => { 
-    const repCount = repCountRef.current;
-    const correctFrame = correctFrameRef.current;
-    const incorrectFrame = incorrectFrameRef.current;
-    const accuracy = correctFrame / (correctFrame + incorrectFrame);
-    const [date , last_modified] = convertToUTC530()
-    console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
-    const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
-    handleWorkoutData(jsonObject);
-    navigator.goBack();
-};
+    const stopWorkout = () => { 
+        const repCount = repCountRef.current;
+        const correctFrame = correctFrameRef.current;
+        const incorrectFrame = incorrectFrameRef.current;
+        const accuracy = correctFrame / (correctFrame + incorrectFrame);
+        const [date , last_modified] = convertToUTC530()
+        console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
+        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
+        handleWorkoutData(jsonObject);
+        navigator.goBack();
+    };
 
 function convertToUTC530() {
 
@@ -191,11 +191,16 @@ const handleWorkoutData = async (jsonObject) => {
     isWorkoutStarted.current = !isWorkoutStarted.current;
     if (!isWorkoutStarted.current) {
         setPose('random');
-      }
+    }
   };
   
     const handleLandmarksDetected = async (keypoints) => {
-      try {
+      if (!isWorkoutStarted.current) {
+        return;
+      }
+        else{
+      
+    try {
         const [leftHipAngle, rightHipAngle, leftKneeAngle, rightKneeAngle, knee_displacement_ratio, hip_displacement_ratio, shoulder_descent_ratio] = inputTensorData(keypoints);
 
         // Create a 7D tensor from the calculated angles and height
@@ -231,12 +236,12 @@ const handleWorkoutData = async (jsonObject) => {
 
         countReps(pose);
         frameCount(pose);
-        
 
       } catch (error) {
         console.error("Error during prediction:", error);
       };
     };
+};
     if (!isModelLoaded) {
       return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
@@ -299,14 +304,14 @@ const handleWorkoutData = async (jsonObject) => {
         backgroundColor: '#232323',
     },
     centeredTopView: {
-        alignItems: 'center', // Center the top content
-        marginBottom: 20, // Add space between top view and reps/timer
+        alignItems: 'center', 
+        marginBottom: 20, 
     },
     infoBoxCorrect: {
         backgroundColor: '#E2F163',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -315,7 +320,7 @@ const handleWorkoutData = async (jsonObject) => {
         backgroundColor: '#F99A46',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -341,7 +346,6 @@ const handleWorkoutData = async (jsonObject) => {
         fontWeight: 'bold',
     },
     stats: {
-        alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -361,25 +365,24 @@ const handleWorkoutData = async (jsonObject) => {
         alignItems: 'center',
         flex: 1,
         justifyContent: 'space-between',
-        width: '100%',
+        width: '50%',
         alignSelf: 'center',
     },
     btn_1: {
-        width: "50%",
+        width: 70,
         height: 40,
         backgroundColor: '#E2F163',
         alignItems: 'center',
         justifyContent: 'center',
-        // borderRadius: 10,
+        borderRadius: 10,
     },
     btn_2: {
-        // width: 70,
+        width: 70,
         height: 40,
-        width: "50%",
         backgroundColor: 'red',
         alignItems: 'center',
         justifyContent: 'center',
-        // borderRadius: 10,
+        borderRadius: 10,
     },
     btnText: {
         color: '#000',
