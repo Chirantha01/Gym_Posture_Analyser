@@ -145,6 +145,7 @@ function convertToUTC530() {
     return [dateDMY,utc530Date]; // Format the date and time
 }
 
+
 const handleWorkoutData = async (jsonObject) => {
     
     try{
