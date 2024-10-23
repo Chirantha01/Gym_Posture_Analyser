@@ -58,7 +58,7 @@ export default function Home() {
 
   return (
     <ScrollView style={styles.container}>
-      <SafeAreaView>
+      <SafeAreaView style={styles.interContainer}>
         <Text style={styles.salutation}>Hi, {username}</Text>
         <Text style={styles.sub_salutation}>It's time to challenge your limits</Text>
         <View>
@@ -124,6 +124,10 @@ const styles = StyleSheet.create({
     paddingTop: 50,
     backgroundColor: "#232323",
     flex: 1,
+    marginBottom: 0,
+  },
+  interContainer: {
+    paddingBottom: 50,
   },
   salutation: {
     color: "#896CFE",
