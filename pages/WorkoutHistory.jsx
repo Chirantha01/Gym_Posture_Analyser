@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Graph from "./Graph";
 import PieChartCard from "../Components/PieChartCard";
+import GetData from "../Components/dataExtractor";
 
 const WorkoutHistory = () => {
+
+    GetData();  // Call the function to get the data
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('week');
     const [selectedWorkout, setSelectedWorkout] = useState('bicepCurl'); // New state for second graph
     const [spacing, setSpacing] = useState(20);
