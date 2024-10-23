@@ -150,6 +150,22 @@ const PushUp_Model = () => {
       navigator.goBack();
     };
 
+    function convertToUTC530() {
+
+      const date = new Date();
+  
+      // Calculate offset for UTC+05:30 (5.5 hours or 330 minutes)
+      const offsetInMinutes = 330; // 5 hours 30 minutes
+  
+      // Adjust the date by the offset in minutes
+      const utc530Date = new Date(date.getTime() + offsetInMinutes * 60000);
+      // const extract_date = utc530Date.toISOString().replace('T', ' ').substr(0, 19);
+      // const dateDMY = extract_date.split()[0];
+      const dateDMY = utc530Date.toISOString().split('T')[0];
+  
+      return [dateDMY,utc530Date]; // Format the date and time
+  }
+
     const handleWorkoutData = async (jsonObject) => {
     
       try{
