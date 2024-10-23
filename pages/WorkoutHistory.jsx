@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Graph from "./Graph";
 import PieChartCard from "../Components/PieChartCard";
+import GetData from "../Components/dataExtractor";
 
 const WorkoutHistory = () => {
+
+    GetData();  // Call the function to get the data
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('week');
     const [selectedWorkout, setSelectedWorkout] = useState('bicepCurl'); // New state for second graph
     const [spacing, setSpacing] = useState(20);
@@ -71,7 +74,7 @@ const WorkoutHistory = () => {
         <ScrollView style={styles.container}>
             <View>
                 <Text style={styles.topicText}>Check your progress,</Text>
-                <Text>Your Workout Stats Today</Text>
+                <Text style={styles.subTopicText}>Your Workout Stats Today</Text>
                 <ScrollView horizontal={true}>
                     <View style={styles.progressChartContainer}>
                         <PieChartCard value={20} title={'Bicep Curls'} reps={10} time={10}/>
@@ -82,7 +85,7 @@ const WorkoutHistory = () => {
                     </View>
                 </ScrollView>
 
-                <Text>Progress of Last</Text>
+                <Text style={styles.subTopicText}>Progress of Last,</Text>
                 <View style={styles.switchContainer}>
                     <View style={[
                         styles.switchText,
@@ -125,12 +128,12 @@ const WorkoutHistory = () => {
                     </View>
                 </View>
 
-                <View>
+                <View style={styles.graphContainer}>
                     <Graph data={data} spacing={spacing} />
                 </View>
 
                 {/* Second Graph with 5 switches */}
-                <Text>Progress by Exercises</Text>
+                <Text style={styles.subTopicText}>Progress by Exercises</Text>
                 <View style={styles.switchContainerWorkout}>
                 <ScrollView horizontal={true}>
                     <View style={[
@@ -201,7 +204,7 @@ const WorkoutHistory = () => {
                     </ScrollView>
                 </View>
 
-                <View>
+                <View style={styles.graphContainer}>
                     <Graph data={secondData}/>
                 </View>
             </View>
@@ -223,10 +226,22 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         paddingTop: 50,
     },
+    subTopicText: {
+        color: "#B3A0FF",
+        fontSize: 20,
+        fontWeight: "bold",
+        marginBottom: 0,
+        alignSelf: "flex-start",
+        marginLeft: 20,
+        marginTop: 20,
+    },
     progressChartContainer: {
-        paddingLeft: 2.5,
+        paddingLeft: 10,
         paddingTop: 10,
         flexDirection: 'row',
+    },
+    graphContainer: {
+        marginLeft: 10,
     },
     switchContainer: {
         flexDirection: 'row',

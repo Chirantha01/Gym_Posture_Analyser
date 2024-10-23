@@ -122,7 +122,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginBottom: 16,
     padding: 16,
-    backgroundColor: '#f9f9f9',
+    backgroundColor: '#101010',
     paddingRight: 0,
     paddingTop: 0,
     paddingBottom: 0,
@@ -130,6 +130,8 @@ const styles = StyleSheet.create({
     height: 140,
     marginVertical: 10,
     borderRadius: 20,
+    borderColor: '#B3A0FF',
+    borderWidth: 1,
   },
   textContainer: {
     flex: 1,
@@ -137,11 +139,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 175,
-    height: 140,
+    height: 138,
     borderRadius: 20,
     resizeMode: 'cover',
   },
   title: {
+    color: '#B3A0FF',
     fontWeight: '500',
     fontSize: 20,
   },
