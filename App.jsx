@@ -94,6 +94,12 @@ const PoseApp = () => {
     setIsNewUser(false);
   }
 
+  const onLogOut = () =>{
+    console.log("inside onLogOut funtion")
+    setIsAuthenticated(false);
+    setIsNewUser(false);
+  }
+
   if (isLoading) {
     return <LoadingScreen />;
   }
@@ -115,7 +121,7 @@ return (
       >
         <Stack.Screen
           name="Main"
-          component={TabNavigator}
+          children={() => <TabNavigator onLogOut={onLogOut} />}
           options={{hearderShown : false }} // Main screen title
         />
         <Stack.Screen
@@ -153,7 +159,7 @@ return (
 );
 };
 
-const TabNavigator = () => {
+const TabNavigator = ({ onLogOut }) => {
 return (
   <Tab.Navigator
     screenOptions={({ route }) => ({
@@ -185,7 +191,7 @@ return (
     <Tab.Screen name="Home" component={Home} />
     <Tab.Screen name="Workout" component={Workout} />
     <Tab.Screen name="Progress" component={Progress} />
-    <Tab.Screen name="Profile" component={Profile} />
+    <Tab.Screen name="Profile" children={() => <Profile onLogOut={onLogOut}/>}/>
   </Tab.Navigator>
 );
 };

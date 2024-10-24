@@ -1,14 +1,15 @@
-import { StyleSheet, Text, View, Image, ScrollView, Pressable, Animated } from "react-native";
+import { StyleSheet, Text, View, Image, ScrollView, Pressable, Animated , Alert} from "react-native";
 import React, { useRef } from "react";
 import ImagePlaceholder from '../../assets/image-placeholder.jpg';
 
-export default function Profile(onGoBack) {
+export default function Profile({onLogOut}) {
   const name = "John Doe";
   const email = "johnDoe@email.com";
   const birthDay = "01/01/2001";
   const age = 20;
   const height = 180;
   const weight = 70;
+
 
   // Refs for each setting animation
   const editProfileScale = useRef(new Animated.Value(1)).current;
@@ -29,6 +30,26 @@ export default function Profile(onGoBack) {
       friction: 3, // Control the bounce effect
       useNativeDriver: true,
     }).start();
+  };
+
+  
+  const handleLogoutPress = () => {
+    Alert.alert(
+      "Confirm Logout",
+      "Are you sure you want to log out?",
+      [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Logout Cancelled"),
+          style: "cancel",
+        },
+        {
+          text: "Yes, Log Out",
+          onPress: () => {onLogOut()}, // This will trigger your logout logic
+        },
+      ],
+      { cancelable: true }
+    );
   };
 
   return (
@@ -89,7 +110,7 @@ export default function Profile(onGoBack) {
 
         <AnimatedPressable
           scaleValue={logoutScale}
-          onPress={() => console.log("Logout Pressed")}
+          onPress={handleLogoutPress}
           iconSource={require("../../assets/profileIcons/Component_44.png")}
           text="Logout"
         />
