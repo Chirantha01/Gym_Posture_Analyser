@@ -18,8 +18,10 @@ import LoadingScreen from './pages/loading';
 import Carousel from './Components/Image-Carousel/ImageCarouselScreen';
 import Graph from './pages/Graph';
 import Progress from './pages/WorkoutHistory';
-import LogInForm from './pages/SignIn';
+import LoginForm from './pages/SignIn';
 import SignUpScreen from './pages/SignUp';
+import ConfirmOtp from './pages/ConfirmOtp';
+import ForgotPassword from './pages/ForgotPassword';
 import axios from "axios";
 
 const Stack = createStackNavigator();
@@ -78,7 +80,6 @@ const PoseApp = () => {
   }
 
   const onSignIn =() =>{
-
     setIsAuthenticated(true);
   }
 
@@ -104,11 +105,30 @@ const PoseApp = () => {
     return <LoadingScreen />;
   }
 
-  if(!isAuthenticated){
-    return isNewUser? (
-      <SignUpScreen onSignUp={onSignUp} onSwitchToSignIn={onSwitchToSignIn} onGoBack={onSwitchToSignIn}/>
-    ):(
-      <LogInForm onSignIn={onSignIn} onSwitchToSignUp={onSwitchToSignUp}/>
+  if (!isAuthenticated) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {isNewUser ? (
+            <Stack.Screen
+              name="SignUpScreen"
+              component={() => <SignUpScreen onSignUp={onSignUp} onSwitchToSignIn={onSwitchToSignIn} />}
+            />
+          ) : (
+            <Stack.Screen name="LoginForm">
+              {() => <LoginForm onSignIn={onSignIn} onSwitchToSignUp={onSwitchToSignUp} />}
+            </Stack.Screen>
+          )}
+          <Stack.Screen
+            name="ForgotPassword"
+            component={ForgotPassword}
+          />
+          <Stack.Screen
+            name="ConfirmOtp"
+            component={ConfirmOtp}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
     );
   }
 
@@ -119,10 +139,25 @@ return (
           headerShown: false
         }}
       >
+
         <Stack.Screen
           name="Main"
           children={() => <TabNavigator onLogOut={onLogOut} />}
           options={{hearderShown : false }} // Main screen title
+        />
+        <Stack.Screen
+          name="LogInForm"
+          component={LoginForm}
+          options={{hearderShown : false }}
+        />
+        <Stack.Screen
+          name="ForgotPassword"
+          component={ForgotPassword}
+          options={{hearderShown : false }} // Main screen title
+        />
+        <Stack.Screen
+          name="ConfirmOtp"
+          component={ConfirmOtp}
         />
         <Stack.Screen
           name="Model_plank"
@@ -146,7 +181,7 @@ return (
         />
         <Stack.Screen
           name="Model_lat_pull_down"
-          component={LatPullDown_Model} // Lat pull down model component
+          component={LatPullDown_Model}
           options={{ headerTitle: 'Lat_Pull_Down_Model', headerTitleAlign: 'center' }}
         />
         <Stack.Screen
