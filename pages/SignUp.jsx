@@ -1,7 +1,6 @@
 import React, { useState, useRef , useEffect} from 'react';
-import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View , ScrollView , Dimensions, Animated} from 'react-native';
+import { Image, Pressable, SafeAreaView, StyleSheet,  Text, TextInput, View , ScrollView , Dimensions, Animated} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-const logo = require("../assets/logo.png")
 import DateTimePicker from '@react-native-community/datetimepicker';
 import * as ImagePicker from 'expo-image-picker';
 import ImagePlaceholder from '../assets/image-placeholder.jpg';
@@ -181,7 +180,6 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
         <View style={styles.header}>
                 <Text style={styles.headerTitle}>Create Account</Text>
                 <Pressable onPress={onGoBack} style={styles.backButton}>
-                  <Icons name="arrow-left" size={24} color="#E2F163" />
                 </Pressable>
         </View>
         <Text style={styles.title}>Let's Start !</Text>

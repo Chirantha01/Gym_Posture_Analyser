@@ -1,9 +1,11 @@
 import React, { useState, useRef , useEffect } from 'react';
-import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View, Animated } from 'react-native';
+import { Alert, Button, Image, Pressable, SafeAreaView, StyleSheet, Switch, Text, TextInput, View, Animated, KeyboardAvoidingView } from 'react-native';
 const logo = require("../assets/logo.png");
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { useNavigation } from '@react-navigation/native';
+
 
 const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
     const [click, setClick] = useState(false);
@@ -12,6 +14,7 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
     const [errors, setErrors] = useState({usernameOrEmail:[],password:[]});
     const [otherError , setOtherError] = useState("");
     const buttonScale = useRef(new Animated.Value(1)).current;
+    const navigation = useNavigation();
 
     useEffect(() => {
         console.log(errors); // This will log after the state has updated and re-rendered
@@ -87,7 +90,7 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView style={styles.container} behavior="padding">
             <View style={styles.header}>
                 <Text style={styles.headerTitle}>Log in</Text>
             </View>
@@ -106,7 +109,8 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
                 {errors.password && errors.password.length > 0 && errors.password.map((err, idx) => (
                     <Text key={idx} style={styles.requiredText}>{err}</Text>
                 ))}
-                <Text style={styles.forgetText}>Forgot Password?</Text>
+
+                <Text style={styles.forgetText} onPress= {() => {navigation.navigate("ForgotPassword")}}>Forgot Password?</Text>
             </View>
 
             <View style={styles.buttonView}>
@@ -124,8 +128,8 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
             </View>
             {otherError !== "" && <Text style={styles.requiredText}>{otherError}</Text>}
 
-            <Text style={styles.footerText}>Don't have an account?<Text style={styles.signup} onPress={onSwitchToSignUp}>  Sign Up</Text></Text>
-        </SafeAreaView>
+            <Text style={styles.footerText}>Don't have an account?<Text style={styles.signup} onPress={()=>{navigation.navigate("SignUp")}}>  Sign Up</Text></Text>
+        </KeyboardAvoidingView>
     );
 };
 

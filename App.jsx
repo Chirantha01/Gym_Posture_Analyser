@@ -121,6 +121,10 @@ const PoseApp = () => {
             name="ConfirmOtp"
             component={ConfirmOtp}
           />
+          <Stack.Screen
+            name="SignUp"
+            component={SignUpScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     );
