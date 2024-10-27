@@ -1,10 +1,48 @@
-import React, { useState } from "react";
+import React, { useState , useCallback} from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Graph from "./Graph";
 import PieChartCard from "../Components/PieChartCard";
 import GetData from "../Components/dataExtractor";
+import {useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WorkoutHistory = () => {
+
+    const [workouts , setWorkouts] = useState([]);
+
+    const fetcWorkouts = async(token) =>{
+        const res = await axios.get("http://192.168.1.148:4000/home",{headers:{'authorization': `Bearer ${token}`}});
+        const data = res.data;
+        console.log(data);
+        if (data.workouts){
+          return data.workouts;
+        }
+        else{
+          return null;
+        }
+    }
+
+    useFocusEffect(
+        useCallback(() => {
+          const fetchWorkoutData = async () => {
+            try {
+              const token = await AsyncStorage.getItem("jwtToken");
+              if (token) {
+                const workouts = await fetchHome(token);
+                if (user) {
+                  setWorkouts(workouts);  // Set the username after fetching
+                }
+              } else {
+                console.log("Token not found.");
+              }
+            } catch (error) {
+              console.log("Error fetching Token", error);
+            }
+          };
+    
+          fetchWorkoutData();  // Fetch username when the screen is focused
+        }, []) // Empty dependency array to ensure this runs every time the screen is focused
+    );
 
     GetData();  // Call the function to get the data
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('week');
