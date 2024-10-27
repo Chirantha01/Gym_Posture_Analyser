@@ -114,7 +114,7 @@ const SignUpScreen = ({ onSignUp, onSwitchToSignIn, onGoBack }) => {
     // }
     try{
       // Call API to get JWT token (mock here)
-      const response = await axios.post("http://192.168.1.148:4000/signup", 
+      const response = await axios.post("http://192.168.35.88:4000/signup", 
         {
           username:username,
           email:email,
