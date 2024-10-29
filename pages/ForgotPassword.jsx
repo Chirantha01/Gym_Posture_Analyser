@@ -5,8 +5,8 @@ import { useNavigation } from '@react-navigation/native';
 
 const ForgotPassword = () => {
     const [email, setEmail] = useState("");
-    const [errors, setErrors] = useState({ email: [] });
-    const [otherError, setOtherError] = useState("");
+    const [errors, setErrors] = useState("");
+    //const [otherError, setOtherError] = useState("");
     const buttonScale = useRef(new Animated.Value(1)).current;
     const navigation = useNavigation();
 
@@ -31,27 +31,24 @@ const ForgotPassword = () => {
         navigation.navigate("ConfirmOtp");
 
 
-        // try {
-        //     console.log({ email });
-        //     const response = await axios.post("http://192.168.1.148:4000/forgot-password", { email });
+        try {
+            console.log({ email });
+            const response = await axios.post("http://192.168.1.148:4000/requestPasswordReset", { email:email });
 
-        //     if (response.data.success) {
-        //         Alert.alert("Success", "An OTP has been sent to your email.");
-        //         // Navigate to the OTP confirmation page
-        //         navigation.navigate("ConfirmOtp"); 
-        //     }
-        // } catch (error) {
-        //     if (error.response && error.response.status === 400) {
-        //         const data = error.response.data;
-        //         setErrors((prevErrors) => ({
-        //             ...prevErrors,
-        //             email: [data.message || "Invalid email address."]
-        //         }));
-        //     } else {
-        //         console.log("Something went wrong: ", error.message);
-        //         setOtherError("Something went wrong! Check your Internet connection.");
-        //     }
-        // }
+            if (response.data.success) {
+                Alert.alert("Success", "An OTP has been sent to your email.");
+                // Navigate to the OTP confirmation page
+                navigation.navigate("ConfirmOtp"); 
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 400) {
+                setErrors("Invalid Email Address!");
+            } else if(error.response && error.response.status === 404) {
+                setErrors("User not found!");
+            }else{
+                setErrors("Internal server error!");
+            }
+        }
     };
 
     return (
