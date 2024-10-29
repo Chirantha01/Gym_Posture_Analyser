@@ -1,143 +1,28 @@
-import React, { useState } from "react";
+import React, { useState , useCallback} from "react";
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import Graph from "./Graph";
 import PieChartCard from "../Components/PieChartCard";
 import GetData from "../Components/dataExtractor";
+import {useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WorkoutHistory = () => {
+  
+ // Call the function to get the data
+    const [workouts , setWorkouts] = useState([]);
 
-    const data1 = [
-        {
-            "date": "2024-10-24",
-            "time": 40,
-            "accuracy": {
-                "plank_accuracy": 96,
-                "bicep curls_accuracy": 97
-            },
-            "e_time": {
-                "plank_time": 25,
-                "bicep curls_time": 15
-            },
-            "e_reps": {
-                "plank_reps": 8,
-                "bicep curls_reps": 10
-            }
-        },
-        {
-            "date": "2024-10-25",
-            "time": 60,
-            "accuracy": {
-                "plank_accuracy": 98,
-                "bicep curls_accuracy": 95
-            },
-            "e_time": {
-                "plank_time": 30,
-                "bicep curls_time": 30
-            },
-            "e_reps": {
-                "plank_reps": 12,
-                "bicep curls_reps": 15
-            }
-        },
-        {
-            "date": "2024-10-26",
-            "time": 55,
-            "accuracy": {
-                "plank_accuracy": 94,
-                "bicep curls_accuracy": 96
-            },
-            "e_time": {
-                "plank_time": 30,
-                "bicep curls_time": 25
-            },
-            "e_reps": {
-                "plank_reps": 10,
-                "bicep curls_reps": 12
-            }
-        },
-        {
-            "date": "2024-10-27",
-            "time": 65,
-            "accuracy": {
-                "plank_accuracy": 97,
-                "bicep curls_accuracy": 98
-            },
-            "e_time": {
-                "plank_time": 35,
-                "bicep curls_time": 30
-            },
-            "e_reps": {
-                "plank_reps": 14,
-                "bicep curls_reps": 16
-            }
-        },
-        {
-            "date": "2024-10-28",
-            "time": 50,
-            "accuracy": {
-                "plank_accuracy": 95,
-                "bicep curls_accuracy": 97
-            },
-            "e_time": {
-                "plank_time": 30,
-                "bicep curls_time": 20
-            },
-            "e_reps": {
-                "plank_reps": 10,
-                "bicep curls_reps": 12
-            }
-        },
-        {
-            "date": "2024-11-01",
-            "time": 60,
-            "accuracy": {
-                "plank_accuracy": 96,
-                "bicep curls_accuracy": 99
-            },
-            "e_time": {
-                "plank_time": 40,
-                "bicep curls_time": 20
-            },
-            "e_reps": {
-                "plank_reps": 12,
-                "bicep curls_reps": 15
-            }
-        },
-        {
-            "date": "2024-11-15",
-            "time": 70,
-            "accuracy": {
-                "plank_accuracy": 99,
-                "bicep curls_accuracy": 98
-            },
-            "e_time": {
-                "plank_time": 40,
-                "bicep curls_time": 30
-            },
-            "e_reps": {
-                "plank_reps": 15,
-                "bicep curls_reps": 18
-            }
-        },
-        {
-            "date": "2024-11-30",
-            "time": 75,
-            "accuracy": {
-                "plank_accuracy": 98,
-                "bicep curls_accuracy": 97
-            },
-            "e_time": {
-                "plank_time": 45,
-                "bicep curls_time": 30
-            },
-            "e_reps": {
-                "plank_reps": 16,
-                "bicep curls_reps": 20
-            }
+    const fetchWorkouts = async(token) =>{
+        const res = await axios.get("http://192.168.1.148:4000/home",{headers:{'authorization': `Bearer ${token}`}});
+        const data = res.data;
+        console.log(data);
+        if (data.workouts){
+          return data.workouts;
         }
-    ];
+        else{
+          return null;
+        }
+    }
     
-
     const {lastWeekData,
         lastMonthData,
         lastYearMonthlyAverageData,
@@ -150,7 +35,30 @@ const WorkoutHistory = () => {
         lastMonthBicepCurlsAccuracy,
         lastMonthSquatAccuracy,
         lastMonthLatPullDownAccuracy,
-        lastMonthPushUpAccuracy} = GetData(data1);  // Call the function to get the data
+        lastMonthPushUpAccuracy} = GetData(fetchWorkouts); 
+
+    useFocusEffect(
+        useCallback(() => {
+          const fetchWorkoutData = async () => {
+            try {
+              const token = await AsyncStorage.getItem("jwtToken");
+              if (token) {
+                const workouts = await fetchHome(token);
+                if (user) {
+                  setWorkouts(workouts);  // Set the username after fetching
+                }
+              } else {
+                console.log("Token not found.");
+              }
+            } catch (error) {
+              console.log("Error fetching Token", error);
+            }
+          };
+    
+          fetchWorkoutData();  // Fetch username when the screen is focused
+        }, []) // Empty dependency array to ensure this runs every time the screen is focused
+    );
+  
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('week');
     const [selectedWorkout, setSelectedWorkout] = useState('bicepCurl'); // New state for second graph
     const [spacing, setSpacing] = useState(20);
