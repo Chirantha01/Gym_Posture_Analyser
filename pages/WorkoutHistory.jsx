@@ -6,7 +6,151 @@ import GetData from "../Components/dataExtractor";
 
 const WorkoutHistory = () => {
 
-    GetData();  // Call the function to get the data
+    const data1 = [
+        {
+            "date": "2024-10-24",
+            "time": 40,
+            "accuracy": {
+                "plank_accuracy": 96,
+                "bicep curls_accuracy": 97
+            },
+            "e_time": {
+                "plank_time": 25,
+                "bicep curls_time": 15
+            },
+            "e_reps": {
+                "plank_reps": 8,
+                "bicep curls_reps": 10
+            }
+        },
+        {
+            "date": "2024-10-25",
+            "time": 60,
+            "accuracy": {
+                "plank_accuracy": 98,
+                "bicep curls_accuracy": 95
+            },
+            "e_time": {
+                "plank_time": 30,
+                "bicep curls_time": 30
+            },
+            "e_reps": {
+                "plank_reps": 12,
+                "bicep curls_reps": 15
+            }
+        },
+        {
+            "date": "2024-10-26",
+            "time": 55,
+            "accuracy": {
+                "plank_accuracy": 94,
+                "bicep curls_accuracy": 96
+            },
+            "e_time": {
+                "plank_time": 30,
+                "bicep curls_time": 25
+            },
+            "e_reps": {
+                "plank_reps": 10,
+                "bicep curls_reps": 12
+            }
+        },
+        {
+            "date": "2024-10-27",
+            "time": 65,
+            "accuracy": {
+                "plank_accuracy": 97,
+                "bicep curls_accuracy": 98
+            },
+            "e_time": {
+                "plank_time": 35,
+                "bicep curls_time": 30
+            },
+            "e_reps": {
+                "plank_reps": 14,
+                "bicep curls_reps": 16
+            }
+        },
+        {
+            "date": "2024-10-28",
+            "time": 50,
+            "accuracy": {
+                "plank_accuracy": 95,
+                "bicep curls_accuracy": 97
+            },
+            "e_time": {
+                "plank_time": 30,
+                "bicep curls_time": 20
+            },
+            "e_reps": {
+                "plank_reps": 10,
+                "bicep curls_reps": 12
+            }
+        },
+        {
+            "date": "2024-11-01",
+            "time": 60,
+            "accuracy": {
+                "plank_accuracy": 96,
+                "bicep curls_accuracy": 99
+            },
+            "e_time": {
+                "plank_time": 40,
+                "bicep curls_time": 20
+            },
+            "e_reps": {
+                "plank_reps": 12,
+                "bicep curls_reps": 15
+            }
+        },
+        {
+            "date": "2024-11-15",
+            "time": 70,
+            "accuracy": {
+                "plank_accuracy": 99,
+                "bicep curls_accuracy": 98
+            },
+            "e_time": {
+                "plank_time": 40,
+                "bicep curls_time": 30
+            },
+            "e_reps": {
+                "plank_reps": 15,
+                "bicep curls_reps": 18
+            }
+        },
+        {
+            "date": "2024-11-30",
+            "time": 75,
+            "accuracy": {
+                "plank_accuracy": 98,
+                "bicep curls_accuracy": 97
+            },
+            "e_time": {
+                "plank_time": 45,
+                "bicep curls_time": 30
+            },
+            "e_reps": {
+                "plank_reps": 16,
+                "bicep curls_reps": 20
+            }
+        }
+    ];
+    
+
+    const {lastWeekData,
+        lastMonthData,
+        lastYearMonthlyAverageData,
+        todayPlankData,
+        todayPushUpData,
+        todaySquatData,
+        todayLatPullDownData,
+        todayBiceCurlData,
+        lastMonthPlankAccuracy,
+        lastMonthBicepCurlsAccuracy,
+        lastMonthSquatAccuracy,
+        lastMonthLatPullDownAccuracy,
+        lastMonthPushUpAccuracy} = GetData(data1);  // Call the function to get the data
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('week');
     const [selectedWorkout, setSelectedWorkout] = useState('bicepCurl'); // New state for second graph
     const [spacing, setSpacing] = useState(20);
@@ -22,31 +166,7 @@ const WorkoutHistory = () => {
         }
     };
 
-    const data = selectedTimePeriod === 'week' ? [
-        { value: 50, label: 'Mon' },
-        { value: 60, label: 'Tue' },
-        { value: 70, label: 'Wed' },
-        { value: 90, label: 'Thu' },
-        { value: 253, label: 'Fri' },
-        { value: 61, label: 'Sat' },
-        { value: 23, label: 'Sun' }
-    ] : selectedTimePeriod === 'month' ? Array.from({ length: 30 }, (_, i) => ({
-        value: Math.floor(Math.random() * 300) + 20,  // Random workout value for each day
-        label: `${i + 1}`
-    })) : [
-        { value: 800, label: 'Jan' },
-        { value: 950, label: 'Feb' },
-        { value: 1100, label: 'Mar' },
-        { value: 1200, label: 'Apr' },
-        { value: 1350, label: 'May' },
-        { value: 1400, label: 'Jun' },
-        { value: 1500, label: 'Jul' },
-        { value: 1000, label: 'Aug' },
-        { value: 1750, label: 'Sep' },
-        { value: 1800, label: 'Oct' },
-        { value: 1900, label: 'Nov' },
-        { value: 2000, label: 'Dec' }
-    ];
+    const data = selectedTimePeriod === 'week' ? lastWeekData : selectedTimePeriod === 'month' ? lastMonthData : lastYearMonthlyAverageData;
 
     const secondData = selectedWorkout === 'bicepCurl' ? [
         { value: 50, label: 'Set 1' },
