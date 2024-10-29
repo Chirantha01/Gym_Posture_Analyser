@@ -89,6 +89,7 @@ const WorkoutHistory = () => {
                 <Text style={styles.subTopicText}>Your Workout Stats Today</Text>
                 <ScrollView horizontal={true}>
                     <View style={styles.progressChartContainer}>
+                        {/* Daily components */}
                         <PieChartCard value={todayBiceCurlData.accuracy} title={'Bicep Curls'} reps={todayBiceCurlData.e_reps} time={todayBiceCurlData.e_time}/>
                         <PieChartCard value={todaySquatData.accuracy} title={'Squat'} time={todaySquatData.e_time}/>
                         <PieChartCard value={todayPushUpData.accuracy} title={'Push Ups'} reps={todayPushUpData.e_reps} time={todayPushUpData.e_time}/>
