@@ -67,9 +67,9 @@ const GetData = (data) => {
     }))[0];
 
     const todayLatPullDownData = data.slice(-1).map(entry => ({
-        accuracy: entry.accuracy['plank_accuracy'] || 0,
-        e_time: entry.e_time['plank_time'] || 0,
-        e_reps: entry.e_reps['plank_reps'] || 0
+        accuracy: entry.accuracy['lat pull down_accuracy'] || 0,
+        e_time: entry.e_time['lat pull down_time'] || 0,
+        e_reps: entry.e_reps['lat pull down_reps'] || 0
     }))[0];
 
     const todayBiceCurlData = data.slice(-1).map(entry => ({
