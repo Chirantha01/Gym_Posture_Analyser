@@ -76,27 +76,11 @@ const WorkoutHistory = () => {
 
     const data = selectedTimePeriod === 'week' ? lastWeekData : selectedTimePeriod === 'month' ? lastMonthData : lastYearMonthlyAverageData;
 
-    const secondData = selectedWorkout === 'bicepCurl' ? [
-        { value: 50, label: 'Set 1' },
-        { value: 80, label: 'Set 2' },
-        { value: 65, label: 'Set 3' }
-    ] : selectedWorkout === 'squat' ? [
-        { value: 120, label: 'Set 1' },
-        { value: 150, label: 'Set 2' },
-        { value: 180, label: 'Set 3' }
-    ] : selectedWorkout === 'latPullDown' ? [
-        { value: 90, label: 'Set 1' },
-        { value: 95, label: 'Set 2' },
-        { value: 100, label: 'Set 3' }
-    ] : selectedWorkout === 'pushUp' ? [
-        { value: 70, label: 'Set 1' },
-        { value: 75, label: 'Set 2' },
-        { value: 80, label: 'Set 3' }
-    ] : [
-        { value: 100, label: 'Set 1' },
-        { value: 130, label: 'Set 2' },
-        { value: 150, label: 'Set 3' }
-    ];
+    const secondData = selectedWorkout === 'bicepCurl' ? lastMonthBicepCurlsAccuracy
+     : selectedWorkout === 'squat' ? lastMonthSquatAccuracy 
+     : selectedWorkout === 'latPullDown' ? lastMonthLatPullDownAccuracy
+     : selectedWorkout === 'pushUp' ? lastMonthPushUpAccuracy
+     : lastMonthPlankAccuracy;
 
     return (
         <ScrollView style={styles.container}>
@@ -105,11 +89,12 @@ const WorkoutHistory = () => {
                 <Text style={styles.subTopicText}>Your Workout Stats Today</Text>
                 <ScrollView horizontal={true}>
                     <View style={styles.progressChartContainer}>
-                        <PieChartCard value={20} title={'Bicep Curls'} reps={10} time={10}/>
-                        <PieChartCard value={10} title={'Squat'} reps={10} time={10}/>
-                        <PieChartCard value={10} title={'Push Ups'} reps={10} time={10}/>
-                        <PieChartCard value={10} title={'Plank'} reps={10} time={10}/>
-                        <PieChartCard value={10} title={'Pull Down'} reps={10} time={10}/>
+                        {/* Daily components */}
+                        <PieChartCard value={todayBiceCurlData.accuracy} title={'Bicep Curls'} reps={todayBiceCurlData.e_reps} time={todayBiceCurlData.e_time}/>
+                        <PieChartCard value={todaySquatData.accuracy} title={'Squat'} time={todaySquatData.e_time}/>
+                        <PieChartCard value={todayPushUpData.accuracy} title={'Push Ups'} reps={todayPushUpData.e_reps} time={todayPushUpData.e_time}/>
+                        <PieChartCard value={todayPlankData.accuracy} title={'Plank'} time={todayPlankData.e_time}/>
+                        <PieChartCard value={todayLatPullDownData.accuracy} title={'Pull Down'} reps={todayLatPullDownData.e_reps} time={todayLatPullDownData.e_time}/>
                     </View>
                 </ScrollView>
 
