@@ -7,10 +7,11 @@ import {useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const WorkoutHistory = () => {
-
+  
+ // Call the function to get the data
     const [workouts , setWorkouts] = useState([]);
 
-    const fetcWorkouts = async(token) =>{
+    const fetchWorkouts = async(token) =>{
         const res = await axios.get("http://192.168.1.148:4000/home",{headers:{'authorization': `Bearer ${token}`}});
         const data = res.data;
         console.log(data);
@@ -21,6 +22,20 @@ const WorkoutHistory = () => {
           return null;
         }
     }
+    
+    const {lastWeekData,
+        lastMonthData,
+        lastYearMonthlyAverageData,
+        todayPlankData,
+        todayPushUpData,
+        todaySquatData,
+        todayLatPullDownData,
+        todayBiceCurlData,
+        lastMonthPlankAccuracy,
+        lastMonthBicepCurlsAccuracy,
+        lastMonthSquatAccuracy,
+        lastMonthLatPullDownAccuracy,
+        lastMonthPushUpAccuracy} = GetData(fetchWorkouts); 
 
     useFocusEffect(
         useCallback(() => {
@@ -43,8 +58,7 @@ const WorkoutHistory = () => {
           fetchWorkoutData();  // Fetch username when the screen is focused
         }, []) // Empty dependency array to ensure this runs every time the screen is focused
     );
-
-    GetData();  // Call the function to get the data
+  
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('week');
     const [selectedWorkout, setSelectedWorkout] = useState('bicepCurl'); // New state for second graph
     const [spacing, setSpacing] = useState(20);
@@ -60,31 +74,7 @@ const WorkoutHistory = () => {
         }
     };
 
-    const data = selectedTimePeriod === 'week' ? [
-        { value: 50, label: 'Mon' },
-        { value: 60, label: 'Tue' },
-        { value: 70, label: 'Wed' },
-        { value: 90, label: 'Thu' },
-        { value: 253, label: 'Fri' },
-        { value: 61, label: 'Sat' },
-        { value: 23, label: 'Sun' }
-    ] : selectedTimePeriod === 'month' ? Array.from({ length: 30 }, (_, i) => ({
-        value: Math.floor(Math.random() * 300) + 20,  // Random workout value for each day
-        label: `${i + 1}`
-    })) : [
-        { value: 800, label: 'Jan' },
-        { value: 950, label: 'Feb' },
-        { value: 1100, label: 'Mar' },
-        { value: 1200, label: 'Apr' },
-        { value: 1350, label: 'May' },
-        { value: 1400, label: 'Jun' },
-        { value: 1500, label: 'Jul' },
-        { value: 1000, label: 'Aug' },
-        { value: 1750, label: 'Sep' },
-        { value: 1800, label: 'Oct' },
-        { value: 1900, label: 'Nov' },
-        { value: 2000, label: 'Dec' }
-    ];
+    const data = selectedTimePeriod === 'week' ? lastWeekData : selectedTimePeriod === 'month' ? lastMonthData : lastYearMonthlyAverageData;
 
     const secondData = selectedWorkout === 'bicepCurl' ? [
         { value: 50, label: 'Set 1' },
