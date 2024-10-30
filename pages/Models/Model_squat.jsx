@@ -6,6 +6,7 @@ import * as tf from '@tensorflow/tfjs';
 import {calculateAngle, calculateDistance_2} from '../supporting_methods/angle';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Squat_Model = () => {
     const [poseType, setPose] = useState('random')
@@ -124,7 +125,7 @@ const Squat_Model = () => {
         const accuracy = correctFrame / (correctFrame + incorrectFrame);
         const [date , last_modified] = convertToUTC530()
         console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
-        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
+        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Squats" , date:date , last_modified:last_modified};
         handleWorkoutData(jsonObject);
         navigator.goBack();
     };
@@ -151,7 +152,7 @@ const handleWorkoutData = async (jsonObject) => {
     try{
         const token = await AsyncStorage.getItem("jwtToken");
         if (token) {
-            const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+            const response = await axios.post("http://192.168.241.208:4000/workouts", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
         } else {
             console.log("Token not found.");
         }

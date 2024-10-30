@@ -7,6 +7,7 @@ import { calculateAngle } from '../supporting_methods/angle';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
 import { event } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Bicep_Model = () => {
     const [poseType, setPose] = useState('random');
@@ -135,7 +136,7 @@ const Bicep_Model = () => {
         try{
             const token = await AsyncStorage.getItem("jwtToken");
             if (token) {
-                const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+                const response = await axios.post("http://192.168.241.208:4000/workouts", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
             } else {
                 console.log("Token not found.");
             }

@@ -6,6 +6,7 @@ import * as tf from '@tensorflow/tfjs';
 import { calculateAngle, calculateDistance_2 } from '../supporting_methods/angle';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const LatPullDown_Model = () => {
     const [poseType, setPose] = useState('normal');
@@ -171,7 +172,7 @@ const LatPullDown_Model = () => {
         try{
             const token = await AsyncStorage.getItem("jwtToken");
             if (token) {
-                const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+                const response = await axios.post("http://192.168.241.208:4000/workouts", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
             } else {
                 console.log("Token not found.");
             }

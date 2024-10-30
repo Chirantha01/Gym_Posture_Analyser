@@ -4,6 +4,8 @@ import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust pa
 import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader_Plank';
 import * as tf from '@tensorflow/tfjs';
 import {calculateAngle , averagePostureHeight} from './../supporting_methods/angle';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
 
 const Plank_Model = () => {
     const [poseType, setPose] = useState('normal')
