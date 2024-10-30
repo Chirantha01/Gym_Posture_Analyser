@@ -5,6 +5,7 @@ import PieChartCard from "../Components/PieChartCard";
 import GetData from "../Components/dataExtractor";
 import {useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
 
 const WorkoutHistory = () => {
   
@@ -12,40 +13,33 @@ const WorkoutHistory = () => {
     const [workouts , setWorkouts] = useState([]);
 
     const fetchWorkouts = async(token) =>{
-        const res = await axios.get("http://192.168.1.148:4000/home",{headers:{'authorization': `Bearer ${token}`}});
+        const res = await axios.get("http://192.168.1.148:4000/workouts",{headers:{'authorization': `Bearer ${token}`}});
         const data = res.data;
         console.log(data);
         if (data.workouts){
+            //console.log(data.workouts);
+            //setWorkouts(data.workouts);
           return data.workouts;
         }
         else{
           return null;
         }
     }
-    
-    const {lastWeekData,
-        lastMonthData,
-        lastYearMonthlyAverageData,
-        todayPlankData,
-        todayPushUpData,
-        todaySquatData,
-        todayLatPullDownData,
-        todayBiceCurlData,
-        lastMonthPlankAccuracy,
-        lastMonthBicepCurlsAccuracy,
-        lastMonthSquatAccuracy,
-        lastMonthLatPullDownAccuracy,
-        lastMonthPushUpAccuracy} = GetData(fetchWorkouts); 
+     
 
     useFocusEffect(
         useCallback(() => {
           const fetchWorkoutData = async () => {
+            console.log("trying ....");
             try {
               const token = await AsyncStorage.getItem("jwtToken");
               if (token) {
-                const workouts = await fetchHome(token);
-                if (user) {
-                  setWorkouts(workouts);  // Set the username after fetching
+                console.log("Fetching from backend");
+                const workouts = await fetchWorkouts(token);
+                if (workouts) {
+                    //console.log("Fetching from backend");
+                    //fetchWorkouts(token)
+                    setWorkouts(workouts);  // Set the username after fetching
                 }
               } else {
                 console.log("Token not found.");
@@ -58,6 +52,20 @@ const WorkoutHistory = () => {
           fetchWorkoutData();  // Fetch username when the screen is focused
         }, []) // Empty dependency array to ensure this runs every time the screen is focused
     );
+
+    const {lastWeekData,
+        lastMonthData,
+        lastYearMonthlyAverageData,
+        todayPlankData,
+        todayPushUpData,
+        todaySquatData,
+        todayLatPullDownData,
+        todayBiceCurlData,
+        lastMonthPlankAccuracy,
+        lastMonthBicepCurlsAccuracy,
+        lastMonthSquatAccuracy,
+        lastMonthLatPullDownAccuracy,
+        lastMonthPushUpAccuracy} = GetData(workouts);
   
     const [selectedTimePeriod, setSelectedTimePeriod] = useState('week');
     const [selectedWorkout, setSelectedWorkout] = useState('bicepCurl'); // New state for second graph

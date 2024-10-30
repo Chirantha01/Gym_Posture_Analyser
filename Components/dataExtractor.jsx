@@ -1,6 +1,15 @@
 import React from 'react';
 
 const GetData = (data) => {
+
+    // Ensure `data` is an array
+    if (!Array.isArray(data)) {
+        console.log("Invalid data format: Expected an array");
+        return {};
+    }
+
+    console.log("Get data function is working!!!")
+
     // Functions to get the last week, month, and year statistics
     const lastWeekData = data.slice(-7).map((entry, index) => {
         const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -104,7 +113,7 @@ const GetData = (data) => {
         value: entry.accuracy['push up_accuracy'] || 0
     }));
 
-    console.log(lastYearMonthlyAverageData);
+    //console.log(lastYearMonthlyAverageData);
 
     return {
         lastWeekData,
