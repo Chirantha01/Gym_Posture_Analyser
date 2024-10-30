@@ -8,8 +8,6 @@ const GetData = (data) => {
         return {};
     }
 
-    console.log("Get data function is working!!!")
-
     // Functions to get the last week, month, and year statistics
     const lastWeekData = data.slice(-7).map((entry, index) => {
         const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -81,7 +79,7 @@ const GetData = (data) => {
         e_reps: entry.e_reps['lat pull down_reps'] || 0
     }))[0];
 
-    const todayBiceCurlData = data.slice(-1).map(entry => ({
+    const todayBicepCurlData = data.slice(-1).map(entry => ({
         accuracy: entry.accuracy['bicep curls_accuracy'] || 0,
         e_time: entry.e_time['bicep curls_time'] || 0,
         e_reps: entry.e_reps['bicep curls_reps'] || 0
@@ -123,7 +121,7 @@ const GetData = (data) => {
         todayPushUpData,
         todaySquatData,
         todayLatPullDownData,
-        todayBiceCurlData,
+        todayBicepCurlData,
         lastMonthPlankAccuracy,
         lastMonthBicepCurlsAccuracy,
         lastMonthSquatAccuracy,
