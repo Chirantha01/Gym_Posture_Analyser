@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet,TouchableOpacity } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
 import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader_Plank';
 import * as tf from '@tensorflow/tfjs';
 import {calculateAngle , averagePostureHeight} from './../supporting_methods/angle';
+import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from "axios";
 
@@ -280,14 +281,14 @@ const changeWorkoutStatus = () => {
         backgroundColor: '#232323',
     },
     centeredTopView: {
-        alignItems: 'center', // Center the top content
-        marginBottom: 20, // Add space between top view and reps/timer
+        alignItems: 'center', 
+        marginBottom: 20, 
     },
     infoBoxCorrect: {
         backgroundColor: '#E2F163',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -296,7 +297,7 @@ const changeWorkoutStatus = () => {
         backgroundColor: '#F99A46',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -322,7 +323,6 @@ const changeWorkoutStatus = () => {
         fontWeight: 'bold',
     },
     stats: {
-        alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -336,7 +336,37 @@ const changeWorkoutStatus = () => {
         fontSize: 16,
         color: '#505050',
         marginTop: 5,
-    }
+    },
+    controlButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'space-between',
+        width: '50%',
+        alignSelf: 'center',
+    },
+    btn_1: {
+        width: 70,
+        height: 40,
+        backgroundColor: '#E2F163',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+    btn_2: {
+        width: 70,
+        height: 40,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+    btnText: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
 });
   
   export default Plank_Model;
