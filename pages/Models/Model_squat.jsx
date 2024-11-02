@@ -150,11 +150,8 @@ const handleWorkoutData = async (jsonObject) => {
 
     responseArray = {'workouts':[jsonObject]}
     try{
-        console.log('hi2')
         const token = await AsyncStorage.getItem("jwtToken");
-        console.log('hi3')
         if (token) {
-            console.log('hi4')
             const response = await axios.post("http://192.168.8.123:4000/workouts", responseArray,{headers:{'authorization': `Bearer ${token}`}});
         } else {
             console.log("Token not found.");

@@ -6,7 +6,7 @@ import * as tf from '@tensorflow/tfjs';
 import { calculateAngle } from '../supporting_methods/angle';
 import { useNavigation } from '@react-navigation/native';
 import axios from "axios";
-import { event } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Bicep_Model = () => {
     const [poseType, setPose] = useState('random');
@@ -106,10 +106,10 @@ const Bicep_Model = () => {
         const repCount = repCountRef.current;
         const correctFrame = correctFrameRef.current;
         const incorrectFrame = incorrectFrameRef.current;
-        const accuracy = correctFrame / (correctFrame + incorrectFrame);
+        const accuracy = correctFrame / (correctFrame + incorrectFrame)*100;
         const [date , last_modified] = convertToUTC530()
         console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
-        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Bicep Curls" , date:date , last_modified:last_modified};
+        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"bicep curls" , date:date , last_modified:last_modified};
         handleWorkoutData(jsonObject);
         navigator.goBack();
     };
@@ -131,11 +131,12 @@ const Bicep_Model = () => {
     }
 
     const handleWorkoutData = async (jsonObject) => {
-        
+
+        responseArray = {'workouts':[jsonObject]}
         try{
             const token = await AsyncStorage.getItem("jwtToken");
             if (token) {
-                const response = await axios.post("http://192.168.241.208:4000/workout", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+                const response = await axios.post("http://192.168.8.123:4000/workout", responseArray,{headers:{'authorization': `Bearer ${token}`}});
             } else {
                 console.log("Token not found.");
             }
