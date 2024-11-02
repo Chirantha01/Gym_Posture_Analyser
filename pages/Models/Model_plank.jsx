@@ -1,9 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, StyleSheet,TouchableOpacity } from 'react-native';
 import PoseDetectionCamera from '../../Components/cameraComponent'; // Adjust path as necessary
 import { loadModel, predict } from '../../offline_model/plank_class/Model_Loader_Plank';
 import * as tf from '@tensorflow/tfjs';
 import {calculateAngle , averagePostureHeight} from './../supporting_methods/angle';
+import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from "axios";
 
 const Plank_Model = () => {
     const [poseType, setPose] = useState('normal')
@@ -11,6 +14,12 @@ const Plank_Model = () => {
     const [isModelLoaded, setIsModelLoaded] = useState(false);
     const [time, setTime] = useState(0);
     const timerRef = useRef(null);
+    const poseFrameCountRef = useRef(0); // Ref to track frames in the same pose immediately
+    const repCountRef = useRef(0); // Ref to track repCount immediately
+    const correctFrameRef = useRef(0); // Ref to track correct frames immediately
+    const incorrectFrameRef = useRef(0); // Ref to track incorrect frames immediately
+    const isWorkoutStarted = useRef(false);
+    const navigator = useNavigation();
   
     useEffect(() => {
       const loadModelAsync = async () => {
@@ -122,6 +131,68 @@ const Plank_Model = () => {
       return [knee, hip, shoulder, elbow, height];
   };
 
+  const frameCount = async(pose) =>{
+    if (pose === 'correct') {
+      correctFrameRef.current += 1;
+    } else if (pose === 'incorrect') {
+      incorrectFrameRef.current += 1;
+    }
+  }
+
+  const stopWorkout = () => { 
+    const correctFrame = correctFrameRef.current;
+    const incorrectFrame = incorrectFrameRef.current;
+    const accuracy = correctFrame / (correctFrame + incorrectFrame);
+    const [date , last_modified] = convertToUTC530()
+    console.log("Time: ", time, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
+    const jsonObject = { time: time,  accuracy: accuracy , e_name:"Plank" , date:date , last_modified:last_modified};
+    handleWorkoutData(jsonObject);
+    navigator.goBack();
+  };
+
+  function convertToUTC530() {
+
+    const date = new Date();
+
+    // Calculate offset for UTC+05:30 (5.5 hours or 330 minutes)
+    const offsetInMinutes = 330; // 5 hours 30 minutes
+
+    // Adjust the date by the offset in minutes
+    const utc530Date = new Date(date.getTime() + offsetInMinutes * 60000);
+    // const extract_date = utc530Date.toISOString().replace('T', ' ').substr(0, 19);
+    // const dateDMY = extract_date.split()[0];
+    const dateDMY = utc530Date.toISOString().split('T')[0];
+
+    return [dateDMY,utc530Date]; // Format the date and time
+  }
+
+  const handleWorkoutData = async (jsonObject) => {
+    
+    try{
+        const token = await AsyncStorage.getItem("jwtToken");
+        if (token) {
+            const response = await axios.post("http://192.168.241.208:4000/workouts", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+        } else {
+            console.log("Token not found.");
+        }
+        
+    } catch(error) {
+        const data = error.response.data;
+        if (error.response.status === 403){
+            console.log(data.error);
+        }
+        if (error.respose.status === 402){
+            console.log(data.message);
+        }
+    }
+};
+
+const changeWorkoutStatus = () => {
+  isWorkoutStarted.current = !isWorkoutStarted.current;
+  if (!isWorkoutStarted.current) {
+      setPose('random');
+  }
+};
   
     const handleLandmarksDetected = async (keypoints) => {
       try {
@@ -149,9 +220,7 @@ const Plank_Model = () => {
           pose = 'random';
           setPose('random');
         } 
-        console.log('Result:', result, 'Pose:', pose);
-
-        console.log('correct: ',result[0],' incorrect: ',result[1],' random: ',result[2]);
+        frameCount(pose);
 
       } catch (error) {
         console.error("Error during prediction:", error);
@@ -194,6 +263,14 @@ const Plank_Model = () => {
             </Text>
           </View>
         </View>
+        <View style={styles.controlButtons}>
+                <TouchableOpacity style={styles.btn_1} onPress={changeWorkoutStatus}>
+                    <Text style={styles.btnText}>{isWorkoutStarted.current ? "Pause" : "Start"}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btn_2} onPress={stopWorkout}>
+                    <Text style={styles.btnText}>Stop</Text>
+                </TouchableOpacity>
+        </View>
       </View>
     );
   };
@@ -204,14 +281,14 @@ const Plank_Model = () => {
         backgroundColor: '#232323',
     },
     centeredTopView: {
-        alignItems: 'center', // Center the top content
-        marginBottom: 20, // Add space between top view and reps/timer
+        alignItems: 'center', 
+        marginBottom: 20, 
     },
     infoBoxCorrect: {
         backgroundColor: '#E2F163',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -220,7 +297,7 @@ const Plank_Model = () => {
         backgroundColor: '#F99A46',
         padding: 15,
         borderRadius: 12,
-        alignItems: 'center', // Center the text vertically
+        alignItems: 'center', 
         marginTop: 20,
         marginHorizontal: 50,
         height: 150,
@@ -246,7 +323,6 @@ const Plank_Model = () => {
         fontWeight: 'bold',
     },
     stats: {
-        alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -260,7 +336,37 @@ const Plank_Model = () => {
         fontSize: 16,
         color: '#505050',
         marginTop: 5,
-    }
+    },
+    controlButtons: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        flex: 1,
+        justifyContent: 'space-between',
+        width: '50%',
+        alignSelf: 'center',
+    },
+    btn_1: {
+        width: 70,
+        height: 40,
+        backgroundColor: '#E2F163',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+    btn_2: {
+        width: 70,
+        height: 40,
+        backgroundColor: 'red',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+    btnText: {
+        color: '#000',
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
+    },
 });
   
   export default Plank_Model;

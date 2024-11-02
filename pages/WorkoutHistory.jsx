@@ -12,7 +12,7 @@ const WorkoutHistory = () => {
     const [loading, setLoading] = useState(true); // Loading state
 
     const fetchWorkouts = async (token) => {
-        const res = await axios.get("http://192.168.52.208:4000/workouts", { headers: { 'authorization': `Bearer ${token}` } });
+        const res = await axios.get("http://192.168.1.148:4000/workouts", { headers: { 'authorization': `Bearer ${token}` } });
         const data = res.data;
         if (data.workouts) {
             return data.workouts;
