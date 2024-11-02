@@ -122,10 +122,9 @@ const Squat_Model = () => {
         const repCount = repCountRef.current;
         const correctFrame = correctFrameRef.current;
         const incorrectFrame = incorrectFrameRef.current;
-        const accuracy = correctFrame / (correctFrame + incorrectFrame);
+        const accuracy = correctFrame / (correctFrame + incorrectFrame)*100;
         const [date , last_modified] = convertToUTC530()
-        console.log("Time: ", time, " Reps: ", repCount, " Correct Frames: ", correctFrame, " Incorrect Frames: ", incorrectFrame, " Accuracy: ", accuracy,"date : ",date , "last_modified : ",last_modified);
-        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"Squats" , date:date , last_modified:last_modified};
+        const jsonObject = { time: time, reps: repCount,  accuracy: accuracy , e_name:"squat" , date:date , last_modified:last_modified};
         handleWorkoutData(jsonObject);
         navigator.goBack();
     };
@@ -148,11 +147,12 @@ function convertToUTC530() {
 
 
 const handleWorkoutData = async (jsonObject) => {
-    
+
+    responseArray = {'workouts':[jsonObject]}
     try{
         const token = await AsyncStorage.getItem("jwtToken");
         if (token) {
-            const response = await axios.post("http://192.168.241.208:4000/workouts", jsonObject,{headers:{'authorization': `Bearer ${token}`}});
+            const response = await axios.post("http://192.168.8.123:4000/workouts", responseArray,{headers:{'authorization': `Bearer ${token}`}});
         } else {
             console.log("Token not found.");
         }
