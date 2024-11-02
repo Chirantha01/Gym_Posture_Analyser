@@ -33,7 +33,7 @@ const ForgotPassword = () => {
 
         try {
             console.log({ email });
-            const response = await axios.post("http://192.168.1.148:4000/requestPasswordReset", { email:email });
+            const response = await axios.post("http://43.205.242.48/requestPasswordReset", { email:email });
 
             if (response.data.success) {
                 Alert.alert("Success", "An OTP has been sent to your email.");

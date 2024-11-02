@@ -171,7 +171,7 @@ const Plank_Model = () => {
     try{
         const token = await AsyncStorage.getItem("jwtToken");
         if (token) {
-            const response = await axios.post("http://192.168.8.123:4000/workouts", responseArray,{headers:{'authorization': `Bearer ${token}`}});
+            const response = await axios.post("http://43.205.242.48/workouts", responseArray,{headers:{'authorization': `Bearer ${token}`}});
         } else {
             console.log("Token not found.");
         }

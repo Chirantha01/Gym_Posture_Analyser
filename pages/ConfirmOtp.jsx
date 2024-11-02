@@ -28,7 +28,7 @@ const ConfirmOtp = ({ route, navigation }) => {
         setErrors([]);
         
         try {
-            const response = await axios.post("http://192.168.1.148:4000/resetPassword", { email, otp });
+            const response = await axios.post("http://43.205.242.48/resetPassword", { email, otp });
 
             if (response.data.success) {
                 Alert.alert("Success", "OTP verified successfully! You can now reset your password.");

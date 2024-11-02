@@ -57,7 +57,7 @@ const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
         setOtherError("");
         try{
             console.log({ usernameOrEmail: username, password: password });
-            const response = await axios.post("http://192.168.1.148:4000/signin", { usernameOrEmail: username, password: password });
+            const response = await axios.post("http://43.205.242.48/signin", { usernameOrEmail: username, password: password });
 
             const data = response.data;
             const token = data.token;

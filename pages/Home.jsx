@@ -23,7 +23,7 @@ export default function Home() {
   }, [username])
 
   const fetchHome = async(token) =>{
-    const res = await axios.get("http://192.168.1.148:4000/home",{headers:{'authorization': `Bearer ${token}`}});
+    const res = await axios.get("http://43.205.242.48/home",{headers:{'authorization': `Bearer ${token}`}});
     const data = res.data;
     console.log(data);
     if (data.userName){
