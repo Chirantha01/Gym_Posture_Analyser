@@ -5,6 +5,7 @@ import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/Ionicons';
 
+//login page component
 const LoginForm = ({ onSignIn, onSwitchToSignUp, onGoBack }) => {
     const [click, setClick] = useState(false);
     const [username, setUsername] = useState("");
